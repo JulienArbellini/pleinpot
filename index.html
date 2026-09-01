@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plein Pot Studio — Céramique Artisanale & Pièces Uniques</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#FAF8F5',
+                            dark: '#2D2B2A',
+                            yellow: '#FFD166',
+                            pink: '#EF476F',
+                            teal: '#06D6A0',
+                            blue: '#118AB2',
+                            clay: '#E07A5F',
+                            cream: '#F4F1DE'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'brutal': '4px 4px 0px 0px #2D2B2A',
+                        'brutal-lg': '6px 6px 0px 0px #2D2B2A',
+                        'brutal-sm': '2px 2px 0px 0px #2D2B2A'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #2D2B2A;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2D2B2A;
+            border-radius: 4px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 340px;
+            }
+        }
+    </style>
+
+    <!-- Chosen Palette: Terre & Émail (Warm Beige #FAF8F5, Dark Charcoal #2D2B2A, Mustard Yellow #FFD166, Rose Clay #EF476F, Mint Teal #06D6A0, Cobalt Blue #118AB2, Terracotta #E07A5F) -->
+
+    <!-- Application Structure Plan: 
+         - Top Announcement Bar & Sticky Header: Quick notice, live cart badge, mobile-ready navigation.
+         - Hero Section: High-impact typography, spotlight product card, value propositions, key CTAs.
+         - Drop Section: Real-time countdown timer, VIP newsletter reservation form with immediate confirmation state.
+         - Interactive Ceramic Quiz ("Trouve ta Céramique"): Guided 3-step tool matching user preferences with studio products.
+         - Collection Shop & Filtering: Live search, category tags, price sorting, visual stock status, dynamic grid layout.
+         - Atelier & Savoir-Faire: Process steps timeline, interactive Chart.js breakdown of production hours, eco-commitments.
+         - Slide-over Cart Drawer: Instant quantity updates, threshold-based free shipping indicator, coupon discount logic, checkout simulation.
+         - Product Detail Modal: Comprehensive view (capacity, dimensions, care instructions, stock badge).
+    -->
+
+    <!-- Visualization & Content Choices:
+         - Standard E-Commerce Features: Filtering (JS array manipulation), Cart State (JS array), Modal views.
+         - Atelier Process Chart: Chart.js Canvas Doughnut chart breaking down production hours per ceramic stage.
+         - Interactive Quiz: Vanilla JS step wizard recommending products dynamically.
+         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-brand-yellow selection:text-brand-dark">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-dark text-brand-bg text-xs md:text-sm py-2 px-4 border-b-2 border-brand-dark overflow-hidden">
+        <div class="animate-marquee font-medium tracking-wide">
+            ✨ PROCHAIN DROP : VENDREDI À 18H00 &nbsp;•&nbsp; LIVRAISON OFFERTE DÈS 80€ EN FRANCE &nbsp;•&nbsp; 100% FAIT MAIN À L'ATELIER &nbsp;•&nbsp; PIÈCES UNIQUES EN GRÈS ÉMAILLÉ &nbsp;•&nbsp; ✨ PROCHAIN DROP : VENDREDI À 18H00 &nbsp;•&nbsp; LIVRAISON OFFERTE DÈS 80€ EN FRANCE
+        </div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 bg-brand-bg/90 backdrop-blur-md border-b-2 border-brand-dark transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-brand-pink rounded-xl border-2 border-brand-dark shadow-brutal-sm flex items-center justify-center font-display font-black text-white text-xl group-hover:rotate-6 transition-transform">
+                    P
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-black text-xl md:text-2xl tracking-tight leading-none text-brand-dark">
+                        PLEIN POT
+                    </span>
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-brand-blue">
+                        STUDIO CÉRAMIQUE
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm">
+                <a href="#shop" class="hover:text-brand-pink transition-colors">Boutique</a>
+                <a href="#drop" class="hover:text-brand-pink transition-colors">Le Drop VIP</a>
+                <a href="#quiz" class="hover:text-brand-pink transition-colors">Quiz Céramique</a>
+                <a href="#atelier" class="hover:text-brand-pink transition-colors">L'Atelier</a>
+            </nav>
+
+            <!-- Actions (Search Toggle & Cart) -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCart()" class="relative bg-brand-yellow hover:bg-yellow-300 text-brand-dark p-3 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm transition-all flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span class="font-bold text-sm hidden sm:inline">Panier</span>
+                    <span id="cart-count" class="bg-brand-pink text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border border-brand-dark">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Hero Text -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-brand-teal/20 text-brand-dark border-2 border-brand-dark px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-brutal-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-teal animate-pulse"></span>
+                        Boutique ouverte • Pièces faites main en grès
+                    </div>
+
+                    <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-brand-dark">
+                        Des céramiques <span class="bg-brand-yellow px-2 py-0.5 rounded-xl border-2 border-brand-dark shadow-brutal inline-block rotate-[-1deg]">brutes</span> &amp; <span class="text-brand-pink underline decoration-wavy decoration-brand-yellow">colorées</span>.
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-stone-700 max-w-xl mx-auto lg:mx-0 font-medium">
+                        Tasses généreuses, vases sculpturaux et objets du quotidien façonnés à la main. Chaque pièce est unique, cuite à haute température et émaillée avec soin.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#shop" class="bg-brand-pink hover:bg-rose-600 text-white font-bold px-8 py-4 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm transition-all text-center flex items-center justify-center gap-2">
+                            <span>Découvrir la collection</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#quiz" class="bg-white hover:bg-stone-50 text-brand-dark font-bold px-8 py-4 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm transition-all text-center flex items-center justify-center gap-2">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-brand-yellow"></i>
+                            <span>Trouver ma pièce (Quiz)</span>
+                        </a>
+                    </div>
+
+                    <!-- Micro Reassurance -->
+                    <div class="pt-6 border-t-2 border-stone-200 grid grid-cols-3 gap-2 text-center lg:text-left text-xs sm:text-sm font-semibold text-stone-600">
+                        <div class="flex items-center gap-2 justify-center lg:justify-start">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-brand-clay"></i>
+                            <span>100% Fait Main</span>
+                        </div>
+                        <div class="flex items-center gap-2 justify-center lg:justify-start">
+                            <i data-lucide="package-check" class="w-4 h-4 text-brand-teal"></i>
+                            <span>Emballage Anti-Casse</span>
+                        </div>
+                        <div class="flex items-center gap-2 justify-center lg:justify-start">
+                            <i data-lucide="heart" class="w-4 h-4 text-brand-pink"></i>
+                            <span>Pièces Uniques</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual Banner -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative bg-brand-yellow rounded-3xl border-2 border-brand-dark shadow-brutal-lg p-4 rotate-2 hover:rotate-0 transition-transform duration-300">
+                        
+                        <!-- Badge sticker -->
+                        <div class="absolute -top-6 -right-6 z-10 bg-brand-teal text-brand-dark border-2 border-brand-dark rounded-full p-4 font-display font-black text-xs text-center shadow-brutal animate-bounce uppercase">
+                            ★ Coup<br>De Cœur ★
+                        </div>
+
+                        <img src="images/hero-theiere-lampe.jpg"
+                             alt="Théière artisanale Plein Pot Studio, émail brique brillant"
+                             class="w-full h-[380px] sm:h-[420px] object-cover rounded-2xl border-2 border-brand-dark">
+
+                        <div class="mt-4 bg-white p-4 rounded-xl border-2 border-brand-dark flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Vedette du drop</span>
+                                <h3 class="font-display font-bold text-lg">Théière "Petite Lampe"</h3>
+                            </div>
+                            <button onclick="addToCart(1)" class="bg-brand-pink text-white font-black px-4 py-2 rounded-xl border-2 border-brand-dark shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-sm">
+                                38 €
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Drop Banner & Countdown Section -->
+        <section id="drop" class="bg-brand-blue text-white py-12 border-y-2 border-brand-dark my-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+                
+                <div class="inline-block bg-brand-yellow text-brand-dark border-2 border-brand-dark px-4 py-1 rounded-full font-bold text-xs uppercase tracking-widest shadow-brutal-sm">
+                    ⏰ Prochain Drop Réassort
+                </div>
+
+                <h2 class="font-display font-black text-3xl sm:text-5xl tracking-tight">
+                    La Nouvelle Fournée Arrive !
+                </h2>
+                <p class="text-stone-100 max-w-xl mx-auto text-sm sm:text-base font-medium">
+                    Inscris-toi pour recevoir le lien d'accès privé par e-mail 1 heure avant l'ouverture officielle au grand public.
+                </p>
+
+                <!-- Dynamic Timer -->
+                <div class="flex justify-center gap-3 sm:gap-6 font-display">
+                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
+                        <span id="days" class="block font-black text-2xl sm:text-4xl text-brand-pink">03</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Jours</span>
+                    </div>
+                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
+                        <span id="hours" class="block font-black text-2xl sm:text-4xl text-brand-pink">14</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Heures</span>
+                    </div>
+                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
+                        <span id="minutes" class="block font-black text-2xl sm:text-4xl text-brand-pink">22</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Minutes</span>
+                    </div>
+                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
+                        <span id="seconds" class="block font-black text-2xl sm:text-4xl text-brand-pink">45</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Secondes</span>
+                    </div>
+                </div>
+
+                <!-- Newsletter VIP Form -->
+                <form onsubmit="subscribeVIP(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-2 pt-2">
+                    <input type="email" id="vip-email" required placeholder="Ton adresse e-mail..." 
+                           class="flex-1 bg-white text-brand-dark px-4 py-3 rounded-xl border-2 border-brand-dark font-medium focus:outline-none focus:ring-2 focus:ring-brand-yellow">
+                    <button type="submit" class="bg-brand-yellow hover:bg-yellow-300 text-brand-dark font-bold px-6 py-3 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] transition-all whitespace-nowrap">
+                        Accès VIP Gratuit
+                    </button>
+                </form>
+
+            </div>
+        </section>
+
+        <!-- Shop & Collection Section -->
+        <section id="shop" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            
+            <div class="space-y-4 mb-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <span class="bg-brand-teal text-brand-dark border-2 border-brand-dark px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider">
+                            Catalogue Officiel
+                        </span>
+                        <h2 class="font-display font-black text-3xl sm:text-5xl text-brand-dark mt-2">
+                            La Collection
+                        </h2>
+                    </div>
+                    <p class="text-stone-600 font-medium max-w-md">
+                        Explorez nos tasses, bols et vases façonnés au tour et émaillés à l'atelier.
+                    </p>
+                </div>
+
+                <!-- Search & Filters Toolbar -->
+                <div class="bg-white p-4 rounded-2xl border-2 border-brand-dark shadow-brutal flex flex-col md:flex-row justify-between gap-4">
+                    
+                    <!-- Search Input -->
+                    <div class="relative flex-1">
+                        <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Rechercher une pièce (ex: Mug, Cobalt, Vase)..." 
+                               class="w-full bg-brand-bg text-brand-dark pl-10 pr-4 py-2.5 rounded-xl border-2 border-brand-dark font-medium text-sm focus:outline-none">
+                        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-3.5"></i>
+                    </div>
+
+                    <!-- Category Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterCategory('all')" id="btn-all" class="cat-btn active bg-brand-dark text-white px-4 py-2 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm shadow-brutal-sm">
+                            Tout voir
+                        </button>
+                        <button onclick="filterCategory('mugs')" id="btn-mugs" class="cat-btn bg-white hover:bg-stone-100 text-brand-dark px-4 py-2 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm shadow-brutal-sm">
+                            Tasses &amp; Mugs
+                        </button>
+                        <button onclick="filterCategory('theieres')" id="btn-theieres" class="cat-btn bg-white hover:bg-stone-100 text-brand-dark px-4 py-2 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm shadow-brutal-sm">
+                            Théières
+                        </button>
+                        <button onclick="filterCategory('bols')" id="btn-bols" class="cat-btn bg-white hover:bg-stone-100 text-brand-dark px-4 py-2 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm shadow-brutal-sm">
+                            Bols &amp; Coupes
+                        </button>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <select id="sort-select" onchange="handleSort()" class="bg-brand-bg text-brand-dark px-3 py-2 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm focus:outline-none">
+                        <option value="default">Trier par : Pertinence</option>
+                        <option value="price-asc">Prix : Croissant</option>
+                        <option value="price-desc">Prix : Décroissant</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamic Products Rendered Here -->
+            </div>
+
+        </section>
+
+        <!-- Interactive Ceramic Quiz ("Trouve ta pièce") -->
+        <section id="quiz" class="bg-brand-yellow/30 border-y-2 border-brand-dark py-16">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+                <div>
+                    <span class="bg-brand-pink text-white border-2 border-brand-dark px-4 py-1 rounded-full font-bold text-xs uppercase tracking-widest shadow-brutal-sm">
+                        Outil Interactif
+                    </span>
+                    <h2 class="font-display font-black text-3xl sm:text-4xl text-brand-dark mt-2">
+                        Quelle céramique est faite pour toi ?
+                    </h2>
+                    <p class="text-stone-700 font-medium text-sm sm:text-base max-w-xl mx-auto mt-2">
+                        Réponds à 2 questions simples pour découvrir la pièce unique qui correspond à ton quotidien.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border-2 border-brand-dark shadow-brutal text-left space-y-6">
+                    
+                    <!-- Question 1 -->
+                    <div>
+                        <label class="block font-display font-bold text-base sm:text-lg text-brand-dark mb-3">
+                            1. Quel est ton rituel du matin préféré ?
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button type="button" onclick="selectQuiz(1, 'cafe')" class="q1-btn p-3 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm bg-brand-bg hover:bg-brand-yellow transition-all text-center">
+                                ☕ Un expresso serré &amp; rapide
+                            </button>
+                            <button type="button" onclick="selectQuiz(1, 'grand-cafe')" class="q1-btn p-3 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm bg-brand-bg hover:bg-brand-yellow transition-all text-center">
+                                🍵 Un grand thé ou café latte
+                            </button>
+                            <button type="button" onclick="selectQuiz(1, 'deco')" class="q1-btn p-3 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm bg-brand-bg hover:bg-brand-yellow transition-all text-center">
+                                💐 Contempler mes fleurs fraîches
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div>
+                        <label class="block font-display font-bold text-base sm:text-lg text-brand-dark mb-3">
+                            2. Quelle teinte t'inspire le plus de calme ?
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button type="button" onclick="selectQuiz(2, 'bleu')" class="q2-btn p-3 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm bg-brand-bg hover:bg-brand-teal transition-all text-center">
+                                🌊 Bleu Cobalt Profond
+                            </button>
+                            <button type="button" onclick="selectQuiz(2, 'jaune')" class="q2-btn p-3 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm bg-brand-bg hover:bg-brand-yellow transition-all text-center">
+                                ☀️ Jaune Beurre Chaleureux
+                            </button>
+                            <button type="button" onclick="selectQuiz(2, 'terre')" class="q2-btn p-3 rounded-xl border-2 border-brand-dark font-bold text-xs sm:text-sm bg-brand-bg hover:bg-brand-pink hover:text-white transition-all text-center">
+                                🪴 Terracotta / Argile Brute
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation Output -->
+                    <div id="quiz-result" class="hidden border-t-2 border-stone-200 pt-6">
+                        <!-- Output dynamic recommendation -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Atelier & Savoir-Faire Section -->
+        <section id="atelier" class="bg-brand-cream border-b-2 border-brand-dark py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                    <span class="bg-brand-pink text-white border-2 border-brand-dark px-4 py-1 rounded-full font-bold text-xs uppercase tracking-widest shadow-brutal-sm">
+                        Savoir-Faire Artisan
+                    </span>
+                    <h2 class="font-display font-black text-3xl sm:text-5xl text-brand-dark">
+                        Dans l'Atelier Plein Pot
+                    </h2>
+                    <p class="text-stone-700 font-medium">
+                        Chaque création traverse un processus lent et méthodique de près de 3 semaines avant de trouver sa forme finale.
+                    </p>
+                </div>
+
+                <!-- Atelier Photo Gallery -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+
+                    <figure class="relative rounded-2xl border-2 border-brand-dark shadow-brutal overflow-hidden aspect-square group">
+                        <img src="images/atelier-clemence-1.jpg" alt="Clémence façonne une pièce sur le tour de l'atelier Plein Pot"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <figcaption class="absolute bottom-3 left-3 bg-brand-yellow text-brand-dark border-2 border-brand-dark px-3 py-1 rounded-full font-bold text-xs shadow-brutal-sm">
+                            Clémence au tour
+                        </figcaption>
+                    </figure>
+
+                    <figure class="relative rounded-2xl border-2 border-brand-dark shadow-brutal overflow-hidden aspect-square group">
+                        <img src="images/atelier-clemence-2.jpg" alt="Détail de la décoration à la main d'une théière crue avant cuisson"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <figcaption class="absolute bottom-3 left-3 bg-brand-teal text-brand-dark border-2 border-brand-dark px-3 py-1 rounded-full font-bold text-xs shadow-brutal-sm">
+                            Décor à la main
+                        </figcaption>
+                    </figure>
+
+                    <figure class="relative rounded-2xl border-2 border-brand-dark shadow-brutal overflow-hidden aspect-square group">
+                        <img src="images/atelier-four.jpg" alt="Défournement du four de l'atelier Plein Pot Studio après cuisson"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <figcaption class="absolute bottom-3 left-3 bg-brand-pink text-white border-2 border-brand-dark px-3 py-1 rounded-full font-bold text-xs shadow-brutal-sm">
+                            Défournement
+                        </figcaption>
+                    </figure>
+
+                    <figure class="relative rounded-2xl border-2 border-brand-dark shadow-brutal overflow-hidden aspect-square group">
+                        <img src="images/atelier-premier-marche.jpg" alt="Détail d'une pièce émaillée rouge et crème, premier marché artisanal de Plein Pot Studio"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <figcaption class="absolute bottom-3 left-3 bg-brand-blue text-white border-2 border-brand-dark px-3 py-1 rounded-full font-bold text-xs shadow-brutal-sm">
+                            Premier marché
+                        </figcaption>
+                    </figure>
+
+                </div>
+
+                <!-- Process Steps Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                    
+                    <div class="bg-white p-6 rounded-2xl border-2 border-brand-dark shadow-brutal space-y-4">
+                        <div class="w-10 h-10 bg-brand-yellow font-display font-black text-lg text-brand-dark rounded-xl border-2 border-brand-dark flex items-center justify-center shadow-brutal-sm">
+                            01
+                        </div>
+                        <h3 class="font-display font-bold text-xl">Le Façonnage</h3>
+                        <p class="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
+                            Modelage à la main ou tournage du grès brut pour donner naissance aux formes généreuses et ergonomiques.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-brand-dark shadow-brutal space-y-4">
+                        <div class="w-10 h-10 bg-brand-teal font-display font-black text-lg text-brand-dark rounded-xl border-2 border-brand-dark flex items-center justify-center shadow-brutal-sm">
+                            02
+                        </div>
+                        <h3 class="font-display font-bold text-xl">Le Dégourdi (980°C)</h3>
+                        <p class="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
+                            Séchage à l'air libre pendant 7 jours suivi d'une première cuisson de 24h pour solidifier la terre poreuse.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-brand-dark shadow-brutal space-y-4">
+                        <div class="w-10 h-10 bg-brand-pink font-display font-black text-lg text-white rounded-xl border-2 border-brand-dark flex items-center justify-center shadow-brutal-sm">
+                            03
+                        </div>
+                        <h3 class="font-display font-bold text-xl">L'Émaillage</h3>
+                        <p class="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
+                            Application minutieuse d'émaux colorés préparés à l'atelier, créant des effets de coulures uniques.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-brand-dark shadow-brutal space-y-4">
+                        <div class="w-10 h-10 bg-brand-blue font-display font-black text-lg text-white rounded-xl border-2 border-brand-dark flex items-center justify-center shadow-brutal-sm">
+                            04
+                        </div>
+                        <h3 class="font-display font-bold text-xl">Grand Feu (1250°C)</h3>
+                        <p class="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
+                            Ultime cuisson pour vitrifier l'émail et rendre chaque pièce étanche, apte au lave-vaisselle et ultra durable.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Interactive Chart Section (Production Time Breakdown) -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border-2 border-brand-dark shadow-brutal grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="bg-brand-yellow text-brand-dark border-2 border-brand-dark px-3 py-1 rounded-full font-bold text-xs uppercase">
+                            Temps de Fabrication
+                        </span>
+                        <h3 class="font-display font-black text-2xl sm:text-3xl text-brand-dark">
+                            Pourquoi chaque pièce met 3 semaines ?
+                        </h3>
+                        <p class="text-stone-600 text-sm font-medium leading-relaxed">
+                            Contrairement aux objets industriels, l'artisanat de la terre exige de la patience. Ce graphique illustre le temps moyen consacré à chaque étape du processus pour une pièce unique.
+                        </p>
+                        <div class="p-4 bg-brand-bg rounded-2xl border-2 border-brand-dark text-xs space-y-2">
+                            <p class="font-bold text-brand-pink">♻️ Zéro Plastique &amp; Réutilisation :</p>
+                            <p class="text-stone-600">Toutes nos chutes de terre crue sont réhydratées et recyclées dans les fournées suivantes.</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 flex justify-center">
+                        <div class="chart-container">
+                            <canvas id="processChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-brand-bg border-t-2 border-brand-dark py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-stone-700">
+                
+                <div class="space-y-4 md:col-span-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-brand-yellow text-brand-dark rounded-lg font-display font-black flex items-center justify-center">
+                            P
+                        </div>
+                        <span class="font-display font-black text-2xl tracking-tight text-white">PLEIN POT STUDIO</span>
+                    </div>
+                    <p class="text-sm text-stone-400 max-w-md">
+                        Atelier indépendant de céramique artisanale. Pièces uniques et petites séries façonnées à la main en France.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-display font-bold text-brand-yellow text-sm uppercase tracking-wider">Navigation</h4>
+                    <ul class="space-y-2 text-sm text-stone-300">
+                        <li><a href="#shop" class="hover:text-white transition-colors">Boutique</a></li>
+                        <li><a href="#drop" class="hover:text-white transition-colors">Le Drop VIP</a></li>
+                        <li><a href="#quiz" class="hover:text-white transition-colors">Quiz Céramique</a></li>
+                        <li><a href="#atelier" class="hover:text-white transition-colors">L'Atelier</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-display font-bold text-brand-yellow text-sm uppercase tracking-wider">Informations</h4>
+                    <ul class="space-y-2 text-sm text-stone-300">
+                        <li><a href="#" onclick="alert('Livraison offerte dès 80€ via Mondial Relay ou Colissimo. Colis hyper sécurisé !')" class="hover:text-white transition-colors">Livraison &amp; Retours</a></li>
+                        <li><a href="#" onclick="alert('Conseil : Évitez le choc thermique brusque. Résistant au lave-vaisselle et micro-ondes !')" class="hover:text-white transition-colors">Conseils d'Entretien</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mentions Légales</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
+                <p>© 2026 Plein Pot Studio — Tous droits réservés.</p>
+                <div class="flex gap-4">
+                    <span>Paiements sécurisés via Stripe, Apple Pay &amp; Klarna</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-over Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden pointer-events-none">
+        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-brand-dark/50 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cart-panel" class="w-screen max-w-md bg-brand-bg border-l-2 border-brand-dark p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto">
+                
+                <div>
+                    <!-- Drawer Header -->
+                    <div class="flex items-center justify-between pb-4 border-b-2 border-brand-dark">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="shopping-bag" class="w-6 h-6 text-brand-pink"></i>
+                            <h3 class="font-display font-black text-2xl text-brand-dark">Ton Panier</h3>
+                        </div>
+                        <button onclick="toggleCart()" class="p-2 hover:bg-stone-200 rounded-xl border border-brand-dark transition-colors">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Free Shipping Bar -->
+                    <div class="my-4 bg-white p-3 rounded-xl border-2 border-brand-dark shadow-brutal-sm">
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span id="shipping-text">Livraison Gratuite dans 80,00 €</span>
+                            <span id="shipping-percent">0%</span>
+                        </div>
+                        <div class="w-full bg-stone-200 h-2.5 rounded-full overflow-hidden border border-brand-dark">
+                            <div id="shipping-bar" class="bg-brand-teal h-full transition-all duration-300" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Cart Items Container -->
+                    <div id="cart-items" class="space-y-4 max-h-[45vh] overflow-y-auto pr-1">
+                        <!-- Dynamic Cart Items Rendered Here -->
+                    </div>
+                </div>
+
+                <!-- Drawer Footer & Checkout -->
+                <div class="border-t-2 border-brand-dark pt-4 space-y-4">
+                    
+                    <!-- Coupon code input -->
+                    <div class="flex gap-2">
+                        <input type="text" id="coupon-code" placeholder="Code promo (ex: VIP10)..." 
+                               class="flex-1 bg-white text-brand-dark px-3 py-2 text-xs rounded-xl border border-brand-dark font-semibold">
+                        <button onclick="applyCoupon()" class="bg-brand-dark text-white text-xs font-bold px-3 py-2 rounded-xl border border-brand-dark">
+                            Appliquer
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-between font-display font-black text-xl">
+                        <span>Total :</span>
+                        <span id="cart-total" class="text-brand-pink">0,00 €</span>
+                    </div>
+
+                    <button onclick="checkout()" class="w-full bg-brand-pink hover:bg-rose-600 text-white font-bold py-4 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="credit-card" class="w-5 h-5"></i>
+                        <span>Commander maintenant</span>
+                    </button>
+
+                    <p class="text-center text-xs text-stone-500 font-medium">
+                        📦 Expédition sous 3 à 5 jours en emballage anti-casse renforcé.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <div onclick="closeModal()" class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm"></div>
+
+        <div class="relative bg-brand-bg border-2 border-brand-dark rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-brutal-lg z-10 overflow-hidden">
+            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 bg-white hover:bg-stone-100 rounded-xl border-2 border-brand-dark shadow-brutal-sm">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div id="modal-content" class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                <!-- Modal content dynamically injected -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Database of ceramic products
+        const products = [
+            {
+                id: 1,
+                name: "Théière 'Petite Lampe'",
+                category: "theieres",
+                price: 38,
+                image: "images/product-theiere-lampe.jpg",
+                badge: "Pièce Unique",
+                badgeColor: "bg-brand-blue text-white",
+                capacity: "~400 ml",
+                dimensions: "Dimensions à confirmer avec l'atelier",
+                desc: "Théière tournée en grès, émail brique brillant coulant sur fond mat. Silhouette inspirée d'une lampe à génie."
+            },
+            {
+                id: 2,
+                name: "Théière 'Marée Noire'",
+                category: "theieres",
+                price: 65,
+                image: "images/product-theiere-maree-noire.jpg",
+                badge: "Nouveauté",
+                badgeColor: "bg-brand-pink text-white",
+                capacity: "~400 ml",
+                dimensions: "Dimensions à confirmer avec l'atelier",
+                desc: "Théière au profil sculptural, émail brun-noir profond aux reflets métalliques."
+            },
+            {
+                id: 3,
+                name: "Mug 'Le Mont'",
+                category: "mugs",
+                price: 32,
+                image: "images/product-mug-le-mont.jpg",
+                badge: "En Stock",
+                badgeColor: "bg-brand-yellow text-brand-dark",
+                capacity: "~300 ml",
+                dimensions: "Dimensions à confirmer avec l'atelier",
+                desc: "Mug généreux à anse blanche, émail vert mousse texturé sur base contrastée."
+            },
+            {
+                id: 4,
+                name: "Bol Piédestal 'Duo'",
+                category: "bols",
+                price: 58,
+                image: "images/product-bol-duo.jpg",
+                badge: "Petite Série",
+                badgeColor: "bg-brand-teal text-brand-dark",
+                capacity: "La paire",
+                dimensions: "Dimensions à confirmer avec l'atelier",
+                desc: "Duo de bols sur pied, émail brun-gris strié tourné à la main. Vendus par paire."
+            },
+            {
+                id: 5,
+                name: "Bol Piédestal 'Solo'",
+                category: "bols",
+                price: 34,
+                image: "images/product-bol-solo.jpg",
+                badge: "Pièce Unique",
+                badgeColor: "bg-brand-blue text-white",
+                capacity: "~300 ml",
+                dimensions: "Dimensions à confirmer avec l'atelier",
+                desc: "Bol sur pied à l'émail brun-gris strié, silhouette élancée sur fond bleu profond."
+            },
+            {
+                id: 6,
+                name: "Pièce 'Soucoupe Volante'",
+                category: "theieres",
+                price: 45,
+                image: "images/product-soucoupe.jpg",
+                badge: "Nouveauté",
+                badgeColor: "bg-brand-pink text-white",
+                capacity: "~350 ml",
+                dimensions: "Dimensions à confirmer avec l'atelier",
+                desc: "Pièce à la silhouette futuriste, émail vert profond capté en pleine lumière."
+            }
+        ];
+
+        // Shopping Cart State
+        let cart = [];
+        let discountPercent = 0;
+
+        // Current Category Filter
+        let currentCategory = 'all';
+
+        // Render Product Grid
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            if(items.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-stone-500 font-medium">
+                        <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 opacity-40"></i>
+                        <p>Aucune pièce ne correspond à votre recherche...</p>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = items.map(p => `
+                    <div class="bg-white rounded-2xl border-2 border-brand-dark p-4 shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg transition-all flex flex-col justify-between group">
+                        <div>
+                            <!-- Image Container -->
+                            <div class="relative rounded-xl border-2 border-brand-dark overflow-hidden mb-4 aspect-square cursor-pointer" onclick="openModal(${p.id})">
+                                <span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full border border-brand-dark font-bold text-xs shadow-brutal-sm ${p.badgeColor}">
+                                    ${p.badge}
+                                </span>
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </div>
+
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 onclick="openModal(${p.id})" class="font-display font-bold text-lg hover:text-brand-pink cursor-pointer transition-colors leading-snug">
+                                    ${p.name}
+                                </h3>
+                                <span class="font-display font-black text-xl text-brand-dark ml-2">
+                                    ${p.price} €
+                                </span>
+                            </div>
+
+                            <p class="text-xs text-stone-500 font-medium line-clamp-2 mb-4">
+                                ${p.desc}
+                            </p>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="addToCart(${p.id})" class="flex-1 bg-brand-yellow hover:bg-yellow-300 text-brand-dark font-bold py-2.5 px-4 rounded-xl border-2 border-brand-dark shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-xs sm:text-sm flex items-center justify-center gap-2">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                            <button onclick="openModal(${p.id})" class="p-2.5 bg-stone-100 hover:bg-stone-200 text-brand-dark rounded-xl border-2 border-brand-dark shadow-brutal-sm">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            lucide.createIcons();
+        }
+
+        // Search Filter Logic
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesQuery = p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+            renderProducts(filtered);
+        }
+
+        // Category Filter Logic
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-dark', 'text-white');
+                btn.classList.add('bg-white', 'text-brand-dark');
+            });
+
+            const activeBtn = document.getElementById(`btn-${cat}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-brand-dark');
+                activeBtn.classList.add('bg-brand-dark', 'text-white');
+            }
+
+            handleSearch();
+        }
+
+        // Sorting Logic
+        function handleSort() {
+            const val = document.getElementById('sort-select').value;
+            let list = [...products];
+
+            if(currentCategory !== 'all') {
+                list = list.filter(p => p.category === currentCategory);
+            }
+
+            if(val === 'price-asc') {
+                list.sort((a,b) => a.price - b.price);
+            } else if(val === 'price-desc') {
+                list.sort((a,b) => b.price - a.price);
+            }
+            renderProducts(list);
+        }
+
+        // Quiz State Logic
+        let quizAnswers = { step1: '', step2: '' };
+
+        function selectQuiz(step, val) {
+            if(step === 1) {
+                quizAnswers.step1 = val;
+                document.querySelectorAll('.q1-btn').forEach(b => b.classList.remove('bg-brand-yellow', 'bg-brand-pink', 'text-white'));
+            } else if(step === 2) {
+                quizAnswers.step2 = val;
+                document.querySelectorAll('.q2-btn').forEach(b => b.classList.remove('bg-brand-teal', 'bg-brand-yellow', 'bg-brand-pink', 'text-white'));
+            }
+
+            if(quizAnswers.step1 && quizAnswers.step2) {
+                let recId = 1;
+                if(quizAnswers.step1 === 'cafe') recId = 5;
+                else if(quizAnswers.step1 === 'deco') recId = 2;
+                else if(quizAnswers.step2 === 'jaune') recId = 3;
+
+                const rec = products.find(p => p.id === recId);
+                const resultDiv = document.getElementById('quiz-result');
+                resultDiv.classList.remove('hidden');
+                resultDiv.innerHTML = `
+                    <div class="bg-brand-cream p-4 rounded-2xl border-2 border-brand-dark flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <img src="${rec.image}" class="w-16 h-16 object-cover rounded-xl border border-brand-dark">
+                            <div>
+                                <span class="text-xs font-bold uppercase text-brand-pink">Recommandation sur-mesure</span>
+                                <h4 class="font-display font-bold text-lg">${rec.name}</h4>
+                                <p class="text-xs text-stone-600">${rec.price} € — ${rec.capacity}</p>
+                            </div>
+                        </div>
+                        <button onclick="addToCart(${rec.id})" class="bg-brand-pink hover:bg-rose-600 text-white font-bold px-4 py-2 rounded-xl border-2 border-brand-dark shadow-brutal-sm text-xs whitespace-nowrap">
+                            Ajouter au panier (${rec.price} €)
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Cart Drawer Operations
+        function addToCart(id) {
+            const existing = cart.find(item => item.id === id);
+            if(existing) {
+                existing.qty++;
+            } else {
+                cart.push({ id, qty: 1 });
+            }
+            updateCartUI();
+            openCart();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-count').innerText = count;
+
+            const cartContainer = document.getElementById('cart-items');
+            if(cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="text-center py-12 text-stone-500 font-medium">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-3 opacity-30"></i>
+                        <p>Ton panier est vide...</p>
+                    </div>
+                `;
+            } else {
+                let total = 0;
+                cartContainer.innerHTML = cart.map(item => {
+                    const p = products.find(prod => prod.id === item.id);
+                    total += p.price * item.qty;
+                    return `
+                        <div class="flex items-center gap-4 bg-white p-3 rounded-2xl border-2 border-brand-dark shadow-brutal-sm">
+                            <img src="${p.image}" class="w-16 h-16 object-cover rounded-xl border border-brand-dark">
+                            <div class="flex-1">
+                                <h4 class="font-display font-bold text-sm leading-tight">${p.name}</h4>
+                                <span class="font-bold text-brand-pink text-xs">${p.price} €</span>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <button onclick="changeQty(${p.id}, -1)" class="w-6 h-6 bg-stone-100 hover:bg-stone-200 rounded-md border border-brand-dark font-bold text-xs flex items-center justify-center">-</button>
+                                    <span class="text-xs font-bold">${item.qty}</span>
+                                    <button onclick="changeQty(${p.id}, 1)" class="w-6 h-6 bg-stone-100 hover:bg-stone-200 rounded-md border border-brand-dark font-bold text-xs flex items-center justify-center">+</button>
+                                </div>
+                            </div>
+                            <button onclick="removeFromCart(${p.id})" class="text-stone-400 hover:text-brand-pink">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+
+                if(discountPercent > 0) {
+                    total = total * (1 - discountPercent);
+                }
+
+                document.getElementById('cart-total').innerText = `${total.toFixed(2)} €`;
+
+                // Free Shipping Threshold (80€)
+                const freeShippingLimit = 80;
+                const rawTotal = cart.reduce((acc, item) => {
+                    const p = products.find(prod => prod.id === item.id);
+                    return acc + (p.price * item.qty);
+                }, 0);
+
+                const remaining = freeShippingLimit - rawTotal;
+                const bar = document.getElementById('shipping-bar');
+                const text = document.getElementById('shipping-text');
+                const percentText = document.getElementById('shipping-percent');
+
+                if(remaining <= 0) {
+                    bar.style.width = '100%';
+                    bar.classList.replace('bg-brand-teal', 'bg-brand-pink');
+                    text.innerText = "🎉 Félicitations ! Livraison gratuite offerte";
+                    percentText.innerText = "100%";
+                } else {
+                    const pct = Math.min(Math.round((rawTotal / freeShippingLimit) * 100), 100);
+                    bar.style.width = `${pct}%`;
+                    bar.classList.replace('bg-brand-pink', 'bg-brand-teal');
+                    text.innerText = `Livraison Gratuite dans ${remaining.toFixed(2)} €`;
+                    percentText.innerText = `${pct}%`;
+                }
+            }
+
+            lucide.createIcons();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if(item) {
+                item.qty += delta;
+                if(item.qty <= 0) {
+                    removeFromCart(id);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-code').value.trim().toUpperCase();
+            if(code === 'VIP10') {
+                discountPercent = 0.10;
+                alert('🎉 Code VIP10 appliqué ! -10% sur votre commande.');
+                updateCartUI();
+            } else {
+                alert('⚠️ Code promo invalide (Essayer: VIP10)');
+            }
+        }
+
+        // Cart Drawer Controls
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+
+            if(drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    panel.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                panel.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function openCart() {
+            const drawer = document.getElementById('cart-drawer');
+            if(drawer.classList.contains('hidden')) {
+                toggleCart();
+            }
+        }
+
+        // Product Modal Logic
+        function openModal(id) {
+            const p = products.find(prod => prod.id === id);
+            const modal = document.getElementById('product-modal');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="rounded-2xl border-2 border-brand-dark overflow-hidden aspect-square">
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-4">
+                    <span class="inline-block px-3 py-1 rounded-full border border-brand-dark font-bold text-xs ${p.badgeColor}">
+                        ${p.badge}
+                    </span>
+                    <h3 class="font-display font-black text-2xl sm:text-3xl">${p.name}</h3>
+                    <p class="font-display font-black text-2xl text-brand-pink">${p.price} €</p>
+                    
+                    <p class="text-sm text-stone-600 font-medium">${p.desc}</p>
+
+                    <div class="bg-white p-3 rounded-xl border border-brand-dark text-xs space-y-1">
+                        <p><strong>Contenance :</strong> ${p.capacity}</p>
+                        <p><strong>Dimensions :</strong> ${p.dimensions}</p>
+                        <p><strong>Entretien :</strong> Résistant au lave-vaisselle &amp; micro-ondes</p>
+                    </div>
+
+                    <button onclick="addToCart(${p.id}); closeModal();" class="w-full bg-brand-yellow hover:bg-yellow-300 text-brand-dark font-bold py-3.5 rounded-xl border-2 border-brand-dark shadow-brutal transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                        <span>Ajouter au panier (${p.price} €)</span>
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function checkout() {
+            if(cart.length === 0) {
+                alert('Ton panier est vide pour le moment !');
+                return;
+            }
+            alert('🛍️ Démonstration Checkout : Redirection vers le paiement sécurisé Shopify / Stripe !');
+        }
+
+        function subscribeVIP(e) {
+            e.preventDefault();
+            const email = document.getElementById('vip-email').value;
+            alert(`🎉 Bravo ! Tu es bien inscrit(e) au Club VIP Plein Pot avec : ${email}. Tu recevras le lien d'accès prioritaire !`);
+        }
+
+        // Initialize Chart.js Process Breakdown
+        function initProcessChart() {
+            const ctx = document.getElementById('processChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Façonnage & Tournage', 'Séchage Lent', 'Dégourdi (980°C)', 'Émaillage', 'Grand Feu (1250°C)'],
+                    datasets: [{
+                        data: [2, 120, 24, 3, 36],
+                        backgroundColor: ['#FFD166', '#E07A5F', '#06D6A0', '#EF476F', '#118AB2'],
+                        borderColor: '#2D2B2A',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: 'Plus Jakarta Sans',
+                                    weight: 'bold',
+                                    size: 11
+                                },
+                                color: '#2D2B2A'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ~${context.raw} heures`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Real-Time Countdown Timer Simulation
+        function startCountdown() {
+            let sec = 45, min = 22, hr = 14, days = 3;
+            setInterval(() => {
+                sec--;
+                if(sec < 0) { sec = 59; min--; }
+                if(min < 0) { min = 59; hr--; }
+                if(hr < 0) { hr = 23; days--; }
+
+                document.getElementById('seconds').innerText = sec < 10 ? '0' + sec : sec;
+                document.getElementById('minutes').innerText = min < 10 ? '0' + min : min;
+                document.getElementById('hours').innerText = hr < 10 ? '0' + hr : hr;
+                document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            }, 1000);
+        }
+
+        // Initialize Application
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            updateCartUI();
+            initProcessChart();
+            startCountdown();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
