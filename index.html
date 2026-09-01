@@ -123,13 +123,6 @@
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-brand-yellow selection:text-brand-dark">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-brand-dark text-brand-bg text-xs md:text-sm py-2 px-4 border-b-2 border-brand-dark overflow-hidden">
-        <div class="animate-marquee font-medium tracking-wide">
-            ✨ PROCHAIN DROP : VENDREDI À 18H00 &nbsp;•&nbsp; LIVRAISON OFFERTE DÈS 80€ EN FRANCE &nbsp;•&nbsp; 100% FAIT MAIN À L'ATELIER &nbsp;•&nbsp; PIÈCES UNIQUES EN GRÈS ÉMAILLÉ &nbsp;•&nbsp; ✨ PROCHAIN DROP : VENDREDI À 18H00 &nbsp;•&nbsp; LIVRAISON OFFERTE DÈS 80€ EN FRANCE
-        </div>
-    </div>
-
     <!-- Sticky Navigation -->
     <header class="sticky top-0 z-40 bg-brand-bg/90 backdrop-blur-md border-b-2 border-brand-dark transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -173,18 +166,17 @@
     <!-- Main Content -->
     <main class="flex-grow">
 
-        <!-- Hero Section -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
-                <!-- Hero Text -->
-                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 bg-brand-teal/20 text-brand-dark border-2 border-brand-dark px-4 py-1.5 rounded-full font-mono text-xs sm:text-sm font-bold shadow-brutal-sm">
-                        <span class="w-2.5 h-2.5 rounded-full bg-brand-teal animate-pulse"></span>
-                        Boutique ouverte • Pièces faites main en grès
-                    </div>
+        <!-- Hero Section : l'objet porte la page, pas les stickers -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-                    <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-brand-dark">
+                <!-- Hero Text -->
+                <div class="lg:col-span-5 space-y-6 text-center lg:text-left order-2 lg:order-1">
+                    <span class="font-mono text-xs tracking-[0.2em] uppercase text-stone-500">
+                        Studio céramique · Bruxelles
+                    </span>
+
+                    <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-6xl leading-[1.05] tracking-tight text-brand-dark">
                         Des céramiques <span class="bg-brand-yellow px-2 py-0.5 rounded-xl border-2 border-brand-dark shadow-brutal inline-block rotate-[-1deg]">brutes</span> &amp; <span class="text-brand-pink underline decoration-wavy decoration-brand-yellow">colorées</span>.
                     </h1>
 
@@ -192,69 +184,49 @@
                         Tasses généreuses, vases sculpturaux et objets du quotidien façonnés à la main. Chaque pièce est unique, cuite à haute température et émaillée avec soin.
                     </p>
 
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center lg:justify-start pt-2">
                         <a href="#shop" class="bg-brand-pink hover:bg-rose-600 text-white font-bold px-8 py-4 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm transition-all text-center flex items-center justify-center gap-2">
                             <span>Découvrir la collection</span>
                             <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </a>
-                        <a href="#quiz" class="bg-white hover:bg-stone-50 text-brand-dark font-bold px-8 py-4 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm transition-all text-center flex items-center justify-center gap-2">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-brand-yellow"></i>
+                        <a href="#quiz" class="font-semibold text-sm text-brand-dark underline decoration-stone-300 underline-offset-4 hover:text-brand-pink hover:decoration-brand-pink transition-colors flex items-center gap-1.5">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-brand-yellow"></i>
                             <span>Trouver ma pièce (Quiz)</span>
                         </a>
                     </div>
 
                     <!-- Micro Reassurance -->
-                    <div class="pt-6 border-t-2 border-stone-200 grid grid-cols-3 gap-2 text-center lg:text-left text-xs sm:text-sm font-semibold text-stone-600">
-                        <div class="flex items-center gap-2 justify-center lg:justify-start">
+                    <div class="pt-6 flex flex-wrap gap-x-6 gap-y-2 justify-center lg:justify-start text-xs sm:text-sm font-semibold text-stone-500">
+                        <span class="flex items-center gap-1.5">
                             <i data-lucide="sparkles" class="w-4 h-4 text-brand-clay"></i>
-                            <span>100% Fait Main</span>
-                        </div>
-                        <div class="flex items-center gap-2 justify-center lg:justify-start">
+                            100% Fait Main
+                        </span>
+                        <span class="flex items-center gap-1.5">
                             <i data-lucide="package-check" class="w-4 h-4 text-brand-teal"></i>
-                            <span>Emballage Anti-Casse</span>
-                        </div>
-                        <div class="flex items-center gap-2 justify-center lg:justify-start">
+                            Emballage Anti-Casse
+                        </span>
+                        <span class="flex items-center gap-1.5">
                             <i data-lucide="heart" class="w-4 h-4 text-brand-pink"></i>
-                            <span>Pièces Uniques</span>
-                        </div>
+                            Pièces Uniques
+                        </span>
                     </div>
                 </div>
 
-                <!-- Hero Visual Banner -->
-                <div class="lg:col-span-5 relative">
+                <!-- Hero Visual : très grand, cadrage minimal -->
+                <div class="lg:col-span-7 relative order-1 lg:order-2">
                     <!-- Halo de studio : évoque ses photos où la pièce semble baigner dans un spot de couleur -->
-                    <div class="absolute -inset-6 bg-[#ED5986] rounded-[50%] blur-2xl opacity-60 -z-10"></div>
-                    <div class="relative bg-brand-yellow rounded-3xl border-2 border-brand-dark shadow-brutal-lg p-4 rotate-2 hover:rotate-0 transition-transform duration-300">
-                        
-                        <!-- Badge sticker (silhouette soucoupe : disque + aileron, comme ses théières) -->
-                        <div class="absolute -top-10 -right-12 z-10 w-32 h-32 animate-bounce">
-                            <svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full drop-shadow-[3px_3px_0px_#2D2B2A]" xmlns="http://www.w3.org/2000/svg">
-                                <polygon points="66,40 98,8 58,28" fill="#707771" stroke="#2D2B2A" stroke-width="5" stroke-linejoin="round"/>
-                                <circle cx="42" cy="58" r="34" fill="#707771" stroke="#2D2B2A" stroke-width="5"/>
-                            </svg>
-                            <div class="absolute font-display font-black text-[11px] text-brand-dark text-center uppercase leading-tight" style="left:10%; top:38%; width:64%;">
-                                ★ Coup<br>De Cœur ★
-                            </div>
-                        </div>
-
-                        <div class="relative">
-                            <img src="images/hero-theiere-lampe.jpg"
-                                 alt="Théière artisanale Plein Pot Studio, émail brique brillant"
-                                 class="w-full h-[380px] sm:h-[420px] object-cover rounded-2xl border-2 border-brand-dark">
-                            <!-- Note manuscrite, comme une légende glissée sur la photo -->
-                            <p class="absolute bottom-3 left-4 -rotate-3 font-script text-2xl sm:text-3xl text-white leading-none" style="text-shadow: 0 2px 6px rgba(0,0,0,0.55);">
-                                un test d'émail devenu son chouchou
-                            </p>
-                        </div>
-
-                        <div class="mt-4 bg-white p-4 rounded-xl border-2 border-brand-dark flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Vedette du drop</span>
-                                <h3 class="font-display font-bold text-lg">Théière "Petite Lampe"</h3>
-                            </div>
-                            <button onclick="addToCart(1)" class="bg-brand-pink text-white font-black px-4 py-2 rounded-xl border-2 border-brand-dark shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-sm">
-                                38 €
-                            </button>
+                    <div class="absolute -inset-10 bg-[#ED5986] rounded-[50%] blur-3xl opacity-30 -z-10"></div>
+                    <div class="relative">
+                        <img src="images/hero-theiere-lampe.jpg"
+                             alt="Théière artisanale Plein Pot Studio, émail brique brillant"
+                             class="w-full h-[440px] sm:h-[560px] object-cover rounded-[2rem] shadow-2xl">
+                        <!-- Note manuscrite, comme une légende glissée sur la photo -->
+                        <p class="absolute bottom-6 left-6 -rotate-2 font-script text-3xl sm:text-4xl text-white leading-none" style="text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                            un test d'émail devenu son chouchou
+                        </p>
+                        <div class="absolute top-6 right-6 bg-white/95 backdrop-blur px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                            <span class="font-display font-bold text-sm text-brand-dark">Théière "Petite Lampe"</span>
+                            <span class="font-display font-black text-sm text-brand-pink">38€</span>
                         </div>
                     </div>
                 </div>
@@ -273,9 +245,9 @@
         <section id="drop" class="bg-brand-blue text-white py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
                 
-                <div class="inline-block bg-brand-yellow text-brand-dark border-2 border-brand-dark px-4 py-1 rounded-full font-mono font-bold text-xs uppercase tracking-widest shadow-brutal-sm">
-                    ⏰ Prochain Drop Réassort
-                </div>
+                <span class="font-mono text-xs tracking-[0.2em] uppercase text-blue-100">
+                    Prochain drop réassort
+                </span>
 
                 <h2 class="font-display font-black text-3xl sm:text-5xl tracking-tight">
                     La Nouvelle Fournée Arrive !
@@ -284,29 +256,32 @@
                     Inscris-toi pour recevoir le lien d'accès privé par e-mail 1 heure avant l'ouverture officielle au grand public.
                 </p>
 
-                <!-- Dynamic Timer -->
-                <div class="flex justify-center gap-3 sm:gap-6 font-display">
-                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
-                        <span id="days" class="block font-black text-2xl sm:text-4xl text-brand-pink">03</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Jours</span>
+                <!-- Dynamic Timer : chiffres nus, sans boîtes -->
+                <div class="flex justify-center items-baseline gap-2 sm:gap-4 font-display">
+                    <div class="text-center">
+                        <span id="days" class="block font-black text-4xl sm:text-6xl">03</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-blue-100 tracking-wide">Jours</span>
                     </div>
-                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
-                        <span id="hours" class="block font-black text-2xl sm:text-4xl text-brand-pink">14</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Heures</span>
+                    <span class="font-black text-3xl sm:text-5xl text-blue-200/50 pb-4 sm:pb-5">:</span>
+                    <div class="text-center">
+                        <span id="hours" class="block font-black text-4xl sm:text-6xl">14</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-blue-100 tracking-wide">Heures</span>
                     </div>
-                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
-                        <span id="minutes" class="block font-black text-2xl sm:text-4xl text-brand-pink">22</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Minutes</span>
+                    <span class="font-black text-3xl sm:text-5xl text-blue-200/50 pb-4 sm:pb-5">:</span>
+                    <div class="text-center">
+                        <span id="minutes" class="block font-black text-4xl sm:text-6xl">22</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-blue-100 tracking-wide">Minutes</span>
                     </div>
-                    <div class="bg-white text-brand-dark border-2 border-brand-dark p-3 sm:p-4 rounded-2xl shadow-brutal min-w-[75px] sm:min-w-[95px]">
-                        <span id="seconds" class="block font-black text-2xl sm:text-4xl text-brand-pink">45</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase text-stone-500">Secondes</span>
+                    <span class="font-black text-3xl sm:text-5xl text-blue-200/50 pb-4 sm:pb-5">:</span>
+                    <div class="text-center">
+                        <span id="seconds" class="block font-black text-4xl sm:text-6xl">45</span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase text-blue-100 tracking-wide">Secondes</span>
                     </div>
                 </div>
 
                 <!-- Newsletter VIP Form -->
                 <form onsubmit="subscribeVIP(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-2 pt-2">
-                    <input type="email" id="vip-email" required placeholder="Ton adresse e-mail..." 
+                    <input type="email" id="vip-email" required placeholder="Ton adresse e-mail..."
                            class="flex-1 bg-white text-brand-dark px-4 py-3 rounded-xl border-2 border-brand-dark font-medium focus:outline-none focus:ring-2 focus:ring-brand-yellow">
                     <button type="submit" class="bg-brand-yellow hover:bg-yellow-300 text-brand-dark font-bold px-6 py-3 rounded-xl border-2 border-brand-dark shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] transition-all whitespace-nowrap">
                         Accès VIP Gratuit
@@ -810,40 +785,32 @@
                 `;
             } else {
                 grid.innerHTML = items.map(p => `
-                    <div class="relative bg-white rounded-2xl border-2 border-brand-dark p-4 shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg transition-all flex flex-col justify-between group">
-                        <div>
-                            <!-- Halo de studio, couleur puisée dans sa propre photo -->
-                            <div class="absolute -inset-3 rounded-[50%] blur-2xl opacity-30 -z-10" style="background:${p.glow};"></div>
-                            <!-- Image Container -->
-                            <div class="relative rounded-xl border-2 border-brand-dark overflow-hidden mb-4 aspect-square cursor-pointer" onclick="openModal(${p.id})">
-                                <span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full border border-brand-dark font-mono font-bold text-xs shadow-brutal-sm ${p.badgeColor}">
-                                    ${p.badge}
-                                </span>
-                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            </div>
-
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 onclick="openModal(${p.id})" class="font-display font-bold text-lg hover:text-brand-pink cursor-pointer transition-colors leading-snug">
-                                    ${p.name}
-                                </h3>
-                                <span class="font-display font-black text-xl text-brand-dark ml-2">
-                                    ${p.price} €
-                                </span>
-                            </div>
-
-                            <p class="text-xs text-stone-500 font-medium line-clamp-2 mb-4">
-                                ${p.desc}
-                            </p>
+                    <div class="relative group flex flex-col">
+                        <!-- Halo de studio, couleur puisée dans sa propre photo -->
+                        <div class="absolute -inset-4 rounded-[50%] blur-2xl opacity-30 -z-10" style="background:${p.glow};"></div>
+                        <!-- Image Container : la photo respire, plus de cadre épais -->
+                        <div class="relative rounded-2xl overflow-hidden mb-4 aspect-square cursor-pointer shadow-lg" onclick="openModal(${p.id})">
+                            <span class="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider shadow-sm ${p.badgeColor}">
+                                ${p.badge}
+                            </span>
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <button onclick="event.stopPropagation(); addToCart(${p.id})" title="Ajouter au panier" class="absolute bottom-3 right-3 bg-white/95 backdrop-blur text-brand-dark w-10 h-10 rounded-full shadow-lg flex items-center justify-center hover:bg-brand-yellow transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
                         </div>
 
-                        <div class="flex gap-2">
-                            <button onclick="addToCart(${p.id})" class="flex-1 bg-brand-yellow hover:bg-yellow-300 text-brand-dark font-bold py-2.5 px-4 rounded-xl border-2 border-brand-dark shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-xs sm:text-sm flex items-center justify-center gap-2">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                <span>Ajouter au panier</span>
-                            </button>
-                            <button onclick="openModal(${p.id})" class="p-2.5 bg-stone-100 hover:bg-stone-200 text-brand-dark rounded-xl border-2 border-brand-dark shadow-brutal-sm">
-                                <i data-lucide="eye" class="w-4 h-4"></i>
-                            </button>
+                        <div class="flex justify-between items-start gap-2">
+                            <div onclick="openModal(${p.id})" class="cursor-pointer">
+                                <h3 class="font-display font-bold text-lg hover:text-brand-pink transition-colors leading-snug">
+                                    ${p.name}
+                                </h3>
+                                <p class="text-xs text-stone-500 font-medium line-clamp-1">
+                                    ${p.desc}
+                                </p>
+                            </div>
+                            <span class="font-display font-black text-lg text-brand-dark whitespace-nowrap">
+                                ${p.price} €
+                            </span>
                         </div>
                     </div>
                 `).join('');
