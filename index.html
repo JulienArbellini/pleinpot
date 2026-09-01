@@ -135,10 +135,9 @@
             
             <!-- Logo -->
             <a href="#" class="flex items-center gap-2 group">
-                <svg viewBox="0 0 100 100" class="w-11 h-11 drop-shadow-[3px_3px_0px_#2D2B2A] group-hover:rotate-6 transition-transform" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="66,48 96,9 54,33" fill="#ED5986" stroke="#2D2B2A" stroke-width="5" stroke-linejoin="round"/>
-                    <circle cx="38" cy="58" r="30" fill="#ED5986" stroke="#2D2B2A" stroke-width="5"/>
-                </svg>
+                <div class="w-10 h-10 bg-brand-pink rounded-xl border-2 border-brand-dark shadow-brutal-sm flex items-center justify-center font-display font-black text-white text-xl group-hover:rotate-6 transition-transform">
+                    P
+                </div>
                 <div class="flex flex-col">
                     <span class="font-display font-black text-xl md:text-2xl tracking-tight leading-none text-brand-dark">
                         PLEIN POT
@@ -222,6 +221,8 @@
 
                 <!-- Hero Visual Banner -->
                 <div class="lg:col-span-5 relative">
+                    <!-- Halo de studio : évoque ses photos où la pièce semble baigner dans un spot de couleur -->
+                    <div class="absolute -inset-6 bg-[#ED5986] rounded-[50%] blur-2xl opacity-60 -z-10"></div>
                     <div class="relative bg-brand-yellow rounded-3xl border-2 border-brand-dark shadow-brutal-lg p-4 rotate-2 hover:rotate-0 transition-transform duration-300">
                         
                         <!-- Badge sticker (silhouette soucoupe : disque + aileron, comme ses théières) -->
@@ -376,7 +377,7 @@
         </section>
 
         <!-- Interactive Ceramic Quiz ("Trouve ta pièce") -->
-        <section id="quiz" class="bg-brand-yellow/30 border-y-2 border-brand-dark py-16">
+        <section id="quiz" class="bg-brand-yellow border-y-2 border-brand-dark py-16">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
                 <div>
                     <span class="bg-brand-pink text-white border-2 border-brand-dark px-4 py-1 rounded-full font-mono font-bold text-xs uppercase tracking-widest shadow-brutal-sm">
@@ -574,10 +575,9 @@
                 
                 <div class="space-y-4 md:col-span-2">
                     <div class="flex items-center gap-2">
-                        <svg viewBox="0 0 100 100" class="w-9 h-9" xmlns="http://www.w3.org/2000/svg">
-                            <polygon points="66,48 96,9 54,33" fill="#F4B740" stroke="#FAF8F5" stroke-width="5" stroke-linejoin="round"/>
-                            <circle cx="38" cy="58" r="30" fill="#F4B740" stroke="#FAF8F5" stroke-width="5"/>
-                        </svg>
+                        <div class="w-8 h-8 bg-brand-yellow text-brand-dark rounded-lg font-display font-black flex items-center justify-center">
+                            P
+                        </div>
                         <span class="font-display font-black text-2xl tracking-tight text-white">PLEIN POT STUDIO</span>
                     </div>
                     <p class="text-sm text-stone-400 max-w-md">
@@ -707,8 +707,9 @@
                 category: "theieres",
                 price: 38,
                 image: "images/product-theiere-lampe.jpg",
+                glow: "#8FA5DF",
                 badge: "Pièce Unique",
-                badgeColor: "bg-brand-blue text-white",
+                badgeColor: "bg-[#8FA5DF] text-brand-dark",
                 capacity: "~400 ml",
                 dimensions: "Dimensions à confirmer avec l'atelier",
                 desc: "Théière tournée en grès, émail brique brillant coulant sur fond mat. Silhouette inspirée d'une lampe à génie."
@@ -719,6 +720,7 @@
                 category: "theieres",
                 price: 65,
                 image: "images/product-theiere-maree-noire.jpg",
+                glow: "#ED5986",
                 badge: "Nouveauté",
                 badgeColor: "bg-brand-pink text-white",
                 capacity: "~400 ml",
@@ -731,8 +733,9 @@
                 category: "mugs",
                 price: 32,
                 image: "images/product-mug-le-mont.jpg",
+                glow: "#4E186B",
                 badge: "En Stock",
-                badgeColor: "bg-brand-yellow text-brand-dark",
+                badgeColor: "bg-[#4E186B] text-white",
                 capacity: "~300 ml",
                 dimensions: "Dimensions à confirmer avec l'atelier",
                 desc: "Mug généreux à anse blanche, émail vert mousse texturé sur base contrastée."
@@ -743,8 +746,9 @@
                 category: "bols",
                 price: 58,
                 image: "images/product-bol-duo.jpg",
+                glow: "#0480FC",
                 badge: "Petite Série",
-                badgeColor: "bg-brand-teal text-brand-dark",
+                badgeColor: "bg-brand-blue text-white",
                 capacity: "La paire",
                 dimensions: "Dimensions à confirmer avec l'atelier",
                 desc: "Duo de bols sur pied, émail brun-gris strié tourné à la main. Vendus par paire."
@@ -755,6 +759,7 @@
                 category: "bols",
                 price: 34,
                 image: "images/product-bol-solo.jpg",
+                glow: "#0480FC",
                 badge: "Pièce Unique",
                 badgeColor: "bg-brand-blue text-white",
                 capacity: "~300 ml",
@@ -767,8 +772,9 @@
                 category: "theieres",
                 price: 45,
                 image: "images/product-soucoupe.jpg",
+                glow: "#AC3967",
                 badge: "Nouveauté",
-                badgeColor: "bg-brand-pink text-white",
+                badgeColor: "bg-[#AC3967] text-white",
                 capacity: "~350 ml",
                 dimensions: "Dimensions à confirmer avec l'atelier",
                 desc: "Pièce à la silhouette futuriste, émail vert profond capté en pleine lumière."
@@ -794,8 +800,10 @@
                 `;
             } else {
                 grid.innerHTML = items.map(p => `
-                    <div class="bg-white rounded-2xl border-2 border-brand-dark p-4 shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg transition-all flex flex-col justify-between group">
+                    <div class="relative bg-white rounded-2xl border-2 border-brand-dark p-4 shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg transition-all flex flex-col justify-between group">
                         <div>
+                            <!-- Halo de studio, couleur puisée dans sa propre photo -->
+                            <div class="absolute -inset-3 rounded-[50%] blur-2xl opacity-30 -z-10" style="background:${p.glow};"></div>
                             <!-- Image Container -->
                             <div class="relative rounded-xl border-2 border-brand-dark overflow-hidden mb-4 aspect-square cursor-pointer" onclick="openModal(${p.id})">
                                 <span class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full border border-brand-dark font-mono font-bold text-xs shadow-brutal-sm ${p.badgeColor}">
