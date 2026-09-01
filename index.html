@@ -135,9 +135,10 @@
             
             <!-- Logo -->
             <a href="#" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 bg-brand-pink rounded-xl border-2 border-brand-dark shadow-brutal-sm flex items-center justify-center font-display font-black text-white text-xl group-hover:rotate-6 transition-transform">
-                    P
-                </div>
+                <svg viewBox="0 0 100 100" class="w-11 h-11 drop-shadow-[3px_3px_0px_#2D2B2A] group-hover:rotate-6 transition-transform" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="66,48 96,9 54,33" fill="#ED5986" stroke="#2D2B2A" stroke-width="5" stroke-linejoin="round"/>
+                    <circle cx="38" cy="58" r="30" fill="#ED5986" stroke="#2D2B2A" stroke-width="5"/>
+                </svg>
                 <div class="flex flex-col">
                     <span class="font-display font-black text-xl md:text-2xl tracking-tight leading-none text-brand-dark">
                         PLEIN POT
@@ -223,9 +224,15 @@
                 <div class="lg:col-span-5 relative">
                     <div class="relative bg-brand-yellow rounded-3xl border-2 border-brand-dark shadow-brutal-lg p-4 rotate-2 hover:rotate-0 transition-transform duration-300">
                         
-                        <!-- Badge sticker -->
-                        <div class="absolute -top-6 -right-6 z-10 bg-brand-teal text-brand-dark border-2 border-brand-dark rounded-full p-4 font-display font-black text-xs text-center shadow-brutal animate-bounce uppercase">
-                            ★ Coup<br>De Cœur ★
+                        <!-- Badge sticker (silhouette soucoupe : disque + aileron, comme ses théières) -->
+                        <div class="absolute -top-10 -right-12 z-10 w-32 h-32 animate-bounce">
+                            <svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full drop-shadow-[3px_3px_0px_#2D2B2A]" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="66,40 98,8 58,28" fill="#707771" stroke="#2D2B2A" stroke-width="5" stroke-linejoin="round"/>
+                                <circle cx="42" cy="58" r="34" fill="#707771" stroke="#2D2B2A" stroke-width="5"/>
+                            </svg>
+                            <div class="absolute font-display font-black text-[11px] text-brand-dark text-center uppercase leading-tight" style="left:10%; top:38%; width:64%;">
+                                ★ Coup<br>De Cœur ★
+                            </div>
                         </div>
 
                         <img src="images/hero-theiere-lampe.jpg"
@@ -248,7 +255,14 @@
         </section>
 
         <!-- Drop Banner & Countdown Section -->
-        <section id="drop" class="bg-brand-blue text-white py-12 border-y-2 border-brand-dark my-8">
+        <!-- Bordure dentelée : évoque l'aileron triangulaire des théières signature -->
+        <div class="my-8">
+        <div class="overflow-hidden leading-[0]">
+            <svg viewBox="0 0 240 16" preserveAspectRatio="none" class="w-full h-4" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,16 10,0 20,16 30,0 40,16 50,0 60,16 70,0 80,16 90,0 100,16 110,0 120,16 130,0 140,16 150,0 160,16 170,0 180,16 190,0 200,16 210,0 220,16 230,0 240,16" fill="#0480FC"/>
+            </svg>
+        </div>
+        <section id="drop" class="bg-brand-blue text-white py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
                 
                 <div class="inline-block bg-brand-yellow text-brand-dark border-2 border-brand-dark px-4 py-1 rounded-full font-mono font-bold text-xs uppercase tracking-widest shadow-brutal-sm">
@@ -293,6 +307,12 @@
 
             </div>
         </section>
+        <div class="overflow-hidden leading-[0] -mt-px">
+            <svg viewBox="0 0 240 16" preserveAspectRatio="none" class="w-full h-4" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,0 10,16 20,0 30,16 40,0 50,16 60,0 70,16 80,0 90,16 100,0 110,16 120,0 130,16 140,0 150,16 160,0 170,16 180,0 190,16 200,0 210,16 220,0 230,16 240,0" fill="#0480FC"/>
+            </svg>
+        </div>
+        </div>
 
         <!-- Shop & Collection Section -->
         <section id="shop" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -554,9 +574,10 @@
                 
                 <div class="space-y-4 md:col-span-2">
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-brand-yellow text-brand-dark rounded-lg font-display font-black flex items-center justify-center">
-                            P
-                        </div>
+                        <svg viewBox="0 0 100 100" class="w-9 h-9" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="66,48 96,9 54,33" fill="#F4B740" stroke="#FAF8F5" stroke-width="5" stroke-linejoin="round"/>
+                            <circle cx="38" cy="58" r="30" fill="#F4B740" stroke="#FAF8F5" stroke-width="5"/>
+                        </svg>
                         <span class="font-display font-black text-2xl tracking-tight text-white">PLEIN POT STUDIO</span>
                     </div>
                     <p class="text-sm text-stone-400 max-w-md">
