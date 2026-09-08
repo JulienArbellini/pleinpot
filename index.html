@@ -11,14 +11,13 @@
             theme: {
                 extend: {
                     colors: {
-                        kraft: '#F1ECDC',
-                        ink: '#2B2620',
-                        line: '#D2C7A8',
-                        sauge: '#5F6E4F',
-                        tag: '#A13D2C'
+                        cream: '#FBF3EA',
+                        ink: '#2B211A',
+                        line: '#E6D9C8',
+                        signature: '#B8471E'
                     },
                     fontFamily: {
-                        display: ['IBM Plex Mono', 'monospace'],
+                        display: ['Bitter', 'serif'],
                         sans: ['Inter', 'sans-serif'],
                         mono: ['IBM Plex Mono', 'monospace']
                     }
@@ -29,68 +28,64 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,600;0,700;0,900;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body {
-            background-color: #F1ECDC;
-            color: #2B2620;
-            font-family: 'Inter', sans-serif;
-            background-image:
-                linear-gradient(rgba(43,38,32,.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(43,38,32,.05) 1px, transparent 1px);
-            background-size: 28px 28px;
-        }
-        .font-display { font-family: 'IBM Plex Mono', monospace; }
+        body { background-color: #FBF3EA; color: #2B211A; font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Bitter', serif; }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #F1ECDC; }
-        ::-webkit-scrollbar-thumb { background: #D2C7A8; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #FBF3EA; }
+        ::-webkit-scrollbar-thumb { background: #E6D9C8; border-radius: 4px; }
         .chart-container { position: relative; width: 100%; max-width: 560px; margin: 0 auto; height: 280px; }
         @media (min-width: 768px) { .chart-container { height: 320px; } }
-
-        /* Fiche spécimen : bordure pointillée + repères d'angle façon planche naturaliste */
-        .specimen { position: relative; border: 1px dashed #2B2620; padding: 10px; background: #FBF8F0; }
-        .specimen::before, .specimen::after,
-        .specimen .cornerA, .specimen .cornerB { content: ''; position: absolute; width: 10px; height: 10px; }
-        .specimen::before { top: -1px; left: -1px; border-top: 2px solid #A13D2C; border-left: 2px solid #A13D2C; }
-        .specimen::after { top: -1px; right: -1px; border-top: 2px solid #A13D2C; border-right: 2px solid #A13D2C; }
-        .specimen .cornerA { bottom: -1px; left: -1px; border-bottom: 2px solid #A13D2C; border-left: 2px solid #A13D2C; }
-        .specimen .cornerB { bottom: -1px; right: -1px; border-bottom: 2px solid #A13D2C; border-right: 2px solid #A13D2C; }
+        /* Mosaïque serrée : légende révélée au survol / toujours visible en dessous 640px */
+        .tile { position: relative; overflow: hidden; aspect-ratio: 1; }
+        .tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+        .tile:hover img { transform: scale(1.06); }
+        .tile .cap {
+            position: absolute; inset: auto 0 0 0; padding: .9rem;
+            background: linear-gradient(0deg, rgba(43,33,26,.85), rgba(43,33,26,0));
+            color: #FBF3EA; transform: translateY(100%); transition: transform .35s ease;
+        }
+        .tile:hover .cap { transform: translateY(0); }
+        @media (max-width: 640px) { .tile .cap { transform: translateY(0); } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-sauge selection:text-kraft">
+<body class="min-h-screen flex flex-col selection:bg-signature selection:text-cream">
 
-    <header class="sticky top-0 z-40 bg-kraft/95 backdrop-blur-sm border-b border-dashed border-ink">
+    <header class="sticky top-0 z-40 bg-cream/95 backdrop-blur-sm border-b border-line">
         <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
             <a href="#" class="flex flex-col leading-none">
-                <span class="font-display font-bold text-xl tracking-tight text-ink">PLEIN_POT</span>
+                <span class="font-display font-bold text-2xl tracking-tight text-ink">Plein Pot</span>
                 <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-ink/50 mt-1">Studio céramique — Bruxelles</span>
             </a>
-            <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-ink/70">
-                <a href="#galerie" class="hover:text-sauge transition-colors">[ Galerie ]</a>
-                <a href="#boutique" class="hover:text-sauge transition-colors">[ Boutique ]</a>
-                <a href="#atelier" class="hover:text-sauge transition-colors">[ Atelier ]</a>
-                <a href="#drop" class="hover:text-sauge transition-colors">[ Drop ]</a>
-                <a href="#quiz" class="hover:text-sauge transition-colors">[ Quiz ]</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/70">
+                <a href="#galerie" class="hover:text-signature transition-colors">Galerie</a>
+                <a href="#boutique" class="hover:text-signature transition-colors">Boutique</a>
+                <a href="#atelier" class="hover:text-signature transition-colors">Atelier</a>
+                <a href="#drop" class="hover:text-signature transition-colors">Drop</a>
+                <a href="#quiz" class="hover:text-signature transition-colors">Quiz</a>
             </nav>
             <div class="flex items-center gap-2">
-                <button onclick="toggleCart()" class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest border border-dashed border-ink px-4 py-2 hover:border-solid hover:bg-ink hover:text-kraft transition-colors">
-                    <span>Panier[<span id="cart-count">0</span>]</span>
+                <button onclick="toggleCart()" class="flex items-center gap-2 text-sm font-medium border border-ink/20 rounded-full px-4 py-2 hover:border-signature hover:text-signature transition-colors">
+                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Panier</span>
+                    <span id="cart-count" class="font-mono">0</span>
                 </button>
-                <button onclick="toggleMobileNav()" class="md:hidden p-2.5 border border-dashed border-ink" aria-label="Menu">
+                <button onclick="toggleMobileNav()" class="md:hidden p-2.5 border border-ink/20 rounded-full" aria-label="Menu">
                     <i data-lucide="menu" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
-        <nav id="mobile-nav" class="hidden md:hidden bg-kraft border-t border-dashed border-ink px-5 py-4 flex flex-col gap-1 text-xs font-mono uppercase tracking-widest text-ink/70">
-            <a href="#galerie" onclick="toggleMobileNav()" class="py-2">[ Galerie ]</a>
-            <a href="#boutique" onclick="toggleMobileNav()" class="py-2">[ Boutique ]</a>
-            <a href="#atelier" onclick="toggleMobileNav()" class="py-2">[ Atelier ]</a>
-            <a href="#drop" onclick="toggleMobileNav()" class="py-2">[ Prochaine fournée ]</a>
-            <a href="#quiz" onclick="toggleMobileNav()" class="py-2">[ Quiz ]</a>
+        <nav id="mobile-nav" class="hidden md:hidden bg-cream border-t border-line px-5 py-4 flex flex-col gap-1 text-sm font-medium text-ink/70">
+            <a href="#galerie" onclick="toggleMobileNav()" class="py-2">Galerie</a>
+            <a href="#boutique" onclick="toggleMobileNav()" class="py-2">Boutique</a>
+            <a href="#atelier" onclick="toggleMobileNav()" class="py-2">Atelier</a>
+            <a href="#drop" onclick="toggleMobileNav()" class="py-2">Prochaine fournée</a>
+            <a href="#quiz" onclick="toggleMobileNav()" class="py-2">Quiz</a>
         </nav>
     </header>
 
@@ -98,10 +93,10 @@
 
         <!-- Hero -->
         <section class="max-w-6xl mx-auto px-5 sm:px-8 pt-12 sm:pt-16 pb-20">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
                 <div class="lg:col-span-5 order-2 lg:order-1 space-y-6">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Pièces uniques &amp; petites séries — grès émaillé</span>
-                    <h1 class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl leading-[1.25] text-ink">
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Pièces uniques &amp; petites séries — grès émaillé</span>
+                    <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.1] text-ink">
                         Des formes brutes,<br>des émaux qui coulent.
                     </h1>
                     <p class="text-ink/70 leading-relaxed max-w-md">
@@ -110,117 +105,113 @@
                         émaillée une à une — aucune n'est identique à la précédente.
                     </p>
                     <div class="flex flex-wrap items-center gap-4 pt-2">
-                        <a href="#galerie" class="bg-ink text-kraft text-xs font-mono uppercase tracking-widest px-6 py-3 hover:bg-sauge transition-colors">Voir la galerie</a>
-                        <a href="#boutique" class="text-xs font-mono uppercase tracking-widest text-ink/70 hover:text-sauge underline underline-offset-4 decoration-dashed transition-colors">Découvrir la boutique</a>
+                        <a href="#galerie" class="bg-signature text-cream text-sm font-medium px-6 py-3 rounded-full hover:bg-ink transition-colors">Voir la galerie</a>
+                        <a href="#boutique" class="text-sm font-medium text-ink/70 hover:text-signature underline underline-offset-4 decoration-line transition-colors">Découvrir la boutique</a>
                     </div>
                 </div>
                 <div class="lg:col-span-7 order-1 lg:order-2">
-                    <div class="specimen"><div class="cornerA"></div><div class="cornerB"></div>
-                        <img src="images/hero-theiere-lampe.jpg" alt="Théière artisanale Plein Pot Studio, émail brique brillant" class="w-full h-[360px] sm:h-[480px] object-cover">
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:justify-between gap-1 mt-2 font-mono text-[11px] uppercase tracking-widest text-ink/50">
-                        <span>Fig. 01 — Théière « Petite Lampe »</span>
-                        <span>Grès émaillé, 2026</span>
-                    </div>
+                    <figure class="relative">
+                        <div class="absolute -top-3 -left-3 w-full h-full border-2 border-signature rounded-sm -z-10"></div>
+                        <img src="images/hero-theiere-lampe.jpg" alt="Théière artisanale Plein Pot Studio, émail brique brillant"
+                             class="w-full h-[380px] sm:h-[520px] object-cover rounded-sm">
+                    </figure>
+                    <p class="font-display italic text-ink/60 text-sm mt-4">Théière « Petite Lampe » — née d'un test d'émail, devenue pièce signature de l'atelier.</p>
                 </div>
             </div>
         </section>
 
         <!-- Prochaine fournée -->
-        <section id="drop" class="border-y border-dashed border-ink py-14">
+        <section id="drop" class="bg-ink text-cream py-14">
             <div class="max-w-6xl mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div class="lg:col-span-5 space-y-3">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Prochaine fournée</span>
-                    <h2 class="font-display font-bold text-2xl text-ink">La collection se renouvelle bientôt.</h2>
-                    <p class="text-ink/70 text-sm leading-relaxed">Inscris-toi pour recevoir le lien d'accès privé par e-mail, une heure avant l'ouverture au public.</p>
-                    <form onsubmit="subscribeVIP(event)" class="flex gap-0 pt-2 max-w-sm border border-dashed border-ink">
-                        <input type="email" id="vip-email" required placeholder="ton@email.com" class="flex-1 bg-transparent px-3 py-3 text-sm font-mono focus:outline-none">
-                        <button type="submit" class="bg-ink text-kraft text-xs font-mono uppercase tracking-widest px-5 hover:bg-sauge transition-colors whitespace-nowrap">Envoyer</button>
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Prochaine fournée</span>
+                    <h2 class="font-display font-bold text-3xl">La collection se renouvelle bientôt.</h2>
+                    <p class="text-cream/60 text-sm leading-relaxed">Inscris-toi pour recevoir le lien d'accès privé par e-mail, une heure avant l'ouverture au public.</p>
+                    <form onsubmit="subscribeVIP(event)" class="flex gap-2 pt-2 max-w-sm">
+                        <input type="email" id="vip-email" required placeholder="Ton adresse e-mail" class="flex-1 bg-transparent border-b border-cream/30 px-1 py-2 text-sm text-cream placeholder:text-cream/40 focus:outline-none focus:border-signature transition-colors">
+                        <button type="submit" class="bg-signature text-cream text-sm font-medium px-5 py-2 rounded-full hover:bg-cream hover:text-ink transition-colors whitespace-nowrap">S'inscrire</button>
                     </form>
                 </div>
-                <div class="lg:col-span-7 flex justify-start lg:justify-end gap-1 font-display font-bold text-4xl sm:text-5xl text-ink">
-                    <span id="days">03</span><span class="text-tag">d</span>
-                    <span class="text-ink/20 mx-1">/</span>
-                    <span id="hours">14</span><span class="text-tag">h</span>
-                    <span class="text-ink/20 mx-1">/</span>
-                    <span id="minutes">22</span><span class="text-tag">m</span>
-                    <span class="text-ink/20 mx-1">/</span>
-                    <span id="seconds">45</span><span class="text-tag">s</span>
+                <div class="lg:col-span-7 flex justify-center lg:justify-end gap-4 sm:gap-8 font-display font-bold">
+                    <div class="text-center"><span id="days" class="block text-5xl sm:text-6xl text-signature">03</span><span class="text-[10px] font-mono uppercase tracking-widest text-cream/50">Jours</span></div>
+                    <div class="text-center"><span id="hours" class="block text-5xl sm:text-6xl text-signature">14</span><span class="text-[10px] font-mono uppercase tracking-widest text-cream/50">Heures</span></div>
+                    <div class="text-center"><span id="minutes" class="block text-5xl sm:text-6xl text-signature">22</span><span class="text-[10px] font-mono uppercase tracking-widest text-cream/50">Minutes</span></div>
+                    <div class="text-center"><span id="seconds" class="block text-5xl sm:text-6xl text-signature">45</span><span class="text-[10px] font-mono uppercase tracking-widest text-cream/50">Secondes</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- Galerie : planches spécimen numérotées -->
+        <!-- Galerie : mosaïque serrée, légende au survol -->
         <section id="galerie" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
             <div class="max-w-2xl mb-12 space-y-3">
-                <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Archive — 2026</span>
-                <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink">La galerie</h2>
-                <p class="text-ink/70 leading-relaxed">Chaque pièce cataloguée comme une planche de spécimen. Sélectionner une fiche pour ses détails.</p>
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Archive — 2026</span>
+                <h2 class="font-display font-bold text-4xl sm:text-5xl text-ink">La galerie</h2>
+                <p class="text-ink/70 leading-relaxed">Survole ou touche une pièce pour ses détails. Sélectionner pour la disponibilité.</p>
             </div>
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="gallery-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-1">
                 <!-- Rendu dynamique -->
             </div>
         </section>
 
         <!-- Boutique -->
-        <section id="boutique" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 border-t border-dashed border-ink">
+        <section id="boutique" class="max-w-6xl mx-auto px-5 sm:px-8 py-20 border-t border-line">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div class="space-y-3">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Disponible à la vente</span>
-                    <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink">La boutique</h2>
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Disponible à la vente</span>
+                    <h2 class="font-display font-bold text-4xl sm:text-5xl text-ink">La boutique</h2>
                 </div>
                 <p class="text-ink/70 text-sm max-w-sm">Tasses, bols et théières façonnés au tour et émaillés à l'atelier.</p>
             </div>
 
-            <div class="flex flex-col md:flex-row justify-between gap-4 mb-10 pb-6 border-b border-dashed border-ink">
+            <div class="flex flex-col md:flex-row justify-between gap-4 mb-10 pb-6 border-b border-line">
                 <div class="relative w-full md:w-72">
-                    <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="rechercher_une_piece…" class="w-full bg-transparent border-b border-dashed border-ink/40 pl-6 pr-2 py-2 text-sm font-mono focus:outline-none focus:border-sauge transition-colors">
+                    <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Rechercher une pièce…" class="w-full bg-transparent border-b border-ink/20 pl-6 pr-2 py-2 text-sm focus:outline-none focus:border-signature transition-colors">
                     <i data-lucide="search" class="w-4 h-4 text-ink/40 absolute left-0 top-2.5"></i>
                 </div>
-                <div class="flex flex-wrap gap-2 text-xs font-mono uppercase tracking-widest items-center">
-                    <button onclick="filterCategory('all')" id="btn-all" class="cat-btn active bg-ink text-kraft px-3 py-2">[ Tout voir ]</button>
-                    <button onclick="filterCategory('mugs')" id="btn-mugs" class="cat-btn border border-dashed border-ink px-3 py-2 hover:border-solid hover:text-sauge transition-colors">[ Mugs ]</button>
-                    <button onclick="filterCategory('theieres')" id="btn-theieres" class="cat-btn border border-dashed border-ink px-3 py-2 hover:border-solid hover:text-sauge transition-colors">[ Théières ]</button>
-                    <button onclick="filterCategory('bols')" id="btn-bols" class="cat-btn border border-dashed border-ink px-3 py-2 hover:border-solid hover:text-sauge transition-colors">[ Bols ]</button>
-                    <select id="sort-select" onchange="handleSort()" class="bg-transparent text-ink text-xs font-mono uppercase tracking-widest focus:outline-none border border-dashed border-ink px-3 py-2">
-                        <option value="default">Pertinence</option>
-                        <option value="price-asc">Prix ↑</option>
-                        <option value="price-desc">Prix ↓</option>
+                <div class="flex flex-wrap gap-2 text-sm items-center">
+                    <button onclick="filterCategory('all')" id="btn-all" class="cat-btn active bg-signature text-cream px-3 py-1.5 rounded-full">Tout voir</button>
+                    <button onclick="filterCategory('mugs')" id="btn-mugs" class="cat-btn text-ink/60 hover:text-signature px-3 py-1.5 rounded-full hover:bg-line/60 transition-colors">Tasses &amp; Mugs</button>
+                    <button onclick="filterCategory('theieres')" id="btn-theieres" class="cat-btn text-ink/60 hover:text-signature px-3 py-1.5 rounded-full hover:bg-line/60 transition-colors">Théières</button>
+                    <button onclick="filterCategory('bols')" id="btn-bols" class="cat-btn text-ink/60 hover:text-signature px-3 py-1.5 rounded-full hover:bg-line/60 transition-colors">Bols &amp; Coupes</button>
+                    <select id="sort-select" onchange="handleSort()" class="bg-transparent text-ink/50 text-sm focus:outline-none border-b border-transparent hover:text-signature transition-colors ml-2">
+                        <option value="default">Trier : Pertinence</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
                     </select>
                 </div>
             </div>
 
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
                 <!-- Rendu dynamique -->
             </div>
         </section>
 
         <!-- Quiz -->
-        <section id="quiz" class="border-y border-dashed border-ink py-20">
+        <section id="quiz" class="bg-ink text-cream py-20">
             <div class="max-w-3xl mx-auto px-5 sm:px-8">
                 <div class="max-w-xl mb-10 space-y-3">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Outil</span>
-                    <h2 class="font-display font-bold text-2xl sm:text-3xl text-ink">Quelle pièce te correspond ?</h2>
-                    <p class="text-ink/70 text-sm">Deux questions pour orienter ton choix.</p>
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Outil</span>
+                    <h2 class="font-display font-bold text-3xl sm:text-4xl">Quelle pièce te correspond ?</h2>
+                    <p class="text-cream/60 text-sm leading-relaxed">Deux questions pour orienter ton choix parmi les pièces disponibles.</p>
                 </div>
                 <div class="space-y-10">
                     <div>
-                        <label class="block font-display font-bold text-base text-ink mb-4">Q1 — Ton rituel du matin ?</label>
+                        <label class="block font-display font-bold text-lg mb-4">1. Ton rituel du matin ?</label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <button type="button" onclick="selectQuiz(event, 1, 'cafe')" class="q1-btn text-left p-4 border border-dashed border-ink text-sm hover:border-solid hover:border-sauge transition-colors">Un expresso serré, rapide</button>
-                            <button type="button" onclick="selectQuiz(event, 1, 'grand-cafe')" class="q1-btn text-left p-4 border border-dashed border-ink text-sm hover:border-solid hover:border-sauge transition-colors">Un grand thé ou café allongé</button>
-                            <button type="button" onclick="selectQuiz(event, 1, 'deco')" class="q1-btn text-left p-4 border border-dashed border-ink text-sm hover:border-solid hover:border-sauge transition-colors">Contempler des fleurs fraîches</button>
+                            <button type="button" onclick="selectQuiz(event, 1, 'cafe')" class="q1-btn text-left p-4 border border-cream/20 rounded-sm text-sm hover:border-signature transition-colors">Un expresso serré, rapide</button>
+                            <button type="button" onclick="selectQuiz(event, 1, 'grand-cafe')" class="q1-btn text-left p-4 border border-cream/20 rounded-sm text-sm hover:border-signature transition-colors">Un grand thé ou café allongé</button>
+                            <button type="button" onclick="selectQuiz(event, 1, 'deco')" class="q1-btn text-left p-4 border border-cream/20 rounded-sm text-sm hover:border-signature transition-colors">Contempler des fleurs fraîches</button>
                         </div>
                     </div>
                     <div>
-                        <label class="block font-display font-bold text-base text-ink mb-4">Q2 — Quelle teinte t'inspire le plus de calme ?</label>
+                        <label class="block font-display font-bold text-lg mb-4">2. Quelle teinte t'inspire le plus de calme ?</label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <button type="button" onclick="selectQuiz(event, 2, 'bleu')" class="q2-btn text-left p-4 border border-dashed border-ink text-sm hover:border-solid hover:border-sauge transition-colors">Bleu cobalt profond</button>
-                            <button type="button" onclick="selectQuiz(event, 2, 'jaune')" class="q2-btn text-left p-4 border border-dashed border-ink text-sm hover:border-solid hover:border-sauge transition-colors">Ocre chaleureux</button>
-                            <button type="button" onclick="selectQuiz(event, 2, 'terre')" class="q2-btn text-left p-4 border border-dashed border-ink text-sm hover:border-solid hover:border-sauge transition-colors">Terracotta brute</button>
+                            <button type="button" onclick="selectQuiz(event, 2, 'bleu')" class="q2-btn text-left p-4 border border-cream/20 rounded-sm text-sm hover:border-signature transition-colors">Bleu cobalt profond</button>
+                            <button type="button" onclick="selectQuiz(event, 2, 'jaune')" class="q2-btn text-left p-4 border border-cream/20 rounded-sm text-sm hover:border-signature transition-colors">Ocre chaleureux</button>
+                            <button type="button" onclick="selectQuiz(event, 2, 'terre')" class="q2-btn text-left p-4 border border-cream/20 rounded-sm text-sm hover:border-signature transition-colors">Terracotta brute</button>
                         </div>
                     </div>
-                    <div id="quiz-result" class="hidden border-t border-dashed border-ink pt-8"></div>
+                    <div id="quiz-result" class="hidden border-t border-cream/20 pt-8"></div>
                 </div>
             </div>
         </section>
@@ -228,31 +219,31 @@
         <!-- Atelier -->
         <section id="atelier" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
             <div class="max-w-2xl mb-16 space-y-3">
-                <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Savoir-faire</span>
-                <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink">Dans l'atelier</h2>
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Savoir-faire</span>
+                <h2 class="font-display font-bold text-4xl sm:text-5xl text-ink">Dans l'atelier</h2>
                 <p class="text-ink/70 leading-relaxed">Chaque pièce traverse un processus lent et méthodique de près de trois semaines avant de trouver sa forme finale.</p>
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
-                <figure class="specimen"><div class="cornerA"></div><div class="cornerB"></div><img src="images/atelier-clemence-1.jpg" alt="Clémence façonne une pièce sur le tour de l'atelier Plein Pot" class="w-full aspect-[4/5] object-cover"><figcaption class="text-[10px] font-mono uppercase tracking-widest text-ink/50 pt-2">Fig. 02 — Au tour</figcaption></figure>
-                <figure class="specimen"><div class="cornerA"></div><div class="cornerB"></div><img src="images/atelier-clemence-2.jpg" alt="Détail de la décoration à la main d'une théière crue avant cuisson" class="w-full aspect-[4/5] object-cover"><figcaption class="text-[10px] font-mono uppercase tracking-widest text-ink/50 pt-2">Fig. 03 — Décor</figcaption></figure>
-                <figure class="specimen"><div class="cornerA"></div><div class="cornerB"></div><img src="images/atelier-four.jpg" alt="Défournement du four de l'atelier Plein Pot Studio après cuisson" class="w-full aspect-[4/5] object-cover"><figcaption class="text-[10px] font-mono uppercase tracking-widest text-ink/50 pt-2">Fig. 04 — Défournement</figcaption></figure>
-                <figure class="specimen"><div class="cornerA"></div><div class="cornerB"></div><img src="images/atelier-premier-marche.jpg" alt="Détail d'une pièce émaillée rouge et crème" class="w-full aspect-[4/5] object-cover"><figcaption class="text-[10px] font-mono uppercase tracking-widest text-ink/50 pt-2">Fig. 05 — Marché</figcaption></figure>
+                <figure><img src="images/atelier-clemence-1.jpg" alt="Clémence façonne une pièce sur le tour de l'atelier Plein Pot" class="w-full aspect-[4/5] object-cover rounded-sm"><figcaption class="text-xs text-ink/50 mt-2">Au tour</figcaption></figure>
+                <figure><img src="images/atelier-clemence-2.jpg" alt="Détail de la décoration à la main d'une théière crue avant cuisson" class="w-full aspect-[4/5] object-cover rounded-sm"><figcaption class="text-xs text-ink/50 mt-2">Décor à la main</figcaption></figure>
+                <figure><img src="images/atelier-four.jpg" alt="Défournement du four de l'atelier Plein Pot Studio après cuisson" class="w-full aspect-[4/5] object-cover rounded-sm"><figcaption class="text-xs text-ink/50 mt-2">Défournement</figcaption></figure>
+                <figure><img src="images/atelier-premier-marche.jpg" alt="Détail d'une pièce émaillée rouge et crème" class="w-full aspect-[4/5] object-cover rounded-sm"><figcaption class="text-xs text-ink/50 mt-2">Premier marché</figcaption></figure>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 mb-20 pb-16 border-b border-dashed border-ink">
-                <div><span class="font-display font-bold text-2xl text-tag">01/</span><h3 class="font-display font-bold text-lg text-ink mt-2 mb-2">Façonnage</h3><p class="text-sm text-ink/60 leading-relaxed">Modelage à la main ou tournage du grès brut.</p></div>
-                <div><span class="font-display font-bold text-2xl text-tag">02/</span><h3 class="font-display font-bold text-lg text-ink mt-2 mb-2">Dégourdi — 980°C</h3><p class="text-sm text-ink/60 leading-relaxed">Séchage 7 jours, première cuisson de 24h.</p></div>
-                <div><span class="font-display font-bold text-2xl text-tag">03/</span><h3 class="font-display font-bold text-lg text-ink mt-2 mb-2">Émaillage</h3><p class="text-sm text-ink/60 leading-relaxed">Émaux colorés préparés à l'atelier.</p></div>
-                <div><span class="font-display font-bold text-2xl text-tag">04/</span><h3 class="font-display font-bold text-lg text-ink mt-2 mb-2">Grand feu — 1250°C</h3><p class="text-sm text-ink/60 leading-relaxed">Cuisson finale, pièce étanche et durable.</p></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 mb-20 pb-16 border-b border-line">
+                <div><span class="font-display font-bold text-3xl text-signature">01</span><h3 class="font-display font-bold text-xl text-ink mt-2 mb-2">Le façonnage</h3><p class="text-sm text-ink/60 leading-relaxed">Modelage à la main ou tournage du grès brut pour donner naissance aux formes généreuses et ergonomiques.</p></div>
+                <div><span class="font-display font-bold text-3xl text-signature">02</span><h3 class="font-display font-bold text-xl text-ink mt-2 mb-2">Dégourdi — 980°C</h3><p class="text-sm text-ink/60 leading-relaxed">Séchage à l'air libre pendant sept jours, puis une première cuisson de 24h.</p></div>
+                <div><span class="font-display font-bold text-3xl text-signature">03</span><h3 class="font-display font-bold text-xl text-ink mt-2 mb-2">L'émaillage</h3><p class="text-sm text-ink/60 leading-relaxed">Application minutieuse d'émaux colorés préparés à l'atelier.</p></div>
+                <div><span class="font-display font-bold text-3xl text-signature">04</span><h3 class="font-display font-bold text-xl text-ink mt-2 mb-2">Grand feu — 1250°C</h3><p class="text-sm text-ink/60 leading-relaxed">Cuisson finale pour une pièce étanche, durable et prête à l'usage.</p></div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div class="lg:col-span-5 space-y-4">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-tag">// Temps de fabrication</span>
-                    <h3 class="font-display font-bold text-xl sm:text-2xl text-ink">Pourquoi trois semaines ?</h3>
-                    <p class="text-ink/70 text-sm leading-relaxed">L'artisanat de la terre exige de la patience — ce graphique illustre le temps moyen par étape.</p>
-                    <p class="text-xs text-ink/50 border-l-2 border-dashed border-sauge pl-4 leading-relaxed">Zéro déchet : les chutes de terre crue sont réhydratées et recyclées.</p>
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-signature">Temps de fabrication</span>
+                    <h3 class="font-display font-bold text-2xl sm:text-3xl text-ink">Pourquoi chaque pièce met trois semaines ?</h3>
+                    <p class="text-ink/70 text-sm leading-relaxed">Contrairement aux objets industriels, l'artisanat de la terre exige de la patience.</p>
+                    <p class="text-xs text-ink/50 border-l-2 border-signature pl-4 leading-relaxed">Toutes les chutes de terre crue sont réhydratées et recyclées — zéro déchet, zéro plastique.</p>
                 </div>
                 <div class="lg:col-span-7 flex justify-center"><div class="chart-container"><canvas id="processChart"></canvas></div></div>
             </div>
@@ -260,34 +251,35 @@
 
     </main>
 
-    <footer class="bg-ink text-kraft py-16">
+    <footer class="bg-ink text-cream py-16">
         <div class="max-w-6xl mx-auto px-5 sm:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-dashed border-kraft/20">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-cream/15">
                 <div class="space-y-3 md:col-span-2">
-                    <span class="font-display font-bold text-xl">PLEIN_POT_STUDIO</span>
-                    <p class="text-sm text-kraft/60 max-w-md leading-relaxed">Atelier indépendant de céramique contemporaine à Bruxelles.</p>
+                    <span class="font-display font-bold text-2xl">Plein Pot Studio</span>
+                    <p class="text-sm text-cream/60 max-w-md leading-relaxed">Atelier indépendant de céramique contemporaine à Bruxelles.</p>
                 </div>
-                <div class="space-y-3"><h4 class="font-mono text-xs uppercase tracking-widest text-tag">Navigation</h4><ul class="space-y-2 text-sm text-kraft/70"><li><a href="#galerie" class="hover:text-kraft">Galerie</a></li><li><a href="#boutique" class="hover:text-kraft">Boutique</a></li><li><a href="#atelier" class="hover:text-kraft">Atelier</a></li><li><a href="#quiz" class="hover:text-kraft">Quiz</a></li></ul></div>
-                <div class="space-y-3"><h4 class="font-mono text-xs uppercase tracking-widest text-tag">Informations</h4><ul class="space-y-2 text-sm text-kraft/70"><li><a href="#" onclick="alert('Livraison offerte dès 80€.'); return false;" class="hover:text-kraft">Livraison &amp; retours</a></li><li><a href="#" onclick="alert('Résistant lave-vaisselle et micro-ondes.'); return false;" class="hover:text-kraft">Entretien</a></li><li><a href="#" class="hover:text-kraft">Mentions légales</a></li></ul></div>
+                <div class="space-y-3"><h4 class="font-mono text-xs uppercase tracking-widest text-signature">Navigation</h4><ul class="space-y-2 text-sm text-cream/70"><li><a href="#galerie" class="hover:text-cream">Galerie</a></li><li><a href="#boutique" class="hover:text-cream">Boutique</a></li><li><a href="#atelier" class="hover:text-cream">Atelier</a></li><li><a href="#quiz" class="hover:text-cream">Quiz</a></li></ul></div>
+                <div class="space-y-3"><h4 class="font-mono text-xs uppercase tracking-widest text-signature">Informations</h4><ul class="space-y-2 text-sm text-cream/70"><li><a href="#" onclick="alert('Livraison offerte dès 80€.'); return false;" class="hover:text-cream">Livraison &amp; retours</a></li><li><a href="#" onclick="alert('Résistant lave-vaisselle et micro-ondes.'); return false;" class="hover:text-cream">Entretien</a></li><li><a href="#" class="hover:text-cream">Mentions légales</a></li></ul></div>
             </div>
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-kraft/50 gap-4 font-mono"><p>© 2026 PLEIN_POT_STUDIO</p><p>Stripe / Apple Pay / Klarna</p></div>
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-cream/50 gap-4"><p>© 2026 Plein Pot Studio</p><p>Stripe, Apple Pay &amp; Klarna</p></div>
         </div>
     </footer>
 
     <!-- Cart Drawer -->
     <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden pointer-events-none">
-        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-ink/50 opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
-        <div class="fixed inset-y-0 right-0 max-w-full flex">
-            <div id="cart-panel" class="w-screen max-w-md bg-kraft border-l border-dashed border-ink p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto">
+        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-ink/50 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cart-panel" class="w-screen max-w-md bg-cream border-l border-line p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto">
                 <div>
-                    <div class="flex items-center justify-between pb-4 border-b border-dashed border-ink"><h3 class="font-display font-bold text-xl text-ink">Panier</h3><button onclick="toggleCart()" class="p-2 border border-dashed border-ink"><i data-lucide="x" class="w-5 h-5"></i></button></div>
-                    <div class="my-4"><div class="flex justify-between text-xs font-mono uppercase mb-1.5"><span id="shipping-text">Livraison gratuite dans 80,00 €</span><span id="shipping-percent">0%</span></div><div class="w-full bg-line h-px"><div id="shipping-bar" class="bg-sauge h-full transition-all duration-300" style="width:0%;"></div></div></div>
+                    <div class="flex items-center justify-between pb-4 border-b border-line"><h3 class="font-display font-bold text-2xl text-ink">Panier</h3><button onclick="toggleCart()" class="p-2 hover:bg-line/40 rounded-full transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+                    <div class="my-4"><div class="flex justify-between text-xs font-medium mb-1.5"><span id="shipping-text">Livraison gratuite dans 80,00 €</span><span id="shipping-percent">0%</span></div><div class="w-full bg-line h-px overflow-hidden"><div id="shipping-bar" class="bg-signature h-full transition-all duration-300" style="width:0%;"></div></div></div>
                     <div id="cart-items" class="space-y-4 max-h-[45vh] overflow-y-auto pr-1"></div>
                 </div>
-                <div class="border-t border-dashed border-ink pt-4 space-y-4">
-                    <div class="flex gap-0 border border-dashed border-ink"><input type="text" id="coupon-code" placeholder="code_promo" class="flex-1 bg-transparent px-2 py-2 text-xs font-mono focus:outline-none"><button onclick="applyCoupon()" class="text-xs font-mono uppercase px-3 border-l border-dashed border-ink">OK</button></div>
+                <div class="border-t border-line pt-4 space-y-4">
+                    <div class="flex gap-2"><input type="text" id="coupon-code" placeholder="Code promo (ex : VIP10)" class="flex-1 bg-transparent border-b border-ink/20 px-1 py-2 text-xs focus:outline-none focus:border-signature"><button onclick="applyCoupon()" class="text-xs font-medium border-b border-signature text-signature px-1 py-2">Appliquer</button></div>
                     <div class="flex items-center justify-between font-display font-bold text-xl text-ink"><span>Total</span><span id="cart-total">0,00 €</span></div>
-                    <button onclick="checkout()" class="w-full bg-ink text-kraft font-mono uppercase tracking-widest text-sm py-4 hover:bg-sauge transition-colors flex items-center justify-center gap-2"><i data-lucide="credit-card" class="w-4 h-4"></i><span>Commander</span></button>
+                    <button onclick="checkout()" class="w-full bg-signature text-cream font-medium py-4 rounded-full hover:bg-ink transition-colors flex items-center justify-center gap-2"><i data-lucide="credit-card" class="w-4 h-4"></i><span>Commander</span></button>
+                    <p class="text-center text-xs text-ink/50">Expédition sous 3 à 5 jours, emballage anti-casse renforcé.</p>
                 </div>
             </div>
         </div>
@@ -295,9 +287,9 @@
 
     <!-- Product Detail Modal -->
     <div id="product-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
-        <div onclick="closeModal()" class="fixed inset-0 bg-ink/50"></div>
-        <div class="relative bg-kraft max-w-2xl w-full p-6 sm:p-10 shadow-2xl z-10 overflow-hidden border border-dashed border-ink">
-            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 border border-dashed border-ink bg-kraft"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <div onclick="closeModal()" class="fixed inset-0 bg-ink/50 backdrop-blur-sm"></div>
+        <div class="relative bg-cream rounded-sm max-w-2xl w-full p-6 sm:p-10 shadow-2xl z-10 overflow-hidden">
+            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 hover:bg-line/40 rounded-full transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
             <div id="modal-content" class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-start"></div>
         </div>
     </div>
@@ -316,23 +308,16 @@
         let discountPercent = 0;
         let currentCategory = 'all';
 
-        // Galerie : planches spécimen numérotées, repères d'angle façon planche naturaliste
+        // Galerie : mosaïque serrée, légende révélée au survol (toujours visible en dessous de 640px)
         function renderGallery() {
             const grid = document.getElementById('gallery-grid');
             grid.innerHTML = products.map((p, i) => `
-                <div class="cursor-pointer group" onclick="openModal(${p.id})">
-                    <div class="specimen">
-                        <div class="cornerA"></div><div class="cornerB"></div>
-                        <div class="aspect-square overflow-hidden">
-                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                        </div>
+                <div class="tile cursor-pointer" onclick="openModal(${p.id})">
+                    <img src="${p.image}" alt="${p.name}">
+                    <div class="cap">
+                        <span class="font-mono text-[10px] uppercase tracking-widest text-signature">N°${String(i + 1).padStart(2, '0')}</span>
+                        <h3 class="font-display font-bold text-sm sm:text-base leading-tight">${p.name}</h3>
                     </div>
-                    <div class="flex justify-between mt-2 font-mono text-[11px] uppercase tracking-widest text-ink/50">
-                        <span>N°${String(i + 1).padStart(3, '0')}</span>
-                        <span>${p.year}</span>
-                    </div>
-                    <h3 class="font-display font-bold text-sm text-ink mt-1">${p.name}</h3>
-                    <p class="text-[11px] font-mono text-sauge">${p.material} · ${p.badge}</p>
                 </div>
             `).join('');
         }
@@ -340,22 +325,20 @@
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             if (items.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-16 text-ink/50"><p class="text-sm font-mono">// aucune pièce ne correspond</p></div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-16 text-ink/50"><i data-lucide="search-x" class="w-8 h-8 mx-auto mb-3 opacity-40"></i><p class="text-sm">Aucune pièce ne correspond à ta recherche.</p></div>`;
             } else {
                 grid.innerHTML = items.map(p => `
                     <div class="group flex flex-col">
-                        <div class="specimen mb-3"><div class="cornerA"></div><div class="cornerB"></div>
-                            <div class="relative aspect-square overflow-hidden cursor-pointer" onclick="openModal(${p.id})">
-                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                                <button onclick="event.stopPropagation(); addToCart(${p.id})" title="Ajouter au panier" class="absolute bottom-2 right-2 bg-ink text-kraft w-9 h-9 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <i data-lucide="plus" class="w-4 h-4"></i>
-                                </button>
-                            </div>
+                        <div class="relative aspect-square overflow-hidden mb-4 cursor-pointer rounded-sm" onclick="openModal(${p.id})">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                            <button onclick="event.stopPropagation(); addToCart(${p.id})" title="Ajouter au panier" class="absolute bottom-3 right-3 bg-signature text-cream w-9 h-9 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
                         </div>
                         <div class="flex justify-between items-start gap-2">
                             <div class="cursor-pointer" onclick="openModal(${p.id})">
-                                <h3 class="font-display font-bold text-base text-ink leading-snug">${p.name}</h3>
-                                <p class="text-[11px] font-mono text-sauge uppercase">${p.badge}</p>
+                                <h3 class="font-display font-bold text-lg text-ink leading-snug">${p.name}</h3>
+                                <p class="text-xs text-signature italic">${p.badge}</p>
                             </div>
                             <span class="font-mono text-sm text-ink whitespace-nowrap">${p.price} €</span>
                         </div>
@@ -373,9 +356,9 @@
 
         function filterCategory(cat) {
             currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(btn => { btn.classList.remove('bg-ink', 'text-kraft'); btn.classList.add('border', 'border-dashed', 'border-ink'); });
+            document.querySelectorAll('.cat-btn').forEach(btn => { btn.classList.remove('bg-signature', 'text-cream'); btn.classList.add('text-ink/60'); });
             const activeBtn = document.getElementById(`btn-${cat}`);
-            if (activeBtn) { activeBtn.classList.remove('border', 'border-dashed'); activeBtn.classList.add('bg-ink', 'text-kraft'); }
+            if (activeBtn) { activeBtn.classList.remove('text-ink/60'); activeBtn.classList.add('bg-signature', 'text-cream'); }
             handleSearch();
         }
 
@@ -393,12 +376,12 @@
         function selectQuiz(evt, step, val) {
             if (step === 1) {
                 quizAnswers.step1 = val;
-                document.querySelectorAll('.q1-btn').forEach(b => { b.classList.remove('border-solid', 'border-sauge'); b.classList.add('border-dashed'); });
-                evt.currentTarget.classList.remove('border-dashed'); evt.currentTarget.classList.add('border-solid', 'border-sauge');
+                document.querySelectorAll('.q1-btn').forEach(b => { b.classList.remove('border-signature'); b.classList.add('border-cream/20'); });
+                evt.currentTarget.classList.remove('border-cream/20'); evt.currentTarget.classList.add('border-signature');
             } else {
                 quizAnswers.step2 = val;
-                document.querySelectorAll('.q2-btn').forEach(b => { b.classList.remove('border-solid', 'border-sauge'); b.classList.add('border-dashed'); });
-                evt.currentTarget.classList.remove('border-dashed'); evt.currentTarget.classList.add('border-solid', 'border-sauge');
+                document.querySelectorAll('.q2-btn').forEach(b => { b.classList.remove('border-signature'); b.classList.add('border-cream/20'); });
+                evt.currentTarget.classList.remove('border-cream/20'); evt.currentTarget.classList.add('border-signature');
             }
             if (quizAnswers.step1 && quizAnswers.step2) {
                 let recId = 1;
@@ -411,10 +394,10 @@
                 resultDiv.innerHTML = `
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
-                            <img src="${rec.image}" class="w-16 h-16 object-cover border border-dashed border-ink">
-                            <div><span class="text-xs font-mono uppercase tracking-widest text-tag">// Recommandation</span><h4 class="font-display font-bold text-base text-ink">${rec.name}</h4><p class="text-xs text-ink/50 font-mono">${rec.price} € — ${rec.capacity}</p></div>
+                            <img src="${rec.image}" class="w-16 h-16 object-cover rounded-sm">
+                            <div><span class="text-xs font-mono uppercase tracking-widest text-signature">Recommandation</span><h4 class="font-display font-bold text-lg">${rec.name}</h4><p class="text-xs text-cream/50">${rec.price} € — ${rec.capacity}</p></div>
                         </div>
-                        <button onclick="addToCart(${rec.id})" class="text-xs font-mono uppercase tracking-widest border border-dashed border-ink px-4 py-2 hover:border-solid hover:border-sauge transition-colors">Ajouter au panier</button>
+                        <button onclick="addToCart(${rec.id})" class="text-sm font-medium border-b border-signature text-signature px-1 py-1 whitespace-nowrap">Ajouter au panier</button>
                     </div>`;
             }
         }
@@ -430,25 +413,25 @@
             document.getElementById('cart-count').innerText = count;
             const cartContainer = document.getElementById('cart-items');
             if (cart.length === 0) {
-                cartContainer.innerHTML = `<div class="text-center py-12 text-ink/40"><p class="text-sm font-mono">// panier vide</p></div>`;
+                cartContainer.innerHTML = `<div class="text-center py-12 text-ink/40"><i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-3 opacity-40"></i><p class="text-sm">Ton panier est vide.</p></div>`;
             } else {
                 let total = 0;
                 cartContainer.innerHTML = cart.map(item => {
                     const p = products.find(prod => prod.id === item.id);
                     total += p.price * item.qty;
                     return `
-                        <div class="flex items-center gap-4 py-3 border-b border-dashed border-line">
-                            <img src="${p.image}" class="w-16 h-16 object-cover border border-dashed border-ink">
+                        <div class="flex items-center gap-4 py-3 border-b border-line">
+                            <img src="${p.image}" class="w-16 h-16 object-cover rounded-sm">
                             <div class="flex-1">
                                 <h4 class="font-display font-bold text-sm text-ink leading-tight">${p.name}</h4>
                                 <span class="font-mono text-xs text-ink/50">${p.price} €</span>
                                 <div class="flex items-center gap-3 mt-2">
-                                    <button onclick="changeQty(${p.id}, -1)" class="w-5 h-5 text-xs flex items-center justify-center border border-dashed border-ink">-</button>
+                                    <button onclick="changeQty(${p.id}, -1)" class="w-5 h-5 text-xs flex items-center justify-center border border-line rounded-full">-</button>
                                     <span class="text-xs font-mono">${item.qty}</span>
-                                    <button onclick="changeQty(${p.id}, 1)" class="w-5 h-5 text-xs flex items-center justify-center border border-dashed border-ink">+</button>
+                                    <button onclick="changeQty(${p.id}, 1)" class="w-5 h-5 text-xs flex items-center justify-center border border-line rounded-full">+</button>
                                 </div>
                             </div>
-                            <button onclick="removeFromCart(${p.id})" class="text-ink/30 hover:text-tag"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            <button onclick="removeFromCart(${p.id})" class="text-ink/30 hover:text-signature"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                         </div>`;
                 }).join('');
                 if (discountPercent > 0) total *= (1 - discountPercent);
@@ -481,32 +464,32 @@
         function openModal(id) {
             const p = products.find(prod => prod.id === id);
             document.getElementById('modal-content').innerHTML = `
-                <div class="specimen"><div class="cornerA"></div><div class="cornerB"></div><div class="aspect-square overflow-hidden"><img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover"></div></div>
+                <div class="aspect-square overflow-hidden rounded-sm"><img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover"></div>
                 <div class="space-y-4">
-                    <span class="font-mono text-xs uppercase tracking-widest text-tag">// ${p.badge} — ${p.material}, ${p.year}</span>
-                    <h3 class="font-display font-bold text-2xl text-ink">${p.name}</h3>
+                    <span class="font-mono text-xs uppercase tracking-widest text-signature">${p.badge} — ${p.material}, ${p.year}</span>
+                    <h3 class="font-display font-bold text-2xl sm:text-3xl text-ink">${p.name}</h3>
                     <p class="font-mono text-lg text-ink">${p.price} €</p>
                     <p class="text-sm text-ink/70 leading-relaxed">${p.desc}</p>
-                    <div class="text-xs text-ink/60 space-y-1 border-t border-dashed border-ink pt-4 font-mono">
-                        <p>contenance:: ${p.capacity}</p>
-                        <p>dimensions:: ${p.dimensions}</p>
-                        <p>entretien:: lave-vaisselle &amp; micro-ondes</p>
+                    <div class="text-xs text-ink/60 space-y-1 border-t border-line pt-4">
+                        <p><span class="text-ink/40">Contenance —</span> ${p.capacity}</p>
+                        <p><span class="text-ink/40">Dimensions —</span> ${p.dimensions}</p>
+                        <p><span class="text-ink/40">Entretien —</span> lave-vaisselle &amp; micro-ondes</p>
                     </div>
-                    <button onclick="addToCart(${p.id}); closeModal();" class="w-full bg-ink text-kraft font-mono uppercase tracking-widest text-sm py-3.5 hover:bg-sauge transition-colors flex items-center justify-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i><span>Ajouter — ${p.price} €</span></button>
+                    <button onclick="addToCart(${p.id}); closeModal();" class="w-full bg-signature text-cream font-medium py-3.5 rounded-full hover:bg-ink transition-colors flex items-center justify-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i><span>Ajouter au panier — ${p.price} €</span></button>
                 </div>`;
             document.getElementById('product-modal').classList.remove('hidden');
             lucide.createIcons();
         }
         function closeModal() { document.getElementById('product-modal').classList.add('hidden'); }
-        function checkout() { if (cart.length === 0) { alert('Panier vide.'); return; } alert('Démonstration : redirection vers le paiement sécurisé.'); }
-        function subscribeVIP(e) { e.preventDefault(); const email = document.getElementById('vip-email').value; alert(`Inscription confirmée pour ${email}.`); }
+        function checkout() { if (cart.length === 0) { alert('Ton panier est vide pour le moment.'); return; } alert('Démonstration : redirection vers le paiement sécurisé.'); }
+        function subscribeVIP(e) { e.preventDefault(); const email = document.getElementById('vip-email').value; alert(`Inscription confirmée pour ${email}. Tu recevras le lien d'accès prioritaire.`); }
 
         function initProcessChart() {
             const ctx = document.getElementById('processChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
-                data: { labels: ['Façonnage', 'Séchage', 'Dégourdi', 'Émaillage', 'Grand feu'], datasets: [{ data: [2, 120, 24, 3, 36], backgroundColor: ['#A13D2C', '#D2C7A8', '#5F6E4F', '#8A7F5F', '#2B2620'], borderColor: '#F1ECDC', borderWidth: 2 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'IBM Plex Mono', size: 10 }, color: '#2B2620', padding: 16 } }, tooltip: { callbacks: { label: (c) => ` ${c.label} : ~${c.raw}h` } } } }
+                data: { labels: ['Façonnage', 'Séchage', 'Dégourdi', 'Émaillage', 'Grand feu'], datasets: [{ data: [2, 120, 24, 3, 36], backgroundColor: ['#B8471E', '#E6D9C8', '#2B211A', '#D98454', '#8A6A50'], borderColor: '#FBF3EA', borderWidth: 2 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 }, color: '#2B211A', padding: 16 } }, tooltip: { callbacks: { label: (c) => ` ${c.label} : ~${c.raw}h` } } } }
             });
         }
 
