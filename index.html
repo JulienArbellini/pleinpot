@@ -12,15 +12,16 @@
             theme: {
                 extend: {
                     colors: {
-                        paper: '#F7F5F0',
-                        ink: '#1C1A17',
-                        line: '#DDD8CE',
-                        accent: {
-                            fuchsia: '#C13F63',
-                            cobalt: '#1F5FA8',
-                            terracotta: '#A8451E',
-                            sauge: '#5B6158',
-                            moutarde: '#B8862E'
+                        night: '#18150F',
+                        panel: '#211D16',
+                        bone: '#EDE7DA',
+                        line: '#3A362C',
+                        swatch: {
+                            terracotta: '#C24A1E',
+                            fuchsia: '#ED5986',
+                            violet: '#8C4FC9',
+                            cobalt: '#2E86F5',
+                            magenta: '#C23F70'
                         }
                     },
                     fontFamily: {
@@ -33,28 +34,24 @@
         }
     </script>
 
-    <!-- Google Fonts : Fraunces (serif éditorial) + Inter (texte) + IBM Plex Mono (métadonnées) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         body {
-            background-color: #F7F5F0;
-            color: #1C1A17;
+            background-color: #18150F;
+            color: #EDE7DA;
             font-family: 'Inter', sans-serif;
         }
         .font-serif { font-family: 'Fraunces', serif; }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #F7F5F0; }
-        ::-webkit-scrollbar-thumb { background: #DDD8CE; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #18150F; }
+        ::-webkit-scrollbar-thumb { background: #3A362C; border-radius: 4px; }
 
         .chart-container {
             position: relative;
@@ -65,84 +62,71 @@
             height: 280px;
         }
         @media (min-width: 768px) { .chart-container { height: 320px; } }
-
-        /* Masonry pour la galerie : colonnes CSS, pas de JS */
-        .gallery-columns {
-            column-count: 1;
-            column-gap: 1.5rem;
-        }
-        @media (min-width: 640px) { .gallery-columns { column-count: 2; } }
-        @media (min-width: 1024px) { .gallery-columns { column-count: 3; } }
-        .gallery-item {
-            break-inside: avoid;
-            margin-bottom: 1.5rem;
-        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-ink selection:text-paper">
+<body class="min-h-screen flex flex-col selection:bg-bone selection:text-night">
 
-    <!-- Sticky Navigation : sobre, sans icônes-bouton colorées -->
-    <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-sm border-b border-line">
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 bg-night/95 backdrop-blur-sm border-b border-line">
         <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
 
             <a href="#" class="flex flex-col leading-none">
-                <span class="font-serif text-2xl tracking-tight text-ink">Plein Pot</span>
-                <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-ink/50 mt-1">Studio céramique — Bruxelles</span>
+                <span class="font-serif text-2xl tracking-tight text-bone">Plein Pot</span>
+                <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-bone/50 mt-1">Studio céramique — Bruxelles</span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/70">
-                <a href="#galerie" class="hover:text-ink transition-colors">Galerie</a>
-                <a href="#boutique" class="hover:text-ink transition-colors">Boutique</a>
-                <a href="#atelier" class="hover:text-ink transition-colors">Atelier</a>
-                <a href="#drop" class="hover:text-ink transition-colors">Drop</a>
-                <a href="#quiz" class="hover:text-ink transition-colors">Quiz</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-bone/60">
+                <a href="#galerie" class="hover:text-bone transition-colors">Galerie</a>
+                <a href="#boutique" class="hover:text-bone transition-colors">Boutique</a>
+                <a href="#atelier" class="hover:text-bone transition-colors">Atelier</a>
+                <a href="#drop" class="hover:text-bone transition-colors">Drop</a>
+                <a href="#quiz" class="hover:text-bone transition-colors">Quiz</a>
             </nav>
 
             <div class="flex items-center gap-2">
-                <button onclick="toggleCart()" class="flex items-center gap-2 text-sm font-medium border border-ink/20 rounded-full px-4 py-2 hover:border-ink transition-colors">
+                <button onclick="toggleCart()" class="flex items-center gap-2 text-sm font-medium border border-bone/20 text-bone rounded-full px-4 py-2 hover:border-bone transition-colors">
                     <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">Panier</span>
                     <span id="cart-count" class="font-mono">0</span>
                 </button>
-                <button onclick="toggleMobileNav()" class="md:hidden p-2.5 border border-ink/20 rounded-full hover:border-ink transition-colors" aria-label="Menu">
+                <button onclick="toggleMobileNav()" class="md:hidden p-2.5 border border-bone/20 text-bone rounded-full hover:border-bone transition-colors" aria-label="Menu">
                     <i data-lucide="menu" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Menu mobile -->
-        <nav id="mobile-nav" class="hidden md:hidden border-t border-line px-5 py-4 flex flex-col gap-1 text-sm font-medium text-ink/70">
-            <a href="#galerie" onclick="toggleMobileNav()" class="py-2 hover:text-ink transition-colors">Galerie</a>
-            <a href="#boutique" onclick="toggleMobileNav()" class="py-2 hover:text-ink transition-colors">Boutique</a>
-            <a href="#atelier" onclick="toggleMobileNav()" class="py-2 hover:text-ink transition-colors">Atelier</a>
-            <a href="#drop" onclick="toggleMobileNav()" class="py-2 hover:text-ink transition-colors">Prochaine fournée</a>
-            <a href="#quiz" onclick="toggleMobileNav()" class="py-2 hover:text-ink transition-colors">Quiz</a>
+        <nav id="mobile-nav" class="hidden md:hidden border-t border-line px-5 py-4 flex flex-col gap-1 text-sm font-medium text-bone/70">
+            <a href="#galerie" onclick="toggleMobileNav()" class="py-2 hover:text-bone transition-colors">Galerie</a>
+            <a href="#boutique" onclick="toggleMobileNav()" class="py-2 hover:text-bone transition-colors">Boutique</a>
+            <a href="#atelier" onclick="toggleMobileNav()" class="py-2 hover:text-bone transition-colors">Atelier</a>
+            <a href="#drop" onclick="toggleMobileNav()" class="py-2 hover:text-bone transition-colors">Prochaine fournée</a>
+            <a href="#quiz" onclick="toggleMobileNav()" class="py-2 hover:text-bone transition-colors">Quiz</a>
         </nav>
     </header>
 
     <main class="flex-grow">
 
-        <!-- Hero : la photo porte la page -->
+        <!-- Hero -->
         <section class="max-w-6xl mx-auto px-5 sm:px-8 pt-12 sm:pt-16 pb-20">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
 
                 <div class="lg:col-span-5 order-2 lg:order-1 space-y-6">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">
                         Pièces uniques &amp; petites séries — grès émaillé
                     </span>
-                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-ink">
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-bone">
                         Des formes brutes,<br>des émaux qui coulent.
                     </h1>
-                    <p class="text-ink/70 leading-relaxed max-w-md">
+                    <p class="text-bone/60 leading-relaxed max-w-md">
                         Tasses, théières et bols façonnés à la main dans l'atelier bruxellois
                         de Clémence. Chaque pièce est tournée, cuite à haute température et
                         émaillée une à une — aucune n'est identique à la précédente.
                     </p>
                     <div class="flex flex-wrap items-center gap-4 pt-2">
-                        <a href="#galerie" class="bg-ink text-paper text-sm font-medium px-6 py-3 rounded-full hover:bg-ink/85 transition-colors">
+                        <a href="#galerie" class="bg-bone text-night text-sm font-medium px-6 py-3 rounded-full hover:bg-bone/85 transition-colors">
                             Voir la galerie
                         </a>
-                        <a href="#boutique" class="text-sm font-medium text-ink/70 hover:text-ink underline underline-offset-4 decoration-line transition-colors">
+                        <a href="#boutique" class="text-sm font-medium text-bone/60 hover:text-bone underline underline-offset-4 decoration-line transition-colors">
                             Découvrir la boutique
                         </a>
                     </div>
@@ -153,8 +137,11 @@
                         <img src="images/hero-theiere-lampe.jpg"
                              alt="Théière artisanale Plein Pot Studio, émail brique brillant"
                              class="w-full h-[380px] sm:h-[520px] object-cover rounded-sm">
-                        <figcaption class="font-serif italic text-ink/60 text-sm mt-3">
-                            Théière « Petite Lampe », grès émaillé — née d'un test d'émail, devenue pièce signature de l'atelier.
+                        <figcaption class="flex items-center gap-2 mt-3">
+                            <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:#C24A1E;"></span>
+                            <span class="font-serif italic text-bone/50 text-sm">
+                                Théière « Petite Lampe », grès émaillé — née d'un test d'émail, devenue pièce signature.
+                            </span>
                         </figcaption>
                     </figure>
                 </div>
@@ -162,21 +149,21 @@
             </div>
         </section>
 
-        <!-- Prochaine fournée : annonce éditoriale, pas de bloc couleur plein -->
+        <!-- Prochaine fournée -->
         <section id="drop" class="border-y border-line py-14">
             <div class="max-w-6xl mx-auto px-5 sm:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                     <div class="lg:col-span-5 space-y-3">
-                        <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">Prochaine fournée</span>
-                        <h2 class="font-serif text-3xl text-ink">La collection se renouvelle bientôt.</h2>
-                        <p class="text-ink/70 text-sm leading-relaxed">
+                        <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">Prochaine fournée</span>
+                        <h2 class="font-serif text-3xl text-bone">La collection se renouvelle bientôt.</h2>
+                        <p class="text-bone/60 text-sm leading-relaxed">
                             Inscris-toi pour recevoir le lien d'accès privé par e-mail, une heure
                             avant l'ouverture au public.
                         </p>
                         <form onsubmit="subscribeVIP(event)" class="flex gap-2 pt-2 max-w-sm">
                             <input type="email" id="vip-email" required placeholder="Ton adresse e-mail"
-                                   class="flex-1 bg-transparent border-b border-ink/30 px-1 py-2 text-sm focus:outline-none focus:border-ink transition-colors">
-                            <button type="submit" class="bg-ink text-paper text-sm font-medium px-5 py-2 rounded-full hover:bg-ink/85 transition-colors whitespace-nowrap">
+                                   class="flex-1 bg-transparent border-b border-bone/25 text-bone px-1 py-2 text-sm focus:outline-none focus:border-bone transition-colors">
+                            <button type="submit" class="bg-bone text-night text-sm font-medium px-5 py-2 rounded-full hover:bg-bone/85 transition-colors whitespace-nowrap">
                                 S'inscrire
                             </button>
                         </form>
@@ -184,37 +171,37 @@
 
                     <div class="lg:col-span-7 flex justify-center lg:justify-end gap-4 sm:gap-8 font-serif">
                         <div class="text-center">
-                            <span id="days" class="block text-5xl sm:text-6xl text-ink">03</span>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-ink/50">Jours</span>
+                            <span id="days" class="block text-5xl sm:text-6xl text-bone">03</span>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-bone/50">Jours</span>
                         </div>
                         <div class="text-center">
-                            <span id="hours" class="block text-5xl sm:text-6xl text-ink">14</span>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-ink/50">Heures</span>
+                            <span id="hours" class="block text-5xl sm:text-6xl text-bone">14</span>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-bone/50">Heures</span>
                         </div>
                         <div class="text-center">
-                            <span id="minutes" class="block text-5xl sm:text-6xl text-ink">22</span>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-ink/50">Minutes</span>
+                            <span id="minutes" class="block text-5xl sm:text-6xl text-bone">22</span>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-bone/50">Minutes</span>
                         </div>
                         <div class="text-center">
-                            <span id="seconds" class="block text-5xl sm:text-6xl text-ink">45</span>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-ink/50">Secondes</span>
+                            <span id="seconds" class="block text-5xl sm:text-6xl text-bone">45</span>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-bone/50">Secondes</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Galerie : toutes les pièces, en grand, façon portfolio -->
+        <!-- Galerie : grille éditoriale alternée grand/petit, pas de masonry -->
         <section id="galerie" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
             <div class="max-w-2xl mb-12 space-y-3">
-                <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">Archive — 2026</span>
-                <h2 class="font-serif text-4xl sm:text-5xl text-ink">La galerie</h2>
-                <p class="text-ink/70 leading-relaxed">
-                    L'ensemble des pièces façonnées à l'atelier cette année, cataloguées au fil
-                    des fournées. Cliquer sur une pièce pour ses détails et sa disponibilité.
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">Archive — 2026</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-bone">La galerie</h2>
+                <p class="text-bone/60 leading-relaxed">
+                    Chaque pièce porte la couleur exacte de sa propre photographie — un repère
+                    d'identité, pas une décoration. Cliquer pour ses détails et sa disponibilité.
                 </p>
             </div>
-            <div id="gallery-grid" class="gallery-columns">
+            <div id="gallery-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <!-- Rendu dynamique -->
             </div>
         </section>
@@ -224,33 +211,32 @@
 
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div class="space-y-3">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">Disponible à la vente</span>
-                    <h2 class="font-serif text-4xl sm:text-5xl text-ink">La boutique</h2>
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">Disponible à la vente</span>
+                    <h2 class="font-serif text-4xl sm:text-5xl text-bone">La boutique</h2>
                 </div>
-                <p class="text-ink/70 text-sm max-w-sm">
+                <p class="text-bone/60 text-sm max-w-sm">
                     Tasses, bols et théières façonnés au tour et émaillés à l'atelier. Pièces
                     uniques ou en très petite série.
                 </p>
             </div>
 
-            <!-- Filtres -->
             <div class="flex flex-col md:flex-row justify-between gap-4 mb-10 pb-6 border-b border-line">
                 <div class="relative w-full md:w-72">
                     <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Rechercher une pièce…"
-                           class="w-full bg-transparent border-b border-ink/20 pl-6 pr-2 py-2 text-sm focus:outline-none focus:border-ink transition-colors">
-                    <i data-lucide="search" class="w-4 h-4 text-ink/40 absolute left-0 top-2.5"></i>
+                           class="w-full bg-transparent border-b border-bone/20 text-bone pl-6 pr-2 py-2 text-sm focus:outline-none focus:border-bone transition-colors">
+                    <i data-lucide="search" class="w-4 h-4 text-bone/40 absolute left-0 top-2.5"></i>
                 </div>
 
                 <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm items-center">
-                    <button onclick="filterCategory('all')" id="btn-all" class="cat-btn active text-ink border-b border-ink pb-0.5">Tout voir</button>
-                    <button onclick="filterCategory('mugs')" id="btn-mugs" class="cat-btn text-ink/50 border-b border-transparent hover:text-ink pb-0.5 transition-colors">Tasses &amp; Mugs</button>
-                    <button onclick="filterCategory('theieres')" id="btn-theieres" class="cat-btn text-ink/50 border-b border-transparent hover:text-ink pb-0.5 transition-colors">Théières</button>
-                    <button onclick="filterCategory('bols')" id="btn-bols" class="cat-btn text-ink/50 border-b border-transparent hover:text-ink pb-0.5 transition-colors">Bols &amp; Coupes</button>
+                    <button onclick="filterCategory('all')" id="btn-all" class="cat-btn active bg-bone text-night px-3 py-1.5 rounded-full">Tout voir</button>
+                    <button onclick="filterCategory('mugs')" id="btn-mugs" class="cat-btn text-bone/60 hover:text-bone px-3 py-1.5 rounded-full hover:bg-line transition-colors">Tasses &amp; Mugs</button>
+                    <button onclick="filterCategory('theieres')" id="btn-theieres" class="cat-btn text-bone/60 hover:text-bone px-3 py-1.5 rounded-full hover:bg-line transition-colors">Théières</button>
+                    <button onclick="filterCategory('bols')" id="btn-bols" class="cat-btn text-bone/60 hover:text-bone px-3 py-1.5 rounded-full hover:bg-line transition-colors">Bols &amp; Coupes</button>
 
-                    <select id="sort-select" onchange="handleSort()" class="bg-transparent text-ink/50 text-sm focus:outline-none border-b border-transparent hover:text-ink transition-colors">
-                        <option value="default">Trier : Pertinence</option>
-                        <option value="price-asc">Prix croissant</option>
-                        <option value="price-desc">Prix décroissant</option>
+                    <select id="sort-select" onchange="handleSort()" class="bg-transparent text-bone/50 text-sm focus:outline-none border-b border-transparent hover:text-bone transition-colors">
+                        <option value="default" class="bg-panel">Trier : Pertinence</option>
+                        <option value="price-asc" class="bg-panel">Prix croissant</option>
+                        <option value="price-desc" class="bg-panel">Prix décroissant</option>
                     </select>
                 </div>
             </div>
@@ -261,43 +247,43 @@
 
         </section>
 
-        <!-- Quiz : outil éditorial, pas de gamification cartoon -->
+        <!-- Quiz -->
         <section id="quiz" class="border-y border-line py-20">
             <div class="max-w-3xl mx-auto px-5 sm:px-8">
                 <div class="max-w-xl mb-10 space-y-3">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">Outil</span>
-                    <h2 class="font-serif text-3xl sm:text-4xl text-ink">Quelle pièce te correspond ?</h2>
-                    <p class="text-ink/70 text-sm leading-relaxed">
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">Outil</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl text-bone">Quelle pièce te correspond ?</h2>
+                    <p class="text-bone/60 text-sm leading-relaxed">
                         Deux questions pour orienter ton choix parmi les pièces disponibles.
                     </p>
                 </div>
 
                 <div class="space-y-10">
                     <div>
-                        <label class="block font-serif text-lg text-ink mb-4">1. Ton rituel du matin ?</label>
+                        <label class="block font-serif text-lg text-bone mb-4">1. Ton rituel du matin ?</label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <button type="button" onclick="selectQuiz(event, 1, 'cafe')" class="q1-btn text-left p-4 border border-line rounded-sm text-sm hover:border-ink transition-colors">
+                            <button type="button" onclick="selectQuiz(event, 1, 'cafe')" class="q1-btn text-left p-4 border border-line rounded-sm text-sm text-bone/80 hover:border-bone/50 transition-colors">
                                 Un expresso serré, rapide
                             </button>
-                            <button type="button" onclick="selectQuiz(event, 1, 'grand-cafe')" class="q1-btn text-left p-4 border border-line rounded-sm text-sm hover:border-ink transition-colors">
+                            <button type="button" onclick="selectQuiz(event, 1, 'grand-cafe')" class="q1-btn text-left p-4 border border-line rounded-sm text-sm text-bone/80 hover:border-bone/50 transition-colors">
                                 Un grand thé ou café allongé
                             </button>
-                            <button type="button" onclick="selectQuiz(event, 1, 'deco')" class="q1-btn text-left p-4 border border-line rounded-sm text-sm hover:border-ink transition-colors">
+                            <button type="button" onclick="selectQuiz(event, 1, 'deco')" class="q1-btn text-left p-4 border border-line rounded-sm text-sm text-bone/80 hover:border-bone/50 transition-colors">
                                 Contempler des fleurs fraîches
                             </button>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block font-serif text-lg text-ink mb-4">2. Quelle teinte t'inspire le plus de calme ?</label>
+                        <label class="block font-serif text-lg text-bone mb-4">2. Quelle teinte t'inspire le plus de calme ?</label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <button type="button" onclick="selectQuiz(event, 2, 'bleu')" class="q2-btn text-left p-4 border border-line rounded-sm text-sm hover:border-ink transition-colors">
+                            <button type="button" onclick="selectQuiz(event, 2, 'bleu')" class="q2-btn text-left p-4 border border-line rounded-sm text-sm text-bone/80 hover:border-bone/50 transition-colors">
                                 Bleu cobalt profond
                             </button>
-                            <button type="button" onclick="selectQuiz(event, 2, 'jaune')" class="q2-btn text-left p-4 border border-line rounded-sm text-sm hover:border-ink transition-colors">
+                            <button type="button" onclick="selectQuiz(event, 2, 'jaune')" class="q2-btn text-left p-4 border border-line rounded-sm text-sm text-bone/80 hover:border-bone/50 transition-colors">
                                 Ocre chaleureux
                             </button>
-                            <button type="button" onclick="selectQuiz(event, 2, 'terre')" class="q2-btn text-left p-4 border border-line rounded-sm text-sm hover:border-ink transition-colors">
+                            <button type="button" onclick="selectQuiz(event, 2, 'terre')" class="q2-btn text-left p-4 border border-line rounded-sm text-sm text-bone/80 hover:border-bone/50 transition-colors">
                                 Terracotta brute
                             </button>
                         </div>
@@ -314,85 +300,82 @@
         <section id="atelier" class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
 
             <div class="max-w-2xl mb-16 space-y-3">
-                <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">Savoir-faire</span>
-                <h2 class="font-serif text-4xl sm:text-5xl text-ink">Dans l'atelier</h2>
-                <p class="text-ink/70 leading-relaxed">
+                <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">Savoir-faire</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-bone">Dans l'atelier</h2>
+                <p class="text-bone/60 leading-relaxed">
                     Chaque pièce traverse un processus lent et méthodique de près de trois
                     semaines avant de trouver sa forme finale.
                 </p>
             </div>
 
-            <!-- Photos d'atelier -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
                 <figure>
                     <img src="images/atelier-clemence-1.jpg" alt="Clémence façonne une pièce sur le tour de l'atelier Plein Pot"
                          class="w-full aspect-[4/5] object-cover rounded-sm">
-                    <figcaption class="text-xs text-ink/50 mt-2">Au tour</figcaption>
+                    <figcaption class="text-xs text-bone/50 mt-2">Au tour</figcaption>
                 </figure>
                 <figure>
                     <img src="images/atelier-clemence-2.jpg" alt="Détail de la décoration à la main d'une théière crue avant cuisson"
                          class="w-full aspect-[4/5] object-cover rounded-sm">
-                    <figcaption class="text-xs text-ink/50 mt-2">Décor à la main</figcaption>
+                    <figcaption class="text-xs text-bone/50 mt-2">Décor à la main</figcaption>
                 </figure>
                 <figure>
                     <img src="images/atelier-four.jpg" alt="Défournement du four de l'atelier Plein Pot Studio après cuisson"
                          class="w-full aspect-[4/5] object-cover rounded-sm">
-                    <figcaption class="text-xs text-ink/50 mt-2">Défournement</figcaption>
+                    <figcaption class="text-xs text-bone/50 mt-2">Défournement</figcaption>
                 </figure>
                 <figure>
                     <img src="images/atelier-premier-marche.jpg" alt="Détail d'une pièce émaillée rouge et crème"
                          class="w-full aspect-[4/5] object-cover rounded-sm">
-                    <figcaption class="text-xs text-ink/50 mt-2">Premier marché</figcaption>
+                    <figcaption class="text-xs text-bone/50 mt-2">Premier marché</figcaption>
                 </figure>
             </div>
 
-            <!-- Étapes -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 mb-20 pb-16 border-b border-line">
                 <div>
-                    <span class="font-serif text-3xl text-ink/30">01</span>
-                    <h3 class="font-serif text-xl text-ink mt-2 mb-2">Le façonnage</h3>
-                    <p class="text-sm text-ink/60 leading-relaxed">
+                    <span class="font-serif text-3xl text-bone/25">01</span>
+                    <h3 class="font-serif text-xl text-bone mt-2 mb-2">Le façonnage</h3>
+                    <p class="text-sm text-bone/50 leading-relaxed">
                         Modelage à la main ou tournage du grès brut pour donner naissance aux
                         formes généreuses et ergonomiques.
                     </p>
                 </div>
                 <div>
-                    <span class="font-serif text-3xl text-ink/30">02</span>
-                    <h3 class="font-serif text-xl text-ink mt-2 mb-2">Le dégourdi — 980°C</h3>
-                    <p class="text-sm text-ink/60 leading-relaxed">
+                    <span class="font-serif text-3xl text-bone/25">02</span>
+                    <h3 class="font-serif text-xl text-bone mt-2 mb-2">Le dégourdi — 980°C</h3>
+                    <p class="text-sm text-bone/50 leading-relaxed">
                         Séchage à l'air libre pendant sept jours, puis une première cuisson de
                         24h pour solidifier la terre poreuse.
                     </p>
                 </div>
                 <div>
-                    <span class="font-serif text-3xl text-ink/30">03</span>
-                    <h3 class="font-serif text-xl text-ink mt-2 mb-2">L'émaillage</h3>
-                    <p class="text-sm text-ink/60 leading-relaxed">
+                    <span class="font-serif text-3xl text-bone/25">03</span>
+                    <h3 class="font-serif text-xl text-bone mt-2 mb-2">L'émaillage</h3>
+                    <p class="text-sm text-bone/50 leading-relaxed">
                         Application minutieuse d'émaux colorés préparés à l'atelier, créant des
                         effets de coulures uniques.
                     </p>
                 </div>
                 <div>
-                    <span class="font-serif text-3xl text-ink/30">04</span>
-                    <h3 class="font-serif text-xl text-ink mt-2 mb-2">Grand feu — 1250°C</h3>
-                    <p class="text-sm text-ink/60 leading-relaxed">
+                    <span class="font-serif text-3xl text-bone/25">04</span>
+                    <h3 class="font-serif text-xl text-bone mt-2 mb-2">Grand feu — 1250°C</h3>
+                    <p class="text-sm text-bone/50 leading-relaxed">
                         Ultime cuisson pour vitrifier l'émail et rendre chaque pièce étanche,
                         durable et prête à l'usage quotidien.
                     </p>
                 </div>
             </div>
 
-            <!-- Graphique temps de fabrication -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div class="lg:col-span-5 space-y-4">
-                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink/50">Temps de fabrication</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl text-ink">Pourquoi chaque pièce met trois semaines ?</h3>
-                    <p class="text-ink/70 text-sm leading-relaxed">
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-bone/50">Temps de fabrication</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-bone">Pourquoi chaque pièce met trois semaines ?</h3>
+                    <p class="text-bone/60 text-sm leading-relaxed">
                         Contrairement aux objets industriels, l'artisanat de la terre exige de
                         la patience. Ce graphique illustre le temps moyen consacré à chaque
                         étape du processus pour une pièce unique.
                     </p>
-                    <p class="text-xs text-ink/50 border-l-2 border-line pl-4 leading-relaxed">
+                    <p class="text-xs text-bone/50 border-l-2 border-line pl-4 leading-relaxed">
                         Toutes les chutes de terre crue sont réhydratées et recyclées dans les
                         fournées suivantes — zéro déchet, zéro plastique.
                     </p>
@@ -409,63 +392,63 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-ink text-paper py-16">
+    <footer class="bg-panel text-bone py-16 border-t border-line">
         <div class="max-w-6xl mx-auto px-5 sm:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-paper/15">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-line">
                 <div class="space-y-3 md:col-span-2">
                     <span class="font-serif text-2xl">Plein Pot Studio</span>
-                    <p class="text-sm text-paper/60 max-w-md leading-relaxed">
+                    <p class="text-sm text-bone/50 max-w-md leading-relaxed">
                         Atelier indépendant de céramique contemporaine. Pièces uniques et
                         petites séries façonnées à la main à Bruxelles.
                     </p>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-mono text-xs uppercase tracking-widest text-paper/50">Navigation</h4>
-                    <ul class="space-y-2 text-sm text-paper/70">
-                        <li><a href="#galerie" class="hover:text-paper transition-colors">Galerie</a></li>
-                        <li><a href="#boutique" class="hover:text-paper transition-colors">Boutique</a></li>
-                        <li><a href="#atelier" class="hover:text-paper transition-colors">Atelier</a></li>
-                        <li><a href="#quiz" class="hover:text-paper transition-colors">Trouver sa pièce</a></li>
+                    <h4 class="font-mono text-xs uppercase tracking-widest text-bone/40">Navigation</h4>
+                    <ul class="space-y-2 text-sm text-bone/60">
+                        <li><a href="#galerie" class="hover:text-bone transition-colors">Galerie</a></li>
+                        <li><a href="#boutique" class="hover:text-bone transition-colors">Boutique</a></li>
+                        <li><a href="#atelier" class="hover:text-bone transition-colors">Atelier</a></li>
+                        <li><a href="#quiz" class="hover:text-bone transition-colors">Trouver sa pièce</a></li>
                     </ul>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-mono text-xs uppercase tracking-widest text-paper/50">Informations</h4>
-                    <ul class="space-y-2 text-sm text-paper/70">
-                        <li><a href="#" onclick="alert('Livraison offerte dès 80€ via Mondial Relay ou Colissimo.'); return false;" class="hover:text-paper transition-colors">Livraison &amp; retours</a></li>
-                        <li><a href="#" onclick="alert('Résistant au lave-vaisselle et micro-ondes. Éviter le choc thermique brusque.'); return false;" class="hover:text-paper transition-colors">Conseils d'entretien</a></li>
-                        <li><a href="#" class="hover:text-paper transition-colors">Mentions légales</a></li>
+                    <h4 class="font-mono text-xs uppercase tracking-widest text-bone/40">Informations</h4>
+                    <ul class="space-y-2 text-sm text-bone/60">
+                        <li><a href="#" onclick="alert('Livraison offerte dès 80€ via Mondial Relay ou Colissimo.'); return false;" class="hover:text-bone transition-colors">Livraison &amp; retours</a></li>
+                        <li><a href="#" onclick="alert('Résistant au lave-vaisselle et micro-ondes. Éviter le choc thermique brusque.'); return false;" class="hover:text-bone transition-colors">Conseils d'entretien</a></li>
+                        <li><a href="#" class="hover:text-bone transition-colors">Mentions légales</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-paper/50 gap-4">
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-bone/40 gap-4">
                 <p>© 2026 Plein Pot Studio</p>
                 <p>Paiements sécurisés — Stripe, Apple Pay &amp; Klarna</p>
             </div>
         </div>
     </footer>
 
-    <!-- Slide-over Cart Drawer -->
+    <!-- Cart Drawer -->
     <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden pointer-events-none">
-        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-ink/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
+        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-night/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
 
         <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div id="cart-panel" class="w-screen max-w-md bg-paper border-l border-line p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto">
+            <div id="cart-panel" class="w-screen max-w-md bg-panel text-bone border-l border-line p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto">
 
                 <div>
                     <div class="flex items-center justify-between pb-4 border-b border-line">
-                        <h3 class="font-serif text-2xl text-ink">Panier</h3>
+                        <h3 class="font-serif text-2xl text-bone">Panier</h3>
                         <button onclick="toggleCart()" class="p-2 hover:bg-line/40 rounded-full transition-colors">
                             <i data-lucide="x" class="w-5 h-5"></i>
                         </button>
                     </div>
 
                     <div class="my-4">
-                        <div class="flex justify-between text-xs font-medium mb-1.5">
+                        <div class="flex justify-between text-xs font-medium mb-1.5 text-bone/70">
                             <span id="shipping-text">Livraison gratuite dans 80,00 €</span>
                             <span id="shipping-percent">0%</span>
                         </div>
                         <div class="w-full bg-line h-px overflow-hidden">
-                            <div id="shipping-bar" class="bg-ink h-full transition-all duration-300" style="width: 0%;"></div>
+                            <div id="shipping-bar" class="bg-bone h-full transition-all duration-300" style="width: 0%;"></div>
                         </div>
                     </div>
 
@@ -477,23 +460,23 @@
                 <div class="border-t border-line pt-4 space-y-4">
                     <div class="flex gap-2">
                         <input type="text" id="coupon-code" placeholder="Code promo (ex : VIP10)"
-                               class="flex-1 bg-transparent border-b border-ink/20 px-1 py-2 text-xs focus:outline-none focus:border-ink">
-                        <button onclick="applyCoupon()" class="text-xs font-medium border-b border-ink px-1 py-2">
+                               class="flex-1 bg-transparent border-b border-bone/25 px-1 py-2 text-xs focus:outline-none focus:border-bone">
+                        <button onclick="applyCoupon()" class="text-xs font-medium border-b border-bone px-1 py-2">
                             Appliquer
                         </button>
                     </div>
 
-                    <div class="flex items-center justify-between font-serif text-xl text-ink">
+                    <div class="flex items-center justify-between font-serif text-xl text-bone">
                         <span>Total</span>
                         <span id="cart-total">0,00 €</span>
                     </div>
 
-                    <button onclick="checkout()" class="w-full bg-ink text-paper font-medium py-4 rounded-full hover:bg-ink/85 transition-colors flex items-center justify-center gap-2">
+                    <button onclick="checkout()" class="w-full bg-bone text-night font-medium py-4 rounded-full hover:bg-bone/85 transition-colors flex items-center justify-center gap-2">
                         <i data-lucide="credit-card" class="w-4 h-4"></i>
                         <span>Commander</span>
                     </button>
 
-                    <p class="text-center text-xs text-ink/50">
+                    <p class="text-center text-xs text-bone/40">
                         Expédition sous 3 à 5 jours, emballage anti-casse renforcé.
                     </p>
                 </div>
@@ -504,9 +487,9 @@
 
     <!-- Product Detail Modal -->
     <div id="product-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
-        <div onclick="closeModal()" class="fixed inset-0 bg-ink/50 backdrop-blur-sm"></div>
+        <div onclick="closeModal()" class="fixed inset-0 bg-night/70 backdrop-blur-sm"></div>
 
-        <div class="relative bg-paper rounded-sm max-w-2xl w-full p-6 sm:p-10 shadow-2xl z-10 overflow-hidden">
+        <div class="relative bg-panel text-bone rounded-sm max-w-2xl w-full p-6 sm:p-10 shadow-2xl z-10 overflow-hidden border border-line">
             <button onclick="closeModal()" class="absolute top-4 right-4 p-2 hover:bg-line/40 rounded-full transition-colors">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
@@ -519,7 +502,7 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Base de données des pièces
+        // Chaque pièce porte sa couleur d'identité réelle (issue de sa propre photo)
         const products = [
             {
                 id: 1,
@@ -527,6 +510,7 @@
                 category: "theieres",
                 price: 38,
                 image: "images/product-theiere-lampe.jpg",
+                swatch: "#C24A1E",
                 badge: "Pièce unique",
                 material: "Grès émaillé",
                 year: "2026",
@@ -540,6 +524,7 @@
                 category: "theieres",
                 price: 65,
                 image: "images/product-theiere-maree-noire.jpg",
+                swatch: "#ED5986",
                 badge: "Nouveauté",
                 material: "Grès émaillé",
                 year: "2026",
@@ -553,6 +538,7 @@
                 category: "mugs",
                 price: 32,
                 image: "images/product-mug-le-mont.jpg",
+                swatch: "#8C4FC9",
                 badge: "En stock",
                 material: "Grès émaillé",
                 year: "2026",
@@ -566,6 +552,7 @@
                 category: "bols",
                 price: 58,
                 image: "images/product-bol-duo.jpg",
+                swatch: "#2E86F5",
                 badge: "Petite série",
                 material: "Grès émaillé",
                 year: "2026",
@@ -579,6 +566,7 @@
                 category: "bols",
                 price: 34,
                 image: "images/product-bol-solo.jpg",
+                swatch: "#2E86F5",
                 badge: "Pièce unique",
                 material: "Grès émaillé",
                 year: "2026",
@@ -592,6 +580,7 @@
                 category: "theieres",
                 price: 45,
                 image: "images/product-soucoupe.jpg",
+                swatch: "#C23F70",
                 badge: "Nouveauté",
                 material: "Grès émaillé",
                 year: "2026",
@@ -605,30 +594,38 @@
         let discountPercent = 0;
         let currentCategory = 'all';
 
-        // Galerie : toutes les pièces, grand format, légendes façon cartel
+        // Galerie : grille alternée grand/petit (12 colonnes), pas de masonry
         function renderGallery() {
             const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = products.map((p, i) => `
-                <div class="gallery-item cursor-pointer group" onclick="openModal(${p.id})">
-                    <img src="${p.image}" alt="${p.name}" class="w-full rounded-sm group-hover:opacity-90 transition-opacity">
-                    <div class="flex justify-between items-baseline mt-3">
-                        <p class="text-sm text-ink">
-                            <span class="font-mono text-xs text-ink/40 mr-2">N°${String(i + 1).padStart(2, '0')}</span>
+            grid.innerHTML = products.map((p, i) => {
+                const pairIndex = Math.floor(i / 2);
+                const posInPair = i % 2;
+                const big = pairIndex % 2 === 0 ? posInPair === 0 : posInPair === 1;
+                const span = big ? 'lg:col-span-7' : 'lg:col-span-5';
+                const ratio = big ? 'aspect-[4/3]' : 'aspect-[3/4]';
+                return `
+                <div class="col-span-1 ${span} cursor-pointer group" onclick="openModal(${p.id})">
+                    <div class="${ratio} overflow-hidden rounded-sm">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500">
+                    </div>
+                    <div class="flex items-center gap-2 mt-3">
+                        <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:${p.swatch};"></span>
+                        <p class="text-sm text-bone">
+                            <span class="font-mono text-xs text-bone/40 mr-2">N°${String(i + 1).padStart(2, '0')}</span>
                             ${p.name}
                         </p>
-                        <span class="font-mono text-xs text-ink/40">${p.year}</span>
+                        <span class="font-mono text-xs text-bone/40 ml-auto">${p.year}</span>
                     </div>
-                    <p class="text-xs text-ink/50">${p.material} — ${p.badge}</p>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        // Grille boutique
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             if(items.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full text-center py-16 text-ink/50">
+                    <div class="col-span-full text-center py-16 text-bone/50">
                         <i data-lucide="search-x" class="w-8 h-8 mx-auto mb-3 opacity-40"></i>
                         <p class="text-sm">Aucune pièce ne correspond à ta recherche.</p>
                     </div>
@@ -638,16 +635,19 @@
                     <div class="group flex flex-col">
                         <div class="relative aspect-square overflow-hidden mb-4 cursor-pointer" onclick="openModal(${p.id})">
                             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-sm group-hover:scale-[1.03] transition-transform duration-500">
-                            <button onclick="event.stopPropagation(); addToCart(${p.id})" title="Ajouter au panier" class="absolute bottom-3 right-3 bg-paper text-ink w-9 h-9 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="event.stopPropagation(); addToCart(${p.id})" title="Ajouter au panier" class="absolute bottom-3 right-3 bg-bone text-night w-9 h-9 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <i data-lucide="plus" class="w-4 h-4"></i>
                             </button>
                         </div>
                         <div class="flex justify-between items-start gap-2">
                             <div class="cursor-pointer" onclick="openModal(${p.id})">
-                                <h3 class="font-serif text-lg text-ink leading-snug">${p.name}</h3>
-                                <p class="text-xs text-ink/50 italic">${p.badge}</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:${p.swatch};"></span>
+                                    <h3 class="font-serif text-lg text-bone leading-snug">${p.name}</h3>
+                                </div>
+                                <p class="text-xs text-bone/40 italic">${p.badge}</p>
                             </div>
-                            <span class="font-mono text-sm text-ink whitespace-nowrap">${p.price} €</span>
+                            <span class="font-mono text-sm text-bone whitespace-nowrap">${p.price} €</span>
                         </div>
                     </div>
                 `).join('');
@@ -668,13 +668,13 @@
         function filterCategory(cat) {
             currentCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('text-ink', 'border-ink');
-                btn.classList.add('text-ink/50', 'border-transparent');
+                btn.classList.remove('bg-bone', 'text-night');
+                btn.classList.add('text-bone/60');
             });
             const activeBtn = document.getElementById(`btn-${cat}`);
             if(activeBtn) {
-                activeBtn.classList.remove('text-ink/50', 'border-transparent');
-                activeBtn.classList.add('text-ink', 'border-ink');
+                activeBtn.classList.remove('text-bone/60');
+                activeBtn.classList.add('bg-bone', 'text-night');
             }
             handleSearch();
         }
@@ -688,20 +688,19 @@
             renderProducts(list);
         }
 
-        // Quiz
         let quizAnswers = { step1: '', step2: '' };
 
         function selectQuiz(evt, step, val) {
             if(step === 1) {
                 quizAnswers.step1 = val;
-                document.querySelectorAll('.q1-btn').forEach(b => { b.classList.remove('border-ink'); b.classList.add('border-line'); });
+                document.querySelectorAll('.q1-btn').forEach(b => { b.classList.remove('border-bone'); b.classList.add('border-line'); });
                 evt.currentTarget.classList.remove('border-line');
-                evt.currentTarget.classList.add('border-ink');
+                evt.currentTarget.classList.add('border-bone');
             } else if(step === 2) {
                 quizAnswers.step2 = val;
-                document.querySelectorAll('.q2-btn').forEach(b => { b.classList.remove('border-ink'); b.classList.add('border-line'); });
+                document.querySelectorAll('.q2-btn').forEach(b => { b.classList.remove('border-bone'); b.classList.add('border-line'); });
                 evt.currentTarget.classList.remove('border-line');
-                evt.currentTarget.classList.add('border-ink');
+                evt.currentTarget.classList.add('border-bone');
             }
 
             if(quizAnswers.step1 && quizAnswers.step2) {
@@ -718,12 +717,12 @@
                         <div class="flex items-center gap-4">
                             <img src="${rec.image}" class="w-16 h-16 object-cover rounded-sm">
                             <div>
-                                <span class="text-xs font-mono uppercase tracking-widest text-ink/50">Recommandation</span>
-                                <h4 class="font-serif text-lg text-ink">${rec.name}</h4>
-                                <p class="text-xs text-ink/50">${rec.price} € — ${rec.capacity}</p>
+                                <span class="text-xs font-mono uppercase tracking-widest text-bone/40">Recommandation</span>
+                                <h4 class="font-serif text-lg text-bone">${rec.name}</h4>
+                                <p class="text-xs text-bone/50">${rec.price} € — ${rec.capacity}</p>
                             </div>
                         </div>
-                        <button onclick="addToCart(${rec.id})" class="text-sm font-medium border-b border-ink px-1 py-1 whitespace-nowrap">
+                        <button onclick="addToCart(${rec.id})" class="text-sm font-medium border-b border-bone px-1 py-1 whitespace-nowrap text-bone">
                             Ajouter au panier
                         </button>
                     </div>
@@ -731,7 +730,6 @@
             }
         }
 
-        // Panier
         function addToCart(id) {
             const existing = cart.find(item => item.id === id);
             if(existing) existing.qty++;
@@ -747,7 +745,7 @@
             const cartContainer = document.getElementById('cart-items');
             if(cart.length === 0) {
                 cartContainer.innerHTML = `
-                    <div class="text-center py-12 text-ink/40">
+                    <div class="text-center py-12 text-bone/40">
                         <i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-3 opacity-40"></i>
                         <p class="text-sm">Ton panier est vide.</p>
                     </div>
@@ -761,15 +759,15 @@
                         <div class="flex items-center gap-4 py-3 border-b border-line">
                             <img src="${p.image}" class="w-16 h-16 object-cover rounded-sm">
                             <div class="flex-1">
-                                <h4 class="font-serif text-sm text-ink leading-tight">${p.name}</h4>
-                                <span class="font-mono text-xs text-ink/50">${p.price} €</span>
+                                <h4 class="font-serif text-sm text-bone leading-tight">${p.name}</h4>
+                                <span class="font-mono text-xs text-bone/50">${p.price} €</span>
                                 <div class="flex items-center gap-3 mt-2">
-                                    <button onclick="changeQty(${p.id}, -1)" class="w-5 h-5 text-xs flex items-center justify-center border border-line rounded-full hover:border-ink transition-colors">-</button>
-                                    <span class="text-xs font-mono">${item.qty}</span>
-                                    <button onclick="changeQty(${p.id}, 1)" class="w-5 h-5 text-xs flex items-center justify-center border border-line rounded-full hover:border-ink transition-colors">+</button>
+                                    <button onclick="changeQty(${p.id}, -1)" class="w-5 h-5 text-xs flex items-center justify-center border border-line rounded-full hover:border-bone transition-colors text-bone">-</button>
+                                    <span class="text-xs font-mono text-bone">${item.qty}</span>
+                                    <button onclick="changeQty(${p.id}, 1)" class="w-5 h-5 text-xs flex items-center justify-center border border-line rounded-full hover:border-bone transition-colors text-bone">+</button>
                                 </div>
                             </div>
-                            <button onclick="removeFromCart(${p.id})" class="text-ink/30 hover:text-ink transition-colors">
+                            <button onclick="removeFromCart(${p.id})" class="text-bone/30 hover:text-bone transition-colors">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -863,16 +861,19 @@
                     <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
                 </div>
                 <div class="space-y-4">
-                    <span class="font-mono text-xs uppercase tracking-widest text-ink/50">${p.badge} — ${p.material}, ${p.year}</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl text-ink">${p.name}</h3>
-                    <p class="font-mono text-lg text-ink">${p.price} €</p>
-                    <p class="text-sm text-ink/70 leading-relaxed">${p.desc}</p>
-                    <div class="text-xs text-ink/60 space-y-1 border-t border-line pt-4">
-                        <p><span class="text-ink/40">Contenance —</span> ${p.capacity}</p>
-                        <p><span class="text-ink/40">Dimensions —</span> ${p.dimensions}</p>
-                        <p><span class="text-ink/40">Entretien —</span> résistant au lave-vaisselle &amp; micro-ondes</p>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:${p.swatch};"></span>
+                        <span class="font-mono text-xs uppercase tracking-widest text-bone/50">${p.badge} — ${p.material}, ${p.year}</span>
                     </div>
-                    <button onclick="addToCart(${p.id}); closeModal();" class="w-full bg-ink text-paper font-medium py-3.5 rounded-full hover:bg-ink/85 transition-colors flex items-center justify-center gap-2">
+                    <h3 class="font-serif text-2xl sm:text-3xl text-bone">${p.name}</h3>
+                    <p class="font-mono text-lg text-bone">${p.price} €</p>
+                    <p class="text-sm text-bone/60 leading-relaxed">${p.desc}</p>
+                    <div class="text-xs text-bone/50 space-y-1 border-t border-line pt-4">
+                        <p><span class="text-bone/30">Contenance —</span> ${p.capacity}</p>
+                        <p><span class="text-bone/30">Dimensions —</span> ${p.dimensions}</p>
+                        <p><span class="text-bone/30">Entretien —</span> résistant au lave-vaisselle &amp; micro-ondes</p>
+                    </div>
+                    <button onclick="addToCart(${p.id}); closeModal();" class="w-full bg-bone text-night font-medium py-3.5 rounded-full hover:bg-bone/85 transition-colors flex items-center justify-center gap-2">
                         <i data-lucide="plus" class="w-4 h-4"></i>
                         <span>Ajouter au panier — ${p.price} €</span>
                     </button>
@@ -905,8 +906,8 @@
                     labels: ['Façonnage & Tournage', 'Séchage lent', 'Dégourdi (980°C)', 'Émaillage', 'Grand feu (1250°C)'],
                     datasets: [{
                         data: [2, 120, 24, 3, 36],
-                        backgroundColor: ['#B8862E', '#A8451E', '#5B6158', '#C13F63', '#1F5FA8'],
-                        borderColor: '#F7F5F0',
+                        backgroundColor: ['#C24A1E', '#8C4FC9', '#EDE7DA33', '#ED5986', '#2E86F5'],
+                        borderColor: '#211D16',
                         borderWidth: 2
                     }]
                 },
@@ -916,7 +917,7 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { font: { family: 'Inter', size: 11 }, color: '#1C1A17', padding: 16 }
+                            labels: { font: { family: 'Inter', size: 11 }, color: '#EDE7DA', padding: 16 }
                         },
                         tooltip: {
                             callbacks: { label: (context) => ` ${context.label} : ~${context.raw} heures` }
