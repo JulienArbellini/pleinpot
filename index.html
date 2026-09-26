@@ -124,7 +124,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (max-width:760px){.figures{grid-template-columns:1fr 1fr}.fig:nth-child(3){border-left:0;padding-left:0}.fig:nth-child(n+3){margin-top:1.2rem;border-top:1px solid rgba(248,240,250,.22)}}
 
 /* ============ Scènes de collection ============ */
-.intro-coll{background:var(--coral);padding:clamp(4rem,8vw,7rem) 0 0;overflow:clip}
+.intro-coll{background:#FC5260;padding:clamp(4rem,8vw,7rem) 0 0;overflow:clip}
 .intro-coll .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
 .intro-coll h2{font-size:clamp(3.4rem,11vw,10.5rem)}
 .intro-coll p{max-width:30ch;margin:0 0 1rem}
@@ -143,17 +143,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tag{display:inline-block;margin-bottom:1.1rem;padding:.35rem .7rem;border:1.5px solid currentColor;border-radius:999px}
 .scene .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .scene .btn:hover{background:transparent;color:var(--fg,var(--ink))}
-.s-coral{--wall:#FB5B66;--wt:#FB5B66;--wh:#FC5A65;--hl:.67;--hr:.69;--fhl:#F35A88;--fbl:#F05E8B;--fhr:#F9598A;--fbr:#F25B88}
+.s-coral{--wall:#FC5260;--wt:#FC5260;--wh:#FC4F5B;--hl:.695;--hr:.695;--fhl:#FA4E89;--fbl:#F9548F;--fhr:#FA4E89;--fbr:#F9548F}
 .s-magenta{--wall:#A93564;--wt:#A93564;--wh:#D04680;--hl:.52;--hr:.60;--fhl:#E4BDD0;--fbl:#E1BACD;--fhr:#E7B4CC;--fbr:#E7B4CC;--fg:#fff;--maxw:470px;--ar:.5625}
 .s-magenta .shot{--fx:11%;--fyb:16%}
 .s-magenta .txt{background:var(--wall);padding:clamp(1.6rem,3vw,2.6rem)}
 .s-magenta .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .s-magenta .btn:hover{background:transparent;color:#fff}
 .s-cobalt{--wall:#1A82FB;--wt:#1A82FB;--wh:#1780F8;--hl:.54;--hr:.54;--fhl:#6C9AF8;--fbl:#6C9AF8;--fhr:#70A0FE;--fbr:#6D9EFD}
-.s-prune{--wall:#72217D;--wt:#72217D;--wh:#701F7B;--hl:1;--hr:1;--fhl:#701F7B;--fbl:#701F7B;--fhr:#701F7B;--fbr:#701F7B;--fg:#fff;--maxw:560px;--ar:.9}
-.s-prune .shot{--fx:16%;--fyb:26%}
-.s-prune .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
-.s-prune .btn:hover{background:transparent;color:#fff}
+.s-rose{--wall:#E7B8CC;--wt:#E7B8CC;--wh:#E5B6C9;--hl:.57;--hr:.57;--fhl:#CE839F;--fbl:#D489A7;--fhr:#CE839F;--fbr:#D489A7}
+.s-rose .shot{--fx:20%}
 .s-cobalt .price,.s-cobalt h3{color:var(--ink)}
 .toggle{display:inline-flex;border:2px solid var(--ink);margin:0 0 1.6rem}
 .toggle button{background:transparent;border:0;padding:.65rem 1.1rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
@@ -444,7 +442,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <!-- Marée Noire -->
 <section class="scene s-coral" id="maree-noire">
   <div class="in">
-    <div class="stage"><img class="shot" loading="lazy" src="images/product-theiere-maree-noire.jpg" alt="Théière « Marée Noire » : émail brun-noir brillant sur un papier de fond corail et rose vif"></div>
+    <div class="stage"><img class="shot" loading="lazy" src="images/maree-noire-2.jpg" alt="Théière « Marée Noire » : émail brun-noir brillant sur un papier de fond corail et rose vif"></div>
     <div class="txt reveal">
       <span class="tag mono">Nouveauté</span>
       <h3 class="d">Marée<br>Noire</h3>
@@ -488,9 +486,9 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </section>
 
 <!-- Mug -->
-<section class="scene rev s-prune" id="le-mont">
+<section class="scene rev s-rose" id="le-mont">
   <div class="in">
-    <div class="stage"><img class="shot" loading="lazy" src="images/product-mug-le-mont.jpg" alt="Mug « Le Mont » : émail vert mousse, anse blanche, sur un papier de fond prune"></div>
+    <div class="stage"><img class="shot" loading="lazy" src="images/mug-le-mont-2.jpg" alt="Mug « Le Mont » : émail vert, anse crème, sur un papier de fond rose"></div>
     <div class="txt reveal">
       <span class="tag mono">En stock</span>
       <h3 class="d">Le<br>Mont</h3>
@@ -645,7 +643,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <footer class="dark on-dark">
   <div class="wrap">
     <p class="giant d" aria-hidden="true"><span>Plein</span> <span>Pot</span></p>
-    <div class="rolls" aria-hidden="true"><i style="background:var(--lav)"></i><i style="background:var(--peri)"></i><i style="background:var(--cobalt)"></i><i style="background:var(--prune)"></i><i style="background:var(--magenta)"></i><i style="background:var(--hot)"></i><i style="background:var(--coral)"></i></div>
+    <div class="rolls" aria-hidden="true"><i style="background:var(--lav)"></i><i style="background:var(--peri)"></i><i style="background:var(--cobalt)"></i><i style="background:#E7B8CC"></i><i style="background:var(--magenta)"></i><i style="background:var(--hot)"></i><i style="background:var(--coral)"></i></div>
     <div class="fgrid">
       <div><h5 class="mono">Plein Pot Studio</h5><p style="max-width:38ch;margin:0;opacity:.8">Atelier indépendant de céramique contemporaine à Bruxelles. Les papiers de fond ci-dessus sont ceux des photos.</p></div>
       <div><h5 class="mono">Explorer</h5><ul><li><a href="#collection">Collection</a></li><li><a href="#anatomie">Anatomie</a></li><li><a href="#emaux">Émaux</a></li><li><a href="#atelier">Atelier</a></li><li><a href="#boutique">Toutes les pièces</a></li></ul></div>
@@ -673,8 +671,8 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <script>
 const products = [
   { id:1, name:"Petite Lampe",      full:"Théière « Petite Lampe »", cat:"theieres", price:38, img:"images/product-theiere-lampe.jpg",        badge:"Pièce unique", cap:"~ 400 ml", bg:"#E3CBEA" },
-  { id:2, name:"Marée Noire",       full:"Théière « Marée Noire »",  cat:"theieres", price:65, img:"images/product-theiere-maree-noire.jpg",  badge:"Nouveauté",    cap:"~ 400 ml", bg:"#FB5B66" },
-  { id:3, name:"Le Mont",           full:"Mug « Le Mont »",          cat:"mugs",     price:32, img:"images/product-mug-le-mont.jpg",          badge:"En stock",     cap:"~ 300 ml", bg:"#6C1D78" },
+  { id:2, name:"Marée Noire",       full:"Théière « Marée Noire »",  cat:"theieres", price:65, img:"images/maree-noire-2.jpg",  badge:"Nouveauté",    cap:"~ 400 ml", bg:"#FB5B66" },
+  { id:3, name:"Le Mont",           full:"Mug « Le Mont »",          cat:"mugs",     price:32, img:"images/mug-le-mont-2.jpg",          badge:"En stock",     cap:"~ 300 ml", bg:"#E7B8CC" },
   { id:4, name:"Bol piédestal Duo", full:"Bol piédestal « Duo »",    cat:"bols",     price:58, img:"images/product-bol-duo.jpg",              badge:"Petite série", cap:"La paire", bg:"#0E7DFB" },
   { id:5, name:"Bol piédestal Solo",full:"Bol piédestal « Solo »",   cat:"bols",     price:34, img:"images/product-bol-solo.jpg",             badge:"Pièce unique", cap:"~ 300 ml", bg:"#0E7DFB" },
   { id:6, name:"Soucoupe Volante",  full:"Pièce « Soucoupe Volante »",cat:"theieres",price:45, img:"images/product-soucoupe.jpg",             badge:"Nouveauté",    cap:"~ 350 ml", bg:"#9F3260" }
@@ -724,9 +722,9 @@ function setPart(n){ activePart=n; renderParts(); }
 /* ---- Émaux ---- */
 const emaux = [
   { name:"Brique",             hex:"#B5401F", piece:"Petite Lampe",      img:"images/product-theiere-lampe.jpg",       wall:"#E3CBEA", txt:"Un émail brique brillant qui coule sur un fond mat." },
-  { name:"Noir-brun",          hex:"#1E1210", piece:"Marée Noire",       img:"images/product-theiere-maree-noire.jpg", wall:"#FB5B66", txt:"Brun-noir profond, aux reflets métalliques." },
+  { name:"Noir-brun",          hex:"#1E1210", piece:"Marée Noire",       img:"images/maree-noire-2.jpg", wall:"#FB5B66", txt:"Brun-noir profond, aux reflets métalliques." },
   { name:"Vert profond",       hex:"#24473A", piece:"Soucoupe Volante",  img:"images/product-soucoupe.jpg",            wall:"#9F3260", txt:"Un vert profond, capté en pleine lumière." },
-  { name:"Vert mousse",        hex:"#4E5D45", piece:"Mug « Le Mont »",   img:"images/product-mug-le-mont.jpg",         wall:"#6C1D78", txt:"Vert mousse texturé, posé sur une base contrastée." },
+  { name:"Vert mousse",        hex:"#4E5D45", piece:"Mug « Le Mont »",   img:"images/mug-le-mont-2.jpg",         wall:"#E7B8CC", txt:"Vert mousse texturé, posé sur une base contrastée." },
   { name:"Brun-gris strié",    hex:"#5C566B", piece:"Bols piédestal",    img:"images/product-bol-solo.jpg",            wall:"#0E7DFB", txt:"Strié comme le geste du tour, du brun au gris bleuté." },
   { name:"Rouge & crème",      hex:"#A3323A", piece:"Détail d'atelier",  img:"images/macro-email.jpg",                 wall:"#8C9FDC", txt:"Zoom sur un bord : rouge, crème et bleu nuit se rencontrent." }
 ];
