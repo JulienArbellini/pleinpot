@@ -254,10 +254,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .drop form{display:flex;gap:.6rem;margin-top:1.8rem;flex-wrap:wrap}
 .drop input{flex:1;min-width:210px;background:transparent;border:0;border-bottom:2px solid var(--ink);padding:.85rem .1rem;font:inherit;color:var(--ink);border-radius:0}
 .drop input::placeholder{color:rgba(27,14,36,.62)}
-.clock{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
-.clock div{background:var(--hot);padding:1rem 1rem 1.2rem}
-.clock b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:clamp(3.2rem,7.6vw,7.4rem);letter-spacing:-.015em;line-height:.9;font-variant-numeric:tabular-nums}
-.clock span{display:block;margin-top:.5rem}
+.soon{background:var(--hot);padding:clamp(1.5rem,3vw,2.5rem)}
+.soon b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:clamp(3.2rem,7.6vw,7.4rem);letter-spacing:-.015em;line-height:.9}
+.soon span{display:block;margin-top:1.2rem}
 @media (max-width:900px){.drop .l,.drop .r{grid-column:1/-1}}
 
 /* ============ Quiz ============ */
@@ -578,11 +577,9 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       </form>
     </div>
     <div class="r">
-      <div class="clock" aria-label="Compte à rebours avant la prochaine fournée" role="timer">
-        <div><b id="days">03</b><span class="mono">Jours</span></div>
-        <div><b id="hours">14</b><span class="mono">Heures</span></div>
-        <div><b id="minutes">22</b><span class="mono">Minutes</span></div>
-        <div><b id="seconds">45</b><span class="mono">Secondes</span></div>
+      <div class="soon">
+        <b>Date à venir</b>
+        <span class="mono">Tu seras prévenu par e-mail dès qu'elle est fixée</span>
       </div>
     </div>
   </div>
@@ -803,14 +800,6 @@ function subscribeVIP(e){ e.preventDefault(); toast('Inscription confirmée pour
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeCart(); });
 
 /* ---- Compte à rebours ---- */
-function startCountdown(){
-  const end = Date.now() + (((3*24+14)*60+22)*60+45)*1000;
-  const pad = n => String(n).padStart(2,'0');
-  const tick = () => { let s = Math.max(0, Math.floor((end-Date.now())/1000));
-    $('#days').textContent = pad(Math.floor(s/86400)); $('#hours').textContent = pad(Math.floor(s%86400/3600));
-    $('#minutes').textContent = pad(Math.floor(s%3600/60)); $('#seconds').textContent = pad(s%60); };
-  tick(); setInterval(tick,1000);
-}
 
 /* ---- Apparitions ---- */
 function initReveal(){
@@ -821,7 +810,7 @@ function initReveal(){
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); startCountdown(); initReveal();
+  renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal();
 });
 </script>
 </body>
