@@ -39,7 +39,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .on-dark :focus-visible,.dark :focus-visible{outline-color:var(--lav)}
 
 .d{font-family:var(--display);font-stretch:75%;font-weight:800;letter-spacing:-.012em;line-height:.9;margin:0}
-.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.mono{font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
 .kicker{display:inline-flex;align-items:center;gap:.7em;margin:0 0 1.3rem}
 .kicker::before{content:"";width:.9em;height:.9em;background:currentColor;clip-path:polygon(0 100%,100% 0,100% 100%)} /* le bec de la théière */
 .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(1.2rem,3.5vw,2.5rem)}
@@ -56,12 +56,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* ============ Barre de navigation ============ */
 .bar{position:fixed;z-index:60;top:14px;left:50%;transform:translateX(-50%);width:min(1240px,calc(100% - 28px));background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.1rem;border-radius:3px}
 .brand{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.55rem;letter-spacing:-.012em;text-decoration:none;line-height:1}
-.brand small{display:block;font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-top:.25rem}
+.brand small{display:block;font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-top:.25rem}
 .bar nav{display:flex;gap:1.7rem}
-.bar nav a{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;opacity:.8;transition:opacity .2s,color .2s}
+.bar nav a{font-family:var(--mono);font-size:.8rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;opacity:.8;transition:opacity .2s,color .2s}
 .bar nav a:hover{opacity:1;color:var(--lav)}
 .bar-actions{display:flex;gap:.6rem;align-items:center}
-.cart-btn,.burger{display:inline-flex;align-items:center;gap:.6rem;background:var(--paper);color:var(--ink);border:0;padding:.55rem .9rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px}
+.cart-btn,.burger{display:inline-flex;align-items:center;gap:.6rem;background:var(--paper);color:var(--ink);border:0;padding:.55rem .9rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px}
 .cart-btn:hover,.burger:hover{background:var(--lav)}
 .cart-btn svg,.burger svg{width:16px;height:16px}
 .burger{display:none;padding:.55rem .65rem}
@@ -80,25 +80,27 @@ button{font:inherit;color:inherit;cursor:pointer}
   mask-composite:intersect}
 
 /* ============ Hero ============ */
-.hero{--ph:min(62vw,880px);--h:.6;--floor:var(--peri);position:relative;background:var(--lav);overflow:clip}
+.hero{--ph:min(62vw,1000px);--h:.6;--floor:var(--peri);position:relative;background:var(--lav);overflow:clip}
 .hero .stage{width:var(--ph);height:var(--ph)}
 .hero .stage::before{bottom:0}
 .hero .txt{position:absolute;left:calc(var(--ph) - 7vw);right:clamp(1.2rem,3.5vw,2.5rem);top:50%;transform:translateY(-44%)}
-.hero h1{font-size:clamp(3rem,6.6vw,7.4rem);text-wrap:balance}
-.hero h1 em{font-style:normal;color:var(--brique)}
+.hero h1{font-size:clamp(2.1rem,3.7vw,5rem);line-height:1.04;text-wrap:balance}
+.hero h1 mark{background:none;padding:0}
+.hero h1 .h-a{color:#7F2810}.hero h1 .h-b{color:#14409E}.hero h1 .h-c{color:#72217D}
+.hero h1 em{font-style:normal;color:#7F2810}
 .hero h1 span{display:block;overflow:hidden;padding-bottom:.06em}
 .hero h1 span>i{display:block;font-style:normal;transform:translateY(105%);animation:rise .9s cubic-bezier(.2,.7,.1,1) forwards}
 .hero h1 span:nth-child(2)>i{animation-delay:.08s}.hero h1 span:nth-child(3)>i{animation-delay:.16s}.hero h1 span:nth-child(4)>i{animation-delay:.24s}
 @keyframes rise{to{transform:none}}
 .lede{max-width:33ch;font-size:1.25rem;margin:1.8rem 0 2rem}
 .cta{display:flex;gap:.8rem;flex-wrap:wrap}
-.hero-cap{position:absolute;left:clamp(1.2rem,3.5vw,2.5rem);bottom:1.6rem;max-width:26ch;color:var(--ink)}
-.hero-cap b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.3rem;letter-spacing:-.02em;line-height:1}
+.hero-cap{position:absolute;left:clamp(1.2rem,3.5vw,2.5rem);bottom:1.6rem;max-width:30ch;color:var(--ink)}
+.hero-cap b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.75rem;letter-spacing:-.02em;line-height:1;margin-bottom:.35rem}
 @media (max-width:900px){
   .hero{--ph:100vw;display:flex;flex-direction:column;padding-top:86px}
   .hero .stage{order:1;width:100%;height:auto;aspect-ratio:1}
   .hero .txt{position:static;transform:none;order:2;background:var(--peri);padding:0 clamp(1.2rem,3.5vw,2.5rem) 3rem}
-  .hero h1{font-size:clamp(3.2rem,16vw,6rem)}
+  .hero h1{font-size:clamp(2rem,8.4vw,3.3rem)}
   .hero-cap{display:none}
   .hero{background:var(--lav)}
 }
@@ -131,7 +133,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .scene.rev .txt{grid-column:1/6;grid-row:1}
 .scene h3{font-size:clamp(3rem,6.2vw,6.4rem);margin:0 0 1.4rem;text-wrap:balance}
 .scene .story{max-width:34ch;margin:0 0 1.6rem;font-size:1.2rem}
-.specs{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.4rem;margin:0 0 1.8rem;padding:1.1rem 0;border-block:1.5px solid currentColor;font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.4rem;margin:0 0 1.8rem;padding:1.1rem 0;border-block:1.5px solid currentColor;font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase}
 .specs dt{opacity:.62}.specs dd{margin:0}
 .buyrow{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
 .price{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2.6rem;letter-spacing:-.012em;line-height:1}
@@ -152,7 +154,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .s-lav{--wall:var(--lav);--floor:var(--peri);--h:.6}
 .s-cobalt .price,.s-cobalt h3{color:var(--ink)}
 .toggle{display:inline-flex;border:2px solid var(--ink);margin:0 0 1.6rem}
-.toggle button{background:transparent;border:0;padding:.65rem 1.1rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.toggle button{background:transparent;border:0;padding:.65rem 1.1rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
 .toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 @media (max-width:900px){
   .scene .in{display:flex;flex-direction:column;gap:2.6rem;align-items:stretch}
@@ -196,7 +198,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .emaux h2{font-size:clamp(3rem,7.6vw,7.4rem)}
 .emaux .head p{max-width:34ch;margin:0}
 .chips{display:grid;grid-template-columns:repeat(6,1fr);gap:0}
-.chip{position:relative;border:0;border-radius:0;height:clamp(120px,15vw,190px);padding:.9rem;text-align:left;display:flex;align-items:flex-end;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:height .3s ease}
+.chip{position:relative;border:0;border-radius:0;height:clamp(120px,15vw,190px);padding:.9rem;text-align:left;display:flex;align-items:flex-end;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:height .3s ease}
 .chip:hover{height:clamp(140px,17vw,215px)}
 .chip[aria-pressed="true"]{height:clamp(160px,19vw,240px)}
 .chip[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:var(--ink);clip-path:polygon(0 0,100% 0,50% 100%,0 0)}
@@ -234,7 +236,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .seg{min-width:9px;transition:transform .25s}
 .seg:hover{transform:translateY(-6px)}
 .legend{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1.2rem}
-.legend div{display:flex;gap:.7rem;align-items:baseline;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.legend div{display:flex;gap:.7rem;align-items:baseline;font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
 .legend i{width:.8rem;height:.8rem;flex:none;transform:translateY(.05rem)}
 .legend b{font-weight:500;color:var(--paper)}.legend span{opacity:.6}
 .zero{margin-top:2.6rem;padding-top:1.4rem;border-top:1px dashed rgba(248,240,250,.3);display:flex;gap:1rem;align-items:baseline;color:rgba(248,240,250,.8)}
@@ -279,26 +281,27 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ============ Boutique ============ */
 .shop{background:var(--paper);padding:clamp(5rem,9vw,8rem) 0}
-.shop h2{font-size:clamp(3rem,7.6vw,7.4rem)}
+.shop h2{font-size:clamp(2.4rem,4.6vw,4.4rem)}
 .tools{display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;align-items:center;margin:2.4rem 0 2.6rem;padding:1rem 0;border-block:1.5px solid var(--ink)}
 .tools input,.tools select{background:transparent;border:0;border-bottom:1.5px solid var(--line);font:inherit;padding:.5rem .1rem;color:var(--ink);border-radius:0;min-width:200px}
 .filters{display:flex;gap:.4rem;flex-wrap:wrap}
-.filters button{border:1.5px solid var(--ink);background:transparent;padding:.5rem .9rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.filters button{border:1.5px solid var(--ink);background:transparent;padding:.5rem .9rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
 .filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.6rem)}
-.card{display:flex;flex-direction:column}
-.card .pic{position:relative;aspect-ratio:1;overflow:hidden}
-.card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.1,1)}
-.card:hover .pic img{transform:scale(1.04)}
-.card .pic .b{position:absolute;left:.8rem;top:.8rem;background:var(--paper);padding:.3rem .6rem;border-radius:999px}
-.card .meta{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-top:.9rem}
-.card h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.55rem;letter-spacing:-.025em;line-height:1;margin:0}
-.card .p{font-family:var(--mono);font-size:.9rem;white-space:nowrap}
-.card .sub{margin:.3rem 0 .9rem;opacity:.7;font-size:1rem}
-.card .btn{align-self:flex-start;padding:.65rem 1rem}
-.empty{grid-column:1/-1;padding:3rem 0;opacity:.7}
-@media (max-width:900px){.cards{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.cards{grid-template-columns:1fr}}
+.idx{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:64px 1fr auto;gap:1rem 1.4rem;align-items:center;padding:.9rem 0;border-top:1px solid var(--line)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row .pic{width:64px;height:64px;overflow:hidden;background:var(--bg);display:block}
+.row .pic img{width:100%;height:100%;object-fit:cover}
+.row h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.5rem;letter-spacing:-.012em;line-height:1;margin:0}
+.row h3 a{text-decoration:none}
+.row h3 a:hover{text-decoration:underline;text-underline-offset:.2em}
+.row p{margin:.35rem 0 0;opacity:.7;font-size:1rem}
+.rbuy{display:flex;align-items:center;gap:1.4rem}
+.rbuy .p{font-family:var(--mono);font-size:.95rem;white-space:nowrap}
+.rbuy .btn{padding:.65rem 1rem}
+.empty{padding:3rem 0;opacity:.7}
+.idxlink{display:block;margin-top:.7rem;font-weight:600}
+@media (max-width:640px){.row{grid-template-columns:56px 1fr}.row .pic{width:56px;height:56px}.rbuy{grid-column:1/-1;justify-content:space-between}}
 
 /* ============ FAQ ============ */
 .faq{background:var(--lav);padding:clamp(4.5rem,8vw,7rem) 0}
@@ -346,12 +349,12 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 .qty{display:flex;align-items:center;gap:.7rem;margin-top:.4rem;font-family:var(--mono);font-size:.8rem}
 .qty button{width:1.6rem;height:1.6rem;border:1.5px solid var(--ink);background:transparent;line-height:1;padding:0}
 .qty button:hover{background:var(--ink);color:var(--paper)}
-.rm{background:transparent;border:0;opacity:.55;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}.rm:hover{opacity:1}
+.rm{background:transparent;border:0;opacity:.55;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}.rm:hover{opacity:1}
 .emptycart{padding:3rem 0;text-align:center;opacity:.65}
 .foot{padding-top:1.1rem;border-top:1.5px solid var(--ink);display:grid;gap:1rem}
 .foot .code{display:flex;gap:.5rem}
 .foot .code input{flex:1;background:transparent;border:0;border-bottom:1.5px solid var(--line);font:inherit;font-size:1rem;padding:.5rem .1rem;border-radius:0}
-.foot .code button{border:1.5px solid var(--ink);background:transparent;padding:.4rem .9rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.foot .code button{border:1.5px solid var(--ink);background:transparent;padding:.4rem .9rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
 .total{display:flex;justify-content:space-between;align-items:baseline}
 .total b{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2.4rem;letter-spacing:-.012em}
 .foot .btn{justify-content:center}
@@ -376,7 +379,6 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
     <a href="#emaux">Émaux</a>
     <a href="#atelier">Atelier</a>
     <a href="#fournee">Fournée</a>
-    <a href="#boutique">Boutique</a>
   </nav>
   <div class="bar-actions">
     <button class="cart-btn" onclick="openCart()" aria-label="Ouvrir le panier">
@@ -394,7 +396,6 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
   <a href="#emaux" onclick="toggleNav()">Émaux</a>
   <a href="#atelier" onclick="toggleNav()">Atelier</a>
   <a href="#fournee" onclick="toggleNav()">Fournée</a>
-  <a href="#boutique" onclick="toggleNav()">Boutique</a>
 </nav>
 
 <main id="top">
@@ -406,10 +407,10 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
   </div>
   <div class="txt">
     <p class="mono kicker">Pièces uniques &amp; petites séries — grès émaillé</p>
-    <h1 class="d" aria-label="Des formes brutes, des émaux qui coulent.">
-      <span><i>Des formes</i></span><span><i>brutes, des</i></span><span><i>émaux qui</i></span><span><i><em>coulent.</em></i></span>
+    <h1 class="d" aria-label="Des théières qui ont l'air de lampes de génie, des bols sur pied comme de petits piédestaux, une soucoupe volante qui sert le thé.">
+      <span><i>Des théières qui ont l'air de <mark class="h-a">lampes de génie</mark>, des bols sur pied comme de petits <mark class="h-b">piédestaux</mark>, une <mark class="h-c">soucoupe volante</mark> qui sert le thé.</i></span>
     </h1>
-    <p class="lede">Théières, bols et mugs façonnés à la main dans l'atelier bruxellois de Clémence. Chaque pièce est tournée, cuite à haute température et émaillée une à une.</p>
+    <p class="lede">Façonnés à la main dans l'atelier bruxellois de Clémence.</p>
     <div class="cta">
       <a class="btn" href="#collection">Voir la collection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn ghost" href="#anatomie">Anatomie d'une théière</a>
@@ -422,8 +423,8 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <section class="manifest dark on-dark">
   <div class="wrap">
     <p class="mono kicker">L'atelier en une phrase</p>
-    <p class="big">Des théières qui ont l'air de <mark class="m1">lampes de génie</mark>, des bols sur pied comme de petits <mark class="m3">piédestaux</mark>, une <mark class="m2">soucoupe volante</mark> qui sert le thé.</p>
-    <p class="sub">Du grès, du feu, de la couleur. Chaque pièce est photographiée sur du papier de fond — parce qu'un émail brique ne se regarde bien que sur du lavande.</p>
+    <p class="big">Du <mark class="m1">grès</mark>, du <mark class="m2">feu</mark>, de la <mark class="m3">couleur</mark>.</p>
+    <p class="sub">Chaque pièce est tournée, cuite à haute température et émaillée une à une. Elle est photographiée sur du papier de fond, parce qu'un émail brique ne se regarde bien que sur du lavande.</p>
     <div class="figures">
       <div class="fig"><b>≈ 3</b><span>semaines de fabrication pour chaque pièce</span></div>
       <div class="fig"><b>980°</b><span>pour le dégourdi, la première cuisson</span></div>
@@ -437,12 +438,12 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <section class="intro-coll" id="collection">
   <div class="wrap">
     <h2 class="d">La collection</h2>
-    <p>Cinq scènes, cinq papiers de fond. Chaque pièce y est présentée comme dans l'atelier : à la lumière dure, sur sa couleur.</p>
+    <p>Cinq scènes, cinq papiers de fond. Chaque pièce y est présentée comme dans l'atelier : à la lumière dure, sur sa couleur. <a class="idxlink" href="#boutique">Trier et chercher dans toutes les pièces</a></p>
   </div>
 </section>
 
 <!-- Marée Noire -->
-<section class="scene s-coral">
+<section class="scene s-coral" id="maree-noire">
   <div class="in">
     <div class="stage"><img class="shot" loading="lazy" src="images/product-theiere-maree-noire.jpg" alt="Théière « Marée Noire » : émail brun-noir brillant sur un papier de fond corail et rose vif"></div>
     <div class="txt reveal">
@@ -456,7 +457,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </section>
 
 <!-- Soucoupe volante -->
-<section class="scene rev s-magenta">
+<section class="scene rev s-magenta" id="soucoupe-volante">
   <div class="in">
     <div class="stage"><img class="shot" loading="lazy" src="images/product-soucoupe.jpg" alt="Pièce « Soucoupe Volante » : émail vert profond, deux ailes triangulaires, sur un papier de fond magenta et rose poudré"></div>
     <div class="txt reveal">
@@ -470,7 +471,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </section>
 
 <!-- Bols -->
-<section class="scene s-cobalt">
+<section class="scene s-cobalt" id="bols-piedestal">
   <div class="in">
     <div class="stage"><img class="shot" id="bowl-img" loading="lazy" src="images/product-bol-duo.jpg" alt="Bols piédestal en grès à l'émail brun-gris strié, sur un papier de fond bleu cobalt"></div>
     <div class="txt reveal">
@@ -488,7 +489,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </section>
 
 <!-- Mug -->
-<section class="scene rev s-prune">
+<section class="scene rev s-prune" id="le-mont">
   <div class="in">
     <div class="stage"><img class="shot" loading="lazy" src="images/product-mug-le-mont.jpg" alt="Mug « Le Mont » : émail vert mousse, anse blanche, sur un papier de fond prune"></div>
     <div class="txt reveal">
@@ -617,7 +618,6 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <!-- ============ BOUTIQUE ============ -->
 <section class="shop" id="boutique">
   <div class="wrap">
-    <p class="mono kicker">Disponible à la vente</p>
     <h2 class="d">Toutes les pièces</h2>
     <div class="tools">
       <label><span class="sr" style="position:absolute;left:-9999px">Rechercher</span><input type="search" id="search" placeholder="Rechercher une pièce…" oninput="renderShop()"></label>
@@ -625,7 +625,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       <label><span class="sr" style="position:absolute;left:-9999px">Trier</span>
         <select id="sort" onchange="renderShop()"><option value="default">Trier : pertinence</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option></select></label>
     </div>
-    <div class="cards" id="cards"></div>
+    <div class="idx" id="cards"></div>
   </div>
 </section>
 
@@ -651,7 +651,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
     <div class="rolls" aria-hidden="true"><i style="background:var(--lav)"></i><i style="background:var(--peri)"></i><i style="background:var(--cobalt)"></i><i style="background:var(--prune)"></i><i style="background:var(--magenta)"></i><i style="background:var(--hot)"></i><i style="background:var(--coral)"></i></div>
     <div class="fgrid">
       <div><h5 class="mono">Plein Pot Studio</h5><p style="max-width:38ch;margin:0;opacity:.8">Atelier indépendant de céramique contemporaine à Bruxelles. Les papiers de fond ci-dessus sont ceux des photos.</p></div>
-      <div><h5 class="mono">Explorer</h5><ul><li><a href="#collection">Collection</a></li><li><a href="#anatomie">Anatomie</a></li><li><a href="#emaux">Émaux</a></li><li><a href="#atelier">Atelier</a></li><li><a href="#boutique">Boutique</a></li></ul></div>
+      <div><h5 class="mono">Explorer</h5><ul><li><a href="#collection">Collection</a></li><li><a href="#anatomie">Anatomie</a></li><li><a href="#emaux">Émaux</a></li><li><a href="#atelier">Atelier</a></li><li><a href="#boutique">Toutes les pièces</a></li></ul></div>
       <div><h5 class="mono">Suivre</h5><ul><li><a href="https://www.instagram.com/pleinpot.studio/" rel="noopener">@pleinpot.studio</a></li><li><a href="#fournee">Prochaine fournée</a></li></ul></div>
     </div>
     <div class="legal mono"><span>© 2026 Plein Pot Studio</span><span>Bruxelles</span></div>
@@ -754,12 +754,12 @@ function renderShop(){
   const q = $('#search').value.trim().toLowerCase(), s = $('#sort').value;
   let list = products.filter(p => (cat==='all'||p.cat===cat) && (p.full.toLowerCase().includes(q)));
   if(s==='asc') list.sort((a,b)=>a.price-b.price); if(s==='desc') list.sort((a,b)=>b.price-a.price);
+  const anchors = {1:'anatomie',2:'maree-noire',3:'le-mont',4:'bols-piedestal',5:'bols-piedestal',6:'soucoupe-volante'};
   $('#cards').innerHTML = list.length ? list.map(p=>`
-    <article class="card">
-      <div class="pic" style="background:${p.bg}"><img src="${p.img}" alt="${p.full}" loading="lazy"><span class="b mono">${p.badge}</span></div>
-      <div class="meta"><h3>${p.name}</h3><span class="p">${p.price} €</span></div>
-      <p class="sub">Grès émaillé · ${p.cap}</p>
-      <button class="btn" onclick="addToCart(${p.id})">Ajouter</button>
+    <article class="row">
+      <a class="pic" href="#${anchors[p.id]}" style="--bg:${p.bg}" tabindex="-1" aria-hidden="true"><img src="${p.img}" alt="" loading="lazy"></a>
+      <div><h3><a href="#${anchors[p.id]}">${p.name}</a></h3><p>${p.badge}, ${p.cap}</p></div>
+      <div class="rbuy"><span class="p">${p.price} €</span><button class="btn" type="button" onclick="addToCart(${p.id})">Ajouter</button></div>
     </article>`).join('') : `<p class="empty">Aucune pièce ne correspond à ta recherche.</p>`;
 }
 
