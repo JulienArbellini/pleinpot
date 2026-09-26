@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plein Pot Studio — Céramique contemporaine, Bruxelles</title>
+<meta name="description" content="Théières, bols et mugs en grès émaillé, tournés et émaillés à la main dans l'atelier bruxellois de Clémence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ Tokens : les papiers de fond du studio photo de Clémence ============ */
+:root{
+  --ink:#1B0E24;          /* noir aubergine, jamais de noir pur */
+  --paper:#F8F0FA;        /* blanc teinté lilas */
+  --lav:#E3CBEA;          /* lavande */
+  --peri:#8C9FDC;         /* pervenche */
+  --cobalt:#0E7DFB;
+  --sky:#6F9BFA;
+  --prune:#6C1D78;
+  --magenta:#9F3260;
+  --rose:#DAB8C9;
+  --coral:#FB5B66;
+  --hot:#F05A88;
+  --brique:#B5401F;
+  --line:rgba(27,14,36,.18);
+  --display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
+  --text:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"DM Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--text);font-size:1.125rem;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+::selection{background:var(--ink);color:var(--lav)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.on-dark :focus-visible,.dark :focus-visible{outline-color:var(--lav)}
+
+.d{font-family:var(--display);font-stretch:75%;font-weight:800;letter-spacing:-.035em;line-height:.9;margin:0}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.kicker{display:inline-flex;align-items:center;gap:.7em;margin:0 0 1.3rem}
+.kicker::before{content:"";width:.9em;height:.9em;background:currentColor;clip-path:polygon(0 100%,100% 0,100% 100%)} /* le bec de la théière */
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(1.2rem,3.5vw,2.5rem)}
+
+/* ============ Boutons ============ */
+.btn{display:inline-flex;align-items:center;gap:.8em;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:.95rem 1.4rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;text-decoration:none;transition:background .2s,color .2s,transform .2s}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.light{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn.light:hover{background:transparent;color:var(--paper)}
+.btn svg{width:1.05em;height:1.05em;flex:none}
+
+/* ============ Barre de navigation ============ */
+.bar{position:fixed;z-index:60;top:14px;left:50%;transform:translateX(-50%);width:min(1240px,calc(100% - 28px));background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.1rem;border-radius:3px}
+.brand{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.55rem;letter-spacing:-.03em;text-decoration:none;line-height:1}
+.brand small{display:block;font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-top:.25rem}
+.bar nav{display:flex;gap:1.7rem}
+.bar nav a{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;opacity:.8;transition:opacity .2s,color .2s}
+.bar nav a:hover{opacity:1;color:var(--lav)}
+.bar-actions{display:flex;gap:.6rem;align-items:center}
+.cart-btn,.burger{display:inline-flex;align-items:center;gap:.6rem;background:var(--paper);color:var(--ink);border:0;padding:.55rem .9rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px}
+.cart-btn:hover,.burger:hover{background:var(--lav)}
+.cart-btn svg,.burger svg{width:16px;height:16px}
+.burger{display:none;padding:.55rem .65rem}
+.mnav{display:none;position:fixed;z-index:59;top:74px;left:14px;right:14px;background:var(--ink);color:var(--paper);padding:.6rem 1.2rem 1.2rem;flex-direction:column;border-radius:3px}
+.mnav.open{display:flex}
+.mnav a{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2rem;letter-spacing:-.03em;text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(248,240,250,.15)}
+@media (max-width:980px){.bar nav{display:none}.burger{display:inline-flex}}
+
+/* ============ Le plateau : fond bicolore mur / sol, comme dans ses photos ============ */
+.stage{position:relative;isolation:isolate}
+.stage::before{content:"";position:absolute;z-index:-1;left:-100vw;right:-100vw;top:calc(var(--h)*100%);bottom:calc(var(--pad,0px)*-1);background:var(--floor)}
+.shot{width:100%;height:100%;object-fit:cover;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--fx,13%),#000 calc(100% - var(--fx,13%)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--fy,8%),#000 calc(100% - var(--fyb,0%)),transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent 0,#000 var(--fx,13%),#000 calc(100% - var(--fx,13%)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--fy,8%),#000 calc(100% - var(--fyb,0%)),transparent 100%);
+  mask-composite:intersect}
+
+/* ============ Hero ============ */
+.hero{--ph:min(62vw,880px);--h:.6;--floor:var(--peri);position:relative;background:var(--lav);overflow:clip}
+.hero .stage{width:var(--ph);height:var(--ph)}
+.hero .stage::before{bottom:0}
+.hero .txt{position:absolute;left:calc(var(--ph) - 7vw);right:clamp(1.2rem,3.5vw,2.5rem);top:50%;transform:translateY(-44%)}
+.hero h1{font-size:clamp(3rem,6.6vw,7.4rem);text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--brique)}
+.hero h1 span{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 span>i{display:block;font-style:normal;transform:translateY(105%);animation:rise .9s cubic-bezier(.2,.7,.1,1) forwards}
+.hero h1 span:nth-child(2)>i{animation-delay:.08s}.hero h1 span:nth-child(3)>i{animation-delay:.16s}.hero h1 span:nth-child(4)>i{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.lede{max-width:33ch;font-size:1.25rem;margin:1.8rem 0 2rem}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap}
+.hero-cap{position:absolute;left:clamp(1.2rem,3.5vw,2.5rem);bottom:1.6rem;max-width:26ch;color:var(--ink)}
+.hero-cap b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.3rem;letter-spacing:-.02em;line-height:1}
+@media (max-width:900px){
+  .hero{--ph:100vw;display:flex;flex-direction:column;padding-top:86px}
+  .hero .stage{order:1;width:100%;height:auto;aspect-ratio:1}
+  .hero .txt{position:static;transform:none;order:2;background:var(--peri);padding:0 clamp(1.2rem,3.5vw,2.5rem) 3rem}
+  .hero h1{font-size:clamp(3.2rem,16vw,6rem)}
+  .hero-cap{display:none}
+  .hero{background:var(--lav)}
+}
+
+/* ============ Manifeste ============ */
+.manifest{background:var(--ink);color:var(--paper);padding:clamp(5rem,10vw,9rem) 0 clamp(4rem,7vw,6rem)}
+.manifest .kicker{color:var(--lav)}
+.manifest p.big{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:clamp(2rem,5.2vw,5rem);line-height:1.02;letter-spacing:-.03em;max-width:24ch;margin:0;text-wrap:balance}
+.manifest p.big mark{background:none;padding:0}
+.manifest .m1{color:var(--coral)}.manifest .m2{color:var(--lav)}.manifest .m3{color:var(--sky)}
+.manifest .sub{max-width:48ch;margin:2.4rem 0 0;color:rgba(248,240,250,.75);font-size:1.2rem}
+.figures{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:clamp(3.5rem,6vw,5.5rem);border-top:1px solid rgba(248,240,250,.22)}
+.fig{padding:1.6rem 1.4rem 0 0}
+.fig+.fig{padding-left:1.4rem;border-left:1px solid rgba(248,240,250,.22)}
+.fig b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:clamp(2.8rem,5.6vw,5rem);letter-spacing:-.04em;line-height:.9}
+.fig:nth-child(1) b{color:var(--lav)}.fig:nth-child(2) b{color:var(--sky)}.fig:nth-child(3) b{color:var(--coral)}.fig:nth-child(4) b{color:var(--hot)}
+.fig span{display:block;margin-top:.7rem;font-size:1rem;color:rgba(248,240,250,.7);max-width:20ch;line-height:1.35}
+@media (max-width:760px){.figures{grid-template-columns:1fr 1fr}.fig:nth-child(3){border-left:0;padding-left:0}.fig:nth-child(n+3){margin-top:1.2rem;border-top:1px solid rgba(248,240,250,.22)}}
+
+/* ============ Scènes de collection ============ */
+.intro-coll{background:var(--coral);padding:clamp(4rem,8vw,7rem) 0 0;overflow:clip}
+.intro-coll .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+.intro-coll h2{font-size:clamp(3.4rem,11vw,10.5rem)}
+.intro-coll p{max-width:30ch;margin:0 0 1rem}
+.scene{--pad:clamp(4.5rem,8vw,7.5rem);background:var(--wall);color:var(--fg,var(--ink));padding:var(--pad) 0;overflow:clip;position:relative}
+.scene .in{max-width:1320px;margin:0 auto;padding:0 clamp(1.2rem,3.5vw,2.5rem);display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;align-items:center}
+.scene .stage{grid-column:1/8;width:min(100%,var(--maxw,780px));aspect-ratio:var(--ar,1);justify-self:start}
+.scene .txt{grid-column:8/13;position:relative;z-index:2}
+.scene.rev .stage{grid-column:6/13;grid-row:1;justify-self:end}
+.scene.rev .txt{grid-column:1/6;grid-row:1}
+.scene h3{font-size:clamp(3rem,6.2vw,6.4rem);margin:0 0 1.4rem;text-wrap:balance}
+.scene .story{max-width:34ch;margin:0 0 1.6rem;font-size:1.2rem}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.4rem;margin:0 0 1.8rem;padding:1.1rem 0;border-block:1.5px solid currentColor;font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
+.specs dt{opacity:.62}.specs dd{margin:0}
+.buyrow{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.price{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2.6rem;letter-spacing:-.03em;line-height:1}
+.tag{display:inline-block;margin-bottom:1.1rem;padding:.35rem .7rem;border:1.5px solid currentColor;border-radius:999px}
+.scene .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.scene .btn:hover{background:transparent;color:var(--fg,var(--ink))}
+.s-coral{--wall:#FB5B66;--floor:#F05A88;--h:.67}
+.s-magenta{--wall:#A93564;--floor:#E3BACE;--h:.55;--fg:#fff;--maxw:470px;--ar:.5625}
+.s-magenta .shot{--fx:11%;--fyb:16%}
+.s-magenta .txt{background:var(--wall);padding:clamp(1.6rem,3vw,2.6rem)}
+.s-magenta .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.s-magenta .btn:hover{background:transparent;color:#fff}
+.s-cobalt{--wall:#1A82FB;--floor:#6F9FFE;--h:.54}
+.s-prune{--wall:#72217D;--floor:#72217D;--h:1;--fg:#fff;--maxw:560px;--ar:.9}
+.s-prune .shot{--fx:16%;--fyb:26%}
+.s-prune .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.s-prune .btn:hover{background:transparent;color:#fff}
+.s-lav{--wall:var(--lav);--floor:var(--peri);--h:.6}
+.s-cobalt .price,.s-cobalt h3{color:var(--ink)}
+.toggle{display:inline-flex;border:2px solid var(--ink);margin:0 0 1.6rem}
+.toggle button{background:transparent;border:0;padding:.65rem 1.1rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+@media (max-width:900px){
+  .scene .in{display:flex;flex-direction:column;gap:2.6rem;align-items:stretch}
+  .scene .txt,.scene.rev .txt{order:1}
+  .scene .stage,.scene.rev .stage{order:2;width:min(100%,var(--maxw,780px));justify-self:auto;align-self:center}
+  .scene h3{font-size:clamp(3rem,15vw,5.4rem)}
+}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.1,1)}
+.reveal.in-view{opacity:1;transform:none}
+
+/* ============ Anatomie ============ */
+.anat{--wall:var(--lav);--floor:var(--peri);--h:.6;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
+.anat .head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;margin-bottom:3rem;align-items:end}
+.anat .head h2{grid-column:1/8;font-size:clamp(3rem,7.6vw,7.4rem)}
+.anat .head p{grid-column:8/13;margin:0 0 .6rem;max-width:34ch}
+.anat .grid{display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;align-items:center}
+.anat .stage{grid-column:1/8;aspect-ratio:1;width:100%;max-width:800px}
+.pin{position:absolute;width:2.6rem;height:2.6rem;margin:-1.3rem 0 0 -1.3rem;border-radius:50%;border:2px solid var(--ink);background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:.82rem;font-weight:500;display:grid;place-items:center;padding:0;transition:transform .2s,background .2s,color .2s}
+@media (max-width:900px){.pin{width:2rem;height:2rem;margin:-1rem 0 0 -1rem;font-size:.7rem}}
+.pin:hover{transform:scale(1.12)}
+.pin[aria-pressed="true"]{background:var(--ink);color:var(--paper);transform:scale(1.18)}
+.parts{grid-column:8/13;display:flex;flex-direction:column;position:relative;z-index:2}
+.part{display:grid;grid-template-columns:2.2rem 1fr;gap:.2rem 1rem;text-align:left;background:none;border:0;border-top:1.5px solid var(--ink);padding:1rem 0;width:100%}
+.part:last-child{border-bottom:1.5px solid var(--ink)}
+.part .n{font-family:var(--mono);font-size:.78rem;padding-top:.45rem}
+.part h4{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.7rem;letter-spacing:-.03em;margin:0;line-height:1}
+.part p{grid-column:2;margin:0;max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .3s ease,margin .3s}
+.part[aria-expanded="true"] p{max-height:9rem;opacity:1;margin-top:.5rem}
+.part[aria-expanded="false"]{opacity:.68}
+.part[aria-expanded="false"]:hover{opacity:1}
+.anat .buy{margin-top:2rem;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
+@media (max-width:900px){
+  .anat .head h2,.anat .head p,.anat .stage,.parts{grid-column:1/-1}
+  .anat .head p{margin-top:1.4rem}
+  .anat .grid{row-gap:2rem}
+}
+
+/* ============ Émaux ============ */
+.emaux{background:var(--paper);padding:clamp(5rem,9vw,8rem) 0}
+.emaux .head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:2.6rem}
+.emaux h2{font-size:clamp(3rem,7.6vw,7.4rem)}
+.emaux .head p{max-width:34ch;margin:0}
+.chips{display:grid;grid-template-columns:repeat(6,1fr);gap:0}
+.chip{position:relative;border:0;border-radius:0;height:clamp(120px,15vw,190px);padding:.9rem;text-align:left;display:flex;align-items:flex-end;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:height .3s ease}
+.chip:hover{height:clamp(140px,17vw,215px)}
+.chip[aria-pressed="true"]{height:clamp(160px,19vw,240px)}
+.chip[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:var(--ink);clip-path:polygon(0 0,100% 0,50% 100%,0 0)}
+.chips{align-items:end}
+.view{display:grid;grid-template-columns:1fr 1fr;min-height:440px;margin-top:10px}
+.view .swatch{padding:clamp(1.6rem,3.5vw,3rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem;transition:background .35s ease,color .35s ease}
+.view h3{font-size:clamp(2.6rem,5.4vw,5.2rem)}
+.view .swatch p{max-width:30ch;margin:0}
+.view .swatch .mono{opacity:.75}
+.view .pic{position:relative;overflow:hidden;min-height:340px;transition:background .35s ease}
+.view .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.chips{grid-template-columns:repeat(3,1fr)}.chip,.chip:hover,.chip[aria-pressed="true"]{height:120px}.chip[aria-pressed="true"]::after{display:none}.chip[aria-pressed="true"]{box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 6px var(--ink)}.view{grid-template-columns:1fr}}
+
+/* ============ Atelier ============ */
+.atelier{background:var(--ink);color:var(--paper);padding:clamp(5rem,9vw,8rem) 0}
+.atelier .kicker{color:var(--sky)}
+.atelier h2{font-size:clamp(3rem,7.6vw,7.4rem);margin-bottom:1.6rem}
+.atelier .lead{max-width:44ch;font-size:1.25rem;color:rgba(248,240,250,.78);margin:0 0 4rem}
+.photos{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:1rem;align-items:start;margin-bottom:5rem}
+.photos figure{margin:0}
+.photos figure:nth-child(2){margin-top:3.2rem}.photos figure:nth-child(3){margin-top:1.4rem}.photos figure:nth-child(4){margin-top:4.6rem}
+.photos img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.photos figcaption{margin-top:.7rem;color:rgba(248,240,250,.7)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(248,240,250,.25)}
+.step{padding:1.6rem 1.6rem 0 0}
+.step+.step{padding-left:1.6rem;border-left:1px solid rgba(248,240,250,.25)}
+.step .num{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:4.4rem;letter-spacing:-.04em;line-height:.85}
+.step:nth-child(1) .num{color:var(--lav)}.step:nth-child(2) .num{color:var(--sky)}.step:nth-child(3) .num{color:var(--coral)}.step:nth-child(4) .num{color:var(--hot)}
+.step h4{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;margin:1rem 0 .5rem;line-height:1.05}
+.step p{margin:0;color:rgba(248,240,250,.72);font-size:1.02rem;line-height:1.45}
+.timing{margin-top:5rem}
+.timing h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.03em;line-height:1;margin:0 0 .8rem;max-width:22ch}
+.timing p{color:rgba(248,240,250,.72);max-width:48ch;margin:0 0 2rem}
+.strip{display:flex;height:64px;gap:3px}
+.seg{min-width:9px;transition:transform .25s}
+.seg:hover{transform:translateY(-6px)}
+.legend{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1.2rem}
+.legend div{display:flex;gap:.7rem;align-items:baseline;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.legend i{width:.8rem;height:.8rem;flex:none;transform:translateY(.05rem)}
+.legend b{font-weight:500;color:var(--paper)}.legend span{opacity:.6}
+.zero{margin-top:2.6rem;padding-top:1.4rem;border-top:1px dashed rgba(248,240,250,.3);display:flex;gap:1rem;align-items:baseline;color:rgba(248,240,250,.8)}
+@media (max-width:900px){
+  .photos{grid-template-columns:1fr 1fr}.photos figure:nth-child(n){margin-top:0}.photos figure:nth-child(even){margin-top:2rem}
+  .steps{grid-template-columns:1fr 1fr}.step:nth-child(3){padding-left:0;border-left:0}.step:nth-child(n+3){margin-top:1.6rem;border-top:1px solid rgba(248,240,250,.25)}
+  .legend{grid-template-columns:1fr 1fr}
+}
+
+/* ============ Fournée ============ */
+.drop{background:var(--coral);padding:clamp(4.5rem,8vw,7rem) 0;overflow:clip}
+.drop .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;align-items:center}
+.drop .l{grid-column:1/6}.drop .r{grid-column:6/13}
+.drop h2{font-size:clamp(3rem,6.4vw,6.4rem);margin-bottom:1.4rem}
+.drop form{display:flex;gap:.6rem;margin-top:1.8rem;flex-wrap:wrap}
+.drop input{flex:1;min-width:210px;background:transparent;border:0;border-bottom:2px solid var(--ink);padding:.85rem .1rem;font:inherit;color:var(--ink);border-radius:0}
+.drop input::placeholder{color:rgba(27,14,36,.62)}
+.clock{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.clock div{background:var(--hot);padding:1rem 1rem 1.2rem}
+.clock b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:clamp(3.2rem,7.6vw,7.4rem);letter-spacing:-.04em;line-height:.9;font-variant-numeric:tabular-nums}
+.clock span{display:block;margin-top:.5rem}
+@media (max-width:900px){.drop .l,.drop .r{grid-column:1/-1}}
+
+/* ============ Quiz ============ */
+.quiz{background:var(--cobalt);padding:clamp(4.5rem,8vw,7rem) 0}
+.quiz .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
+.quiz .l{grid-column:1/5}.quiz .r{grid-column:6/13}
+.quiz h2{font-size:clamp(3rem,6vw,6rem);margin-bottom:1.2rem}
+.q{margin:0 0 2.4rem;border:0;padding:0}
+.q legend{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.7rem;letter-spacing:-.02em;margin-bottom:1rem;padding:0}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.opt{background:transparent;border:2px solid var(--ink);padding:1rem;text-align:left;font-size:1.05rem;line-height:1.25;min-height:5.2rem;transition:background .2s,color .2s}
+.opt:hover{background:rgba(27,14,36,.14)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.result{margin-top:.6rem;background:var(--paper);padding:1.4rem;display:none;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.result.show{display:flex;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.result img{width:96px;height:96px;object-fit:cover}
+.result .who{flex:1;min-width:180px}
+.result h4{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2rem;letter-spacing:-.03em;margin:.2rem 0;line-height:1}
+@media (max-width:900px){.quiz .l,.quiz .r{grid-column:1/-1}.opts{grid-template-columns:1fr}.opt{min-height:0}}
+
+/* ============ Boutique ============ */
+.shop{background:var(--paper);padding:clamp(5rem,9vw,8rem) 0}
+.shop h2{font-size:clamp(3rem,7.6vw,7.4rem)}
+.tools{display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;align-items:center;margin:2.4rem 0 2.6rem;padding:1rem 0;border-block:1.5px solid var(--ink)}
+.tools input,.tools select{background:transparent;border:0;border-bottom:1.5px solid var(--line);font:inherit;padding:.5rem .1rem;color:var(--ink);border-radius:0;min-width:200px}
+.filters{display:flex;gap:.4rem;flex-wrap:wrap}
+.filters button{border:1.5px solid var(--ink);background:transparent;padding:.5rem .9rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.6rem)}
+.card{display:flex;flex-direction:column}
+.card .pic{position:relative;aspect-ratio:1;overflow:hidden}
+.card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.card:hover .pic img{transform:scale(1.04)}
+.card .pic .b{position:absolute;left:.8rem;top:.8rem;background:var(--paper);padding:.3rem .6rem;border-radius:999px}
+.card .meta{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-top:.9rem}
+.card h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.55rem;letter-spacing:-.025em;line-height:1;margin:0}
+.card .p{font-family:var(--mono);font-size:.9rem;white-space:nowrap}
+.card .sub{margin:.3rem 0 .9rem;opacity:.7;font-size:1rem}
+.card .btn{align-self:flex-start;padding:.65rem 1rem}
+.empty{grid-column:1/-1;padding:3rem 0;opacity:.7}
+@media (max-width:900px){.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.cards{grid-template-columns:1fr}}
+
+/* ============ FAQ ============ */
+.faq{background:var(--lav);padding:clamp(4.5rem,8vw,7rem) 0}
+.faq .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
+.faq .l{grid-column:1/5}.faq .r{grid-column:6/13}
+.faq h2{font-size:clamp(3rem,6vw,6rem)}
+details{border-top:1.5px solid var(--ink)}
+details:last-child{border-bottom:1.5px solid var(--ink)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:1.2rem 0;font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.1}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--mono);font-weight:400;font-size:1.6rem;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 1.3rem;max-width:52ch}
+@media (max-width:900px){.faq .l,.faq .r{grid-column:1/-1}}
+
+/* ============ Pied de page ============ */
+footer{background:var(--ink);color:var(--paper);padding:clamp(4rem,7vw,6rem) 0 2rem;overflow:clip}
+.giant{font-size:clamp(5rem,35vw,42rem);letter-spacing:-.05em;line-height:.78;margin:0 0 3rem;color:var(--paper);white-space:nowrap}
+.giant span:nth-child(1){color:var(--lav)}.giant span:nth-child(2){color:var(--coral)}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;padding-bottom:2.6rem}
+footer h5{margin:0 0 1rem;color:var(--lav)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decoration:underline}
+.rolls{display:flex;height:46px;margin:0 0 2rem}
+.rolls i{flex:1}
+.legal{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-top:1.4rem;border-top:1px solid rgba(248,240,250,.22);opacity:.7}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr}}
+
+/* ============ Panier & fiche ============ */
+.shade{position:fixed;inset:0;z-index:80;background:rgba(27,14,36,.55);opacity:0;pointer-events:none;transition:opacity .3s}
+.shade.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:81;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--paper);padding:1.6rem;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.1,1);visibility:hidden}
+.drawer.on{transform:none;visibility:visible}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1rem;border-bottom:1.5px solid var(--ink)}
+.drawer h3{font-size:2.4rem}
+.x{background:transparent;border:0;padding:.4rem;line-height:0}.x svg{width:22px;height:22px}
+.ship{margin:1.1rem 0}
+.ship .row{display:flex;justify-content:space-between;margin-bottom:.5rem}
+.ship .track{height:8px;background:var(--line)}
+.ship .fill{height:100%;width:0;background:var(--coral);transition:width .4s}
+.items{flex:1;overflow:auto}
+.line{display:grid;grid-template-columns:72px 1fr auto;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);align-items:center}
+.line img{width:72px;height:72px;object-fit:cover}
+.line h4{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.2rem;letter-spacing:-.02em;margin:0;line-height:1.05}
+.qty{display:flex;align-items:center;gap:.7rem;margin-top:.4rem;font-family:var(--mono);font-size:.8rem}
+.qty button{width:1.6rem;height:1.6rem;border:1.5px solid var(--ink);background:transparent;line-height:1;padding:0}
+.qty button:hover{background:var(--ink);color:var(--paper)}
+.rm{background:transparent;border:0;opacity:.55;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}.rm:hover{opacity:1}
+.emptycart{padding:3rem 0;text-align:center;opacity:.65}
+.foot{padding-top:1.1rem;border-top:1.5px solid var(--ink);display:grid;gap:1rem}
+.foot .code{display:flex;gap:.5rem}
+.foot .code input{flex:1;background:transparent;border:0;border-bottom:1.5px solid var(--line);font:inherit;font-size:1rem;padding:.5rem .1rem;border-radius:0}
+.foot .code button{border:1.5px solid var(--ink);background:transparent;padding:.4rem .9rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.total{display:flex;justify-content:space-between;align-items:baseline}
+.total b{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:2.4rem;letter-spacing:-.03em}
+.foot .btn{justify-content:center}
+.foot small{text-align:center;opacity:.65}
+.toast{position:fixed;z-index:90;left:50%;bottom:22px;transform:translate(-50%,30px);background:var(--ink);color:var(--paper);padding:.9rem 1.2rem;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;max-width:calc(100% - 28px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .hero h1 span>i{transform:none}.reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="#top" aria-label="Plein Pot Studio, accueil">Plein Pot<small>Studio céramique — Bruxelles</small></a>
+  <nav aria-label="Navigation principale">
+    <a href="#collection">Collection</a>
+    <a href="#anatomie">Anatomie</a>
+    <a href="#emaux">Émaux</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#fournee">Fournée</a>
+    <a href="#boutique">Boutique</a>
+  </nav>
+  <div class="bar-actions">
+    <button class="cart-btn" onclick="openCart()" aria-label="Ouvrir le panier">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span>Panier</span><span id="cart-count">0</span>
+    </button>
+    <button class="burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" id="burger">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+    </button>
+  </div>
+</header>
+<nav class="mnav" id="mnav" aria-label="Menu mobile">
+  <a href="#collection" onclick="toggleNav()">Collection</a>
+  <a href="#anatomie" onclick="toggleNav()">Anatomie</a>
+  <a href="#emaux" onclick="toggleNav()">Émaux</a>
+  <a href="#atelier" onclick="toggleNav()">Atelier</a>
+  <a href="#fournee" onclick="toggleNav()">Fournée</a>
+  <a href="#boutique" onclick="toggleNav()">Boutique</a>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="stage">
+    <img class="shot" style="--fx:16%" src="images/hero-theiere-lampe.jpg" alt="Théière « Petite Lampe » en grès, émail brique brillant, couvercle posé à côté, sur un papier de fond lavande et pervenche">
+  </div>
+  <div class="txt">
+    <p class="mono kicker">Pièces uniques &amp; petites séries — grès émaillé</p>
+    <h1 class="d" aria-label="Des formes brutes, des émaux qui coulent.">
+      <span><i>Des formes</i></span><span><i>brutes, des</i></span><span><i>émaux qui</i></span><span><i><em>coulent.</em></i></span>
+    </h1>
+    <p class="lede">Théières, bols et mugs façonnés à la main dans l'atelier bruxellois de Clémence. Chaque pièce est tournée, cuite à haute température et émaillée une à une.</p>
+    <div class="cta">
+      <a class="btn" href="#collection">Voir la collection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn ghost" href="#anatomie">Anatomie d'une théière</a>
+    </div>
+  </div>
+  <p class="hero-cap mono"><b>Petite Lampe</b>Née d'un test d'émail, devenue pièce signature de l'atelier.</p>
+</section>
+
+<!-- ============ MANIFESTE ============ -->
+<section class="manifest dark on-dark">
+  <div class="wrap">
+    <p class="mono kicker">L'atelier en une phrase</p>
+    <p class="big">Des théières qui ont l'air de <mark class="m1">lampes de génie</mark>, des bols sur pied comme de petits <mark class="m3">piédestaux</mark>, une <mark class="m2">soucoupe volante</mark> qui sert le thé.</p>
+    <p class="sub">Du grès, du feu, de la couleur. Chaque pièce est photographiée sur du papier de fond — parce qu'un émail brique ne se regarde bien que sur du lavande.</p>
+    <div class="figures">
+      <div class="fig"><b>≈ 3</b><span>semaines de fabrication pour chaque pièce</span></div>
+      <div class="fig"><b>980°</b><span>pour le dégourdi, la première cuisson</span></div>
+      <div class="fig"><b>1250°</b><span>pour le grand feu, qui rend la pièce étanche</span></div>
+      <div class="fig"><b>0</b><span>plastique, et zéro chute de terre perdue</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLLECTION ============ -->
+<section class="intro-coll" id="collection">
+  <div class="wrap">
+    <h2 class="d">La collection</h2>
+    <p>Cinq scènes, cinq papiers de fond. Chaque pièce y est présentée comme dans l'atelier : à la lumière dure, sur sa couleur.</p>
+  </div>
+</section>
+
+<!-- Marée Noire -->
+<section class="scene s-coral">
+  <div class="in">
+    <div class="stage"><img class="shot" loading="lazy" src="images/product-theiere-maree-noire.jpg" alt="Théière « Marée Noire » : émail brun-noir brillant sur un papier de fond corail et rose vif"></div>
+    <div class="txt reveal">
+      <span class="tag mono">Nouveauté</span>
+      <h3 class="d">Marée<br>Noire</h3>
+      <p class="story">Une théière au profil sculptural, tout en angles, dont l'émail brun-noir profond joue les miroirs. Elle capte la lumière comme une nappe de pétrole.</p>
+      <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Brun-noir, reflets métalliques</dd><dt>Contenance</dt><dd>~ 400 ml</dd></dl>
+      <div class="buyrow"><span class="price">65 €</span><button class="btn" onclick="addToCart(2)">Ajouter au panier</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Soucoupe volante -->
+<section class="scene rev s-magenta">
+  <div class="in">
+    <div class="stage"><img class="shot" loading="lazy" src="images/product-soucoupe.jpg" alt="Pièce « Soucoupe Volante » : émail vert profond, deux ailes triangulaires, sur un papier de fond magenta et rose poudré"></div>
+    <div class="txt reveal">
+      <span class="tag mono">Nouveauté</span>
+      <h3 class="d">Soucoupe<br>Volante</h3>
+      <p class="story">Une silhouette futuriste, deux ailes en triangle, un vert profond capté en pleine lumière. Elle a atterri sur l'étagère et n'en est plus repartie.</p>
+      <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Vert profond</dd><dt>Contenance</dt><dd>~ 350 ml</dd></dl>
+      <div class="buyrow"><span class="price">45 €</span><button class="btn" onclick="addToCart(6)">Ajouter au panier</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Bols -->
+<section class="scene s-cobalt">
+  <div class="in">
+    <div class="stage"><img class="shot" id="bowl-img" loading="lazy" src="images/product-bol-duo.jpg" alt="Bols piédestal en grès à l'émail brun-gris strié, sur un papier de fond bleu cobalt"></div>
+    <div class="txt reveal">
+      <span class="tag mono" id="bowl-tag">Petite série</span>
+      <h3 class="d">Bols<br>piédestal</h3>
+      <div class="toggle" role="group" aria-label="Choisir le format">
+        <button aria-pressed="true" onclick="setBowl(4)">Duo</button>
+        <button aria-pressed="false" onclick="setBowl(5)">Solo</button>
+      </div>
+      <p class="story" id="bowl-story">Un duo de bols sur pied, à l'émail brun-gris strié tourné à la main. Vendus par paire.</p>
+      <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Brun-gris strié</dd><dt>Contenance</dt><dd id="bowl-cap">La paire</dd></dl>
+      <div class="buyrow"><span class="price" id="bowl-price">58 €</span><button class="btn" id="bowl-add" onclick="addToCart(4)">Ajouter au panier</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Mug -->
+<section class="scene rev s-prune">
+  <div class="in">
+    <div class="stage"><img class="shot" loading="lazy" src="images/product-mug-le-mont.jpg" alt="Mug « Le Mont » : émail vert mousse, anse blanche, sur un papier de fond prune"></div>
+    <div class="txt reveal">
+      <span class="tag mono">En stock</span>
+      <h3 class="d">Le<br>Mont</h3>
+      <p class="story">Un mug généreux à anse blanche, émail vert mousse texturé sur une base contrastée. On le prend à deux mains le matin.</p>
+      <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Vert mousse texturé</dd><dt>Contenance</dt><dd>~ 300 ml</dd></dl>
+      <div class="buyrow"><span class="price">32 €</span><button class="btn" onclick="addToCart(3)">Ajouter au panier</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANATOMIE ============ -->
+<section class="anat" id="anatomie">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="d">Anatomie d'une Petite&nbsp;Lampe</h2>
+      <p><span class="mono kicker">Le vocabulaire de la théière</span><br>Touche un repère pour comprendre ce que chaque partie fait, et pourquoi elle a cette forme.</p>
+    </div>
+    <div class="grid">
+      <div class="stage" style="--h:.6;--floor:var(--peri);--pad:0px">
+        <img class="shot" style="--fx:10%" src="images/product-theiere-lampe.jpg" alt="Théière « Petite Lampe » couvercle fermé, vue de dessus" loading="lazy">
+        <div id="pins"></div>
+      </div>
+      <div class="parts" id="parts"></div>
+    </div>
+    <div class="buy">
+      <span class="price">38 €</span>
+      <button class="btn" onclick="addToCart(1)">Ajouter la Petite Lampe</button>
+      <span class="mono">Pièce unique · ~ 400 ml · grès émaillé</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ÉMAUX ============ -->
+<section class="emaux" id="emaux">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="d">Le nuancier<br>d'émaux</h2>
+      <p>Les émaux sont préparés à l'atelier. Choisis une teinte pour voir la pièce qu'elle habille.</p>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Choisir un émail"></div>
+    <div class="view" id="view" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ ATELIER ============ -->
+<section class="atelier dark on-dark" id="atelier">
+  <div class="wrap">
+    <p class="mono kicker">Savoir-faire</p>
+    <h2 class="d">Dans l'atelier</h2>
+    <p class="lead">Chaque pièce traverse un processus lent et méthodique de près de trois semaines avant de trouver sa forme finale.</p>
+    <div class="photos">
+      <figure><img loading="lazy" src="images/atelier-clemence-1.jpg" alt="Clémence tient une théière crue et son couvercle dans l'atelier"><figcaption class="mono">Au tour</figcaption></figure>
+      <figure><img loading="lazy" src="images/atelier-clemence-2.jpg" alt="Clémence décore à la main une théière crue avant cuisson"><figcaption class="mono">Décor à la main</figcaption></figure>
+      <figure><img loading="lazy" src="images/atelier-four-clean.jpg" alt="Une théière blanche dégourdie au fond du four ouvert" style="object-position:50% 40%"><figcaption class="mono">Défournement</figcaption></figure>
+      <figure><img loading="lazy" src="images/macro-email.jpg" alt="Gros plan sur un bord de pièce émaillé : rouge, crème et bleu nuit"><figcaption class="mono">Détail d'émail</figcaption></figure>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h4>Le façonnage</h4><p>Modelage à la main ou tournage du grès brut pour donner naissance aux formes généreuses et ergonomiques.</p></div>
+      <div class="step"><div class="num">2</div><h4>Dégourdi — 980°C</h4><p>Séchage à l'air libre pendant sept jours, puis une première cuisson de 24 h.</p></div>
+      <div class="step"><div class="num">3</div><h4>L'émaillage</h4><p>Application minutieuse d'émaux colorés préparés à l'atelier.</p></div>
+      <div class="step"><div class="num">4</div><h4>Grand feu — 1250°C</h4><p>Cuisson finale pour une pièce étanche, durable et prête à l'usage.</p></div>
+    </div>
+    <div class="timing">
+      <h3>Pourquoi chaque pièce met trois semaines&nbsp;?</h3>
+      <p>Contrairement aux objets industriels, l'artisanat de la terre exige de la patience : la plus grande part du temps, c'est la terre qui sèche.</p>
+      <div class="strip" id="strip" role="img" aria-label="Répartition du temps de fabrication en heures : façonnage 2, séchage 120, dégourdi 24, émaillage 3, grand feu 36"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <p class="zero mono"><b>Zéro déchet —</b> toutes les chutes de terre crue sont réhydratées et recyclées.</p>
+  </div>
+</section>
+
+<!-- ============ FOURNÉE ============ -->
+<section class="drop" id="fournee">
+  <div class="wrap grid">
+    <div class="l">
+      <p class="mono kicker">Prochaine fournée</p>
+      <h2 class="d">La collection se renouvelle bientôt.</h2>
+      <p>Inscris-toi pour recevoir le lien d'accès privé par e-mail, une heure avant l'ouverture au public.</p>
+      <form onsubmit="subscribeVIP(event)">
+        <label class="sr" for="vip-email" style="position:absolute;left:-9999px">Adresse e-mail</label>
+        <input type="email" id="vip-email" required placeholder="Ton adresse e-mail" autocomplete="email">
+        <button class="btn" type="submit">S'inscrire</button>
+      </form>
+    </div>
+    <div class="r">
+      <div class="clock" aria-label="Compte à rebours avant la prochaine fournée" role="timer">
+        <div><b id="days">03</b><span class="mono">Jours</span></div>
+        <div><b id="hours">14</b><span class="mono">Heures</span></div>
+        <div><b id="minutes">22</b><span class="mono">Minutes</span></div>
+        <div><b id="seconds">45</b><span class="mono">Secondes</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="quiz" id="quiz">
+  <div class="wrap grid">
+    <div class="l">
+      <p class="mono kicker">Deux questions</p>
+      <h2 class="d">Quelle pièce te correspond&nbsp;?</h2>
+    </div>
+    <div class="r">
+      <fieldset class="q"><legend>1. Ton rituel du matin ?</legend>
+        <div class="opts">
+          <button class="opt q1" aria-pressed="false" onclick="selectQuiz(event,1,'cafe')">Un expresso serré, rapide</button>
+          <button class="opt q1" aria-pressed="false" onclick="selectQuiz(event,1,'grand-cafe')">Un grand thé ou café allongé</button>
+          <button class="opt q1" aria-pressed="false" onclick="selectQuiz(event,1,'deco')">Contempler des fleurs fraîches</button>
+        </div>
+      </fieldset>
+      <fieldset class="q"><legend>2. Quelle teinte t'inspire le plus de calme ?</legend>
+        <div class="opts">
+          <button class="opt q2" aria-pressed="false" onclick="selectQuiz(event,2,'bleu')">Bleu cobalt profond</button>
+          <button class="opt q2" aria-pressed="false" onclick="selectQuiz(event,2,'jaune')">Ocre chaleureux</button>
+          <button class="opt q2" aria-pressed="false" onclick="selectQuiz(event,2,'terre')">Terracotta brute</button>
+        </div>
+      </fieldset>
+      <div class="result" id="quiz-result" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOUTIQUE ============ -->
+<section class="shop" id="boutique">
+  <div class="wrap">
+    <p class="mono kicker">Disponible à la vente</p>
+    <h2 class="d">Toutes les pièces</h2>
+    <div class="tools">
+      <label><span class="sr" style="position:absolute;left:-9999px">Rechercher</span><input type="search" id="search" placeholder="Rechercher une pièce…" oninput="renderShop()"></label>
+      <div class="filters" id="filters" role="group" aria-label="Filtrer par catégorie"></div>
+      <label><span class="sr" style="position:absolute;left:-9999px">Trier</span>
+        <select id="sort" onchange="renderShop()"><option value="default">Trier : pertinence</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option></select></label>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="wrap grid">
+    <div class="l"><p class="mono kicker">Bon à savoir</p><h2 class="d">Questions fréquentes</h2></div>
+    <div class="r">
+      <details><summary>Pourquoi deux pièces ne sont-elles jamais identiques ?</summary><p>Tout est tourné, décoré et émaillé à la main, une pièce à la fois. L'émail coule là où il veut : aucune n'est identique à la précédente.</p></details>
+      <details><summary>Combien de temps faut-il pour fabriquer une pièce ?</summary><p>Près de trois semaines : sept jours de séchage, un dégourdi de 24 h à 980 °C, l'émaillage, puis le grand feu à 1250 °C.</p></details>
+      <details><summary>Comment entretenir mes pièces ?</summary><p>Elles résistent au lave-vaisselle et au micro-ondes.</p></details>
+      <details><summary>Comment se passe la livraison ?</summary><p>Livraison offerte dès 80 €. Expédition sous 3 à 5 jours, dans un emballage anti-casse renforcé.</p></details>
+      <details><summary>Que deviennent les chutes de terre ?</summary><p>Elles sont réhydratées et recyclées : zéro déchet, zéro plastique.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="dark on-dark">
+  <div class="wrap">
+    <p class="giant d" aria-hidden="true"><span>Plein</span> <span>Pot</span></p>
+    <div class="rolls" aria-hidden="true"><i style="background:var(--lav)"></i><i style="background:var(--peri)"></i><i style="background:var(--cobalt)"></i><i style="background:var(--prune)"></i><i style="background:var(--magenta)"></i><i style="background:var(--hot)"></i><i style="background:var(--coral)"></i></div>
+    <div class="fgrid">
+      <div><h5 class="mono">Plein Pot Studio</h5><p style="max-width:38ch;margin:0;opacity:.8">Atelier indépendant de céramique contemporaine à Bruxelles. Les papiers de fond ci-dessus sont ceux des photos.</p></div>
+      <div><h5 class="mono">Explorer</h5><ul><li><a href="#collection">Collection</a></li><li><a href="#anatomie">Anatomie</a></li><li><a href="#emaux">Émaux</a></li><li><a href="#atelier">Atelier</a></li><li><a href="#boutique">Boutique</a></li></ul></div>
+      <div><h5 class="mono">Suivre</h5><ul><li><a href="https://www.instagram.com/pleinpot.studio/" rel="noopener">@pleinpot.studio</a></li><li><a href="#fournee">Prochaine fournée</a></li></ul></div>
+    </div>
+    <div class="legal mono"><span>© 2026 Plein Pot Studio</span><span>Bruxelles</span></div>
+  </div>
+</footer>
+
+<!-- Panier -->
+<div class="shade" id="shade" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer" aria-label="Panier" aria-hidden="true">
+  <header><h3 class="d">Panier</h3><button class="x" onclick="closeCart()" aria-label="Fermer le panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"/></svg></button></header>
+  <div class="ship"><div class="row mono"><span id="ship-text">Livraison gratuite dès 80,00 €</span><span id="ship-pct">0%</span></div><div class="track"><div class="fill" id="ship-fill"></div></div></div>
+  <div class="items" id="items"></div>
+  <div class="foot">
+    <div class="code"><input id="coupon" placeholder="Code promo (ex : VIP10)" aria-label="Code promo"><button onclick="applyCoupon()">Appliquer</button></div>
+    <div class="total"><span class="mono">Total</span><b id="total">0,00 €</b></div>
+    <button class="btn" onclick="checkout()">Commander</button>
+    <small class="mono">Expédition sous 3 à 5 jours, emballage anti-casse renforcé</small>
+  </div>
+</aside>
+<div class="toast mono" id="toast" role="status"></div>
+
+<script>
+const products = [
+  { id:1, name:"Petite Lampe",      full:"Théière « Petite Lampe »", cat:"theieres", price:38, img:"images/product-theiere-lampe.jpg",        badge:"Pièce unique", cap:"~ 400 ml", bg:"#E3CBEA" },
+  { id:2, name:"Marée Noire",       full:"Théière « Marée Noire »",  cat:"theieres", price:65, img:"images/product-theiere-maree-noire.jpg",  badge:"Nouveauté",    cap:"~ 400 ml", bg:"#FB5B66" },
+  { id:3, name:"Le Mont",           full:"Mug « Le Mont »",          cat:"mugs",     price:32, img:"images/product-mug-le-mont.jpg",          badge:"En stock",     cap:"~ 300 ml", bg:"#6C1D78" },
+  { id:4, name:"Bol piédestal Duo", full:"Bol piédestal « Duo »",    cat:"bols",     price:58, img:"images/product-bol-duo.jpg",              badge:"Petite série", cap:"La paire", bg:"#0E7DFB" },
+  { id:5, name:"Bol piédestal Solo",full:"Bol piédestal « Solo »",   cat:"bols",     price:34, img:"images/product-bol-solo.jpg",             badge:"Pièce unique", cap:"~ 300 ml", bg:"#0E7DFB" },
+  { id:6, name:"Soucoupe Volante",  full:"Pièce « Soucoupe Volante »",cat:"theieres",price:45, img:"images/product-soucoupe.jpg",             badge:"Nouveauté",    cap:"~ 350 ml", bg:"#9F3260" }
+];
+const $ = s => document.querySelector(s);
+const eur = n => n.toFixed(2).replace('.', ',') + ' €';
+let cart = [], discount = 0, cat = 'all';
+
+/* ---- Nav mobile ---- */
+function toggleNav(){ const n=$('#mnav'), b=$('#burger'); const o=n.classList.toggle('open'); b.setAttribute('aria-expanded', o); }
+
+/* ---- Toast ---- */
+let tt; function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),2600); }
+
+/* ---- Bols : duo / solo ---- */
+function setBowl(id){
+  const p = products.find(x=>x.id===id);
+  $('#bowl-img').src = p.img;
+  const st = $('#bowl-img').parentElement; st.style.setProperty('--h', id===4 ? '.54' : '.63'); st.style.setProperty('--floor', id===4 ? '#6F9FFE' : '#88C0FD');
+  $('#bowl-price').textContent = p.price + ' €';
+  $('#bowl-cap').textContent = p.cap;
+  $('#bowl-tag').textContent = p.badge;
+  $('#bowl-story').textContent = id===4 ? "Un duo de bols sur pied, à l'émail brun-gris strié tourné à la main. Vendus par paire." : "Un bol sur pied à l'émail brun-gris strié, silhouette élancée sur fond bleu profond.";
+  $('#bowl-add').setAttribute('onclick', `addToCart(${id})`);
+  document.querySelectorAll('.toggle button').forEach((b,i)=>b.setAttribute('aria-pressed', String((i===0)===(id===4))));
+}
+
+/* ---- Anatomie ---- */
+const parts = [
+  { n:1, name:"Le bec",       x:78, y:20, txt:"Long et effilé comme celui d'une lampe à génie — c'est lui qui donne son nom à la pièce." },
+  { n:2, name:"La panse",     x:62, y:53, txt:"Tournée en grès, elle porte l'émail brique brillant qui coule sur un fond resté mat." },
+  { n:3, name:"Le couvercle", x:33, y:41, txt:"Tourné à part, émaillé de la même brique que la panse : il vient fermer l'ouverture." },
+  { n:4, name:"Le bouton",    x:47, y:42, txt:"Un petit bloc aux arêtes nettes — la seule note franchement géométrique de la pièce." },
+  { n:5, name:"Le manche",    x:10, y:66, txt:"Long manche effilé qui contre-balance le bec et donne à la théière son profil de lampe posée." }
+];
+let activePart = 1;
+function renderParts(){
+  $('#pins').innerHTML = parts.map(p=>`<button class="pin" style="left:${p.x}%;top:${p.y}%" aria-pressed="${p.n===activePart}" aria-label="${p.name}" onclick="setPart(${p.n})">${p.n}</button>`).join('');
+  $('#parts').innerHTML = parts.map(p=>`<button class="part" aria-expanded="${p.n===activePart}" onclick="setPart(${p.n})"><span class="n">${String(p.n).padStart(2,'0')}</span><h4>${p.name}</h4><p>${p.txt}</p></button>`).join('');
+}
+function setPart(n){ activePart=n; renderParts(); }
+
+/* ---- Émaux ---- */
+const emaux = [
+  { name:"Brique",             hex:"#B5401F", piece:"Petite Lampe",      img:"images/product-theiere-lampe.jpg",       wall:"#E3CBEA", txt:"Un émail brique brillant qui coule sur un fond mat." },
+  { name:"Noir-brun",          hex:"#1E1210", piece:"Marée Noire",       img:"images/product-theiere-maree-noire.jpg", wall:"#FB5B66", txt:"Brun-noir profond, aux reflets métalliques." },
+  { name:"Vert profond",       hex:"#24473A", piece:"Soucoupe Volante",  img:"images/product-soucoupe.jpg",            wall:"#9F3260", txt:"Un vert profond, capté en pleine lumière." },
+  { name:"Vert mousse",        hex:"#4E5D45", piece:"Mug « Le Mont »",   img:"images/product-mug-le-mont.jpg",         wall:"#6C1D78", txt:"Vert mousse texturé, posé sur une base contrastée." },
+  { name:"Brun-gris strié",    hex:"#5C566B", piece:"Bols piédestal",    img:"images/product-bol-solo.jpg",            wall:"#0E7DFB", txt:"Strié comme le geste du tour, du brun au gris bleuté." },
+  { name:"Rouge & crème",      hex:"#A3323A", piece:"Détail d'atelier",  img:"images/macro-email.jpg",                 wall:"#8C9FDC", txt:"Zoom sur un bord : rouge, crème et bleu nuit se rencontrent." }
+];
+const lum = h => { const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
+let activeEmail = 0;
+function renderEmaux(){
+  $('#chips').innerHTML = emaux.map((e,i)=>`<button class="chip" style="background:${e.hex};color:${lum(e.hex)>.3?'#1B0E24':'#F8F0FA'}" aria-pressed="${i===activeEmail}" onclick="setEmail(${i})">${e.name}</button>`).join('');
+  const e = emaux[activeEmail], light = lum(e.hex)>.3;
+  $('#view').innerHTML = `<div class="swatch" style="background:${e.hex};color:${light?'#1B0E24':'#F8F0FA'}"><span class="mono">Émail — ${e.hex.toUpperCase()}</span><div><h3 class="d">${e.name}</h3><p>${e.txt}</p></div><span class="mono">Sur la pièce : ${e.piece}</span></div><div class="pic" style="background:${e.wall}"><img src="${e.img}" alt="${e.piece}, émail ${e.name.toLowerCase()}"></div>`;
+}
+function setEmail(i){ activeEmail=i; renderEmaux(); }
+
+/* ---- Temps de fabrication ---- */
+const phases = [ ['Façonnage',2,'#6C1D78'], ['Séchage',120,'#E3CBEA'], ['Dégourdi',24,'#0E7DFB'], ['Émaillage',3,'#FB5B66'], ['Grand feu',36,'#B5401F'] ];
+function renderTiming(){
+  const tot = phases.reduce((a,p)=>a+p[1],0);
+  $('#strip').innerHTML = phases.map(p=>`<div class="seg" title="${p[0]} : ~${p[1]} h" style="flex:${p[1]};background:${p[2]}"></div>`).join('');
+  $('#legend').innerHTML = phases.map(p=>`<div><i style="background:${p[2]}"></i><b>${p[0]}</b><span>~${p[1]} h</span></div>`).join('');
+}
+
+/* ---- Boutique ---- */
+const cats = [['all','Tout voir'],['theieres','Théières'],['mugs','Tasses & mugs'],['bols','Bols']];
+function renderFilters(){ $('#filters').innerHTML = cats.map(c=>`<button aria-pressed="${c[0]===cat}" onclick="setCat('${c[0]}')">${c[1]}</button>`).join(''); }
+function setCat(c){ cat=c; renderFilters(); renderShop(); }
+function renderShop(){
+  const q = $('#search').value.trim().toLowerCase(), s = $('#sort').value;
+  let list = products.filter(p => (cat==='all'||p.cat===cat) && (p.full.toLowerCase().includes(q)));
+  if(s==='asc') list.sort((a,b)=>a.price-b.price); if(s==='desc') list.sort((a,b)=>b.price-a.price);
+  $('#cards').innerHTML = list.length ? list.map(p=>`
+    <article class="card">
+      <div class="pic" style="background:${p.bg}"><img src="${p.img}" alt="${p.full}" loading="lazy"><span class="b mono">${p.badge}</span></div>
+      <div class="meta"><h3>${p.name}</h3><span class="p">${p.price} €</span></div>
+      <p class="sub">Grès émaillé · ${p.cap}</p>
+      <button class="btn" onclick="addToCart(${p.id})">Ajouter</button>
+    </article>`).join('') : `<p class="empty">Aucune pièce ne correspond à ta recherche.</p>`;
+}
+
+/* ---- Quiz ---- */
+const quiz = { a:'', b:'' };
+function selectQuiz(evt, step, val){
+  document.querySelectorAll(step===1?'.q1':'.q2').forEach(b=>b.setAttribute('aria-pressed','false'));
+  evt.currentTarget.setAttribute('aria-pressed','true');
+  step===1 ? quiz.a=val : quiz.b=val;
+  if(quiz.a && quiz.b){
+    let id = 1;
+    if(quiz.a==='cafe') id = 5; else if(quiz.a==='deco') id = 2; else if(quiz.b==='jaune') id = 3;
+    const r = products.find(p=>p.id===id), box = $('#quiz-result');
+    box.innerHTML = `<img src="${r.img}" alt=""><div class="who"><span class="mono">Recommandation</span><h4>${r.name}</h4><span class="mono">${r.price} € — ${r.cap}</span></div><button class="btn" onclick="addToCart(${r.id})">Ajouter au panier</button>`;
+    box.classList.add('show');
+  }
+}
+
+/* ---- Panier ---- */
+function addToCart(id){ const it=cart.find(i=>i.id===id); it?it.qty++:cart.push({id,qty:1}); renderCart(); openCart(); }
+function changeQty(id,d){ const it=cart.find(i=>i.id===id); if(!it) return; it.qty+=d; if(it.qty<=0) cart=cart.filter(i=>i.id!==id); renderCart(); }
+function removeItem(id){ cart=cart.filter(i=>i.id!==id); renderCart(); }
+function renderCart(){
+  $('#cart-count').textContent = cart.reduce((a,i)=>a+i.qty,0);
+  const box = $('#items');
+  const raw = cart.reduce((a,i)=>a+products.find(p=>p.id===i.id).price*i.qty,0);
+  box.innerHTML = cart.length ? cart.map(i=>{ const p=products.find(x=>x.id===i.id); return `
+    <div class="line"><img src="${p.img}" alt=""><div><h4>${p.full}</h4><span class="mono">${p.price} €</span>
+      <div class="qty"><button onclick="changeQty(${p.id},-1)" aria-label="Retirer un">−</button><span>${i.qty}</span><button onclick="changeQty(${p.id},1)" aria-label="Ajouter un">+</button></div></div>
+      <button class="rm" onclick="removeItem(${p.id})">Retirer</button></div>`; }).join('') : `<p class="emptycart">Ton panier est vide.</p>`;
+  $('#total').textContent = eur(raw*(1-discount));
+  const rem = 80-raw, pct = Math.min(100,Math.round(raw/80*100));
+  $('#ship-fill').style.width = pct+'%'; $('#ship-pct').textContent = pct+'%';
+  $('#ship-text').textContent = rem<=0 ? 'Livraison offerte' : 'Livraison gratuite dans '+eur(rem);
+}
+function openCart(){ $('#drawer').classList.add('on'); $('#drawer').setAttribute('aria-hidden','false'); $('#shade').classList.add('on'); }
+function closeCart(){ $('#drawer').classList.remove('on'); $('#drawer').setAttribute('aria-hidden','true'); $('#shade').classList.remove('on'); }
+function applyCoupon(){ const c=$('#coupon').value.trim().toUpperCase(); if(c==='VIP10'){ discount=.1; renderCart(); toast('Code VIP10 appliqué : −10 %'); } else toast('Code promo invalide (essaie VIP10)'); }
+function checkout(){ cart.length ? toast('Démonstration : redirection vers le paiement sécurisé') : toast('Ton panier est vide pour le moment'); }
+function subscribeVIP(e){ e.preventDefault(); toast('Inscription confirmée pour '+$('#vip-email').value); e.target.reset(); }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeCart(); });
+
+/* ---- Compte à rebours ---- */
+function startCountdown(){
+  const end = Date.now() + (((3*24+14)*60+22)*60+45)*1000;
+  const pad = n => String(n).padStart(2,'0');
+  const tick = () => { let s = Math.max(0, Math.floor((end-Date.now())/1000));
+    $('#days').textContent = pad(Math.floor(s/86400)); $('#hours').textContent = pad(Math.floor(s%86400/3600));
+    $('#minutes').textContent = pad(Math.floor(s%3600/60)); $('#seconds').textContent = pad(s%60); };
+  tick(); setInterval(tick,1000);
+}
+
+/* ---- Apparitions ---- */
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('in-view')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }), { threshold:.15 });
+  els.forEach(e=>io.observe(e));
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); startCountdown(); initReveal();
+});
+</script>
+</body>
+</html>
