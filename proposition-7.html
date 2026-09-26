@@ -72,7 +72,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ============ Le plateau : fond bicolore mur / sol, comme dans ses photos ============ */
 .stage{position:relative;isolation:isolate}
-.stage::before{content:"";position:absolute;z-index:-1;left:-100vw;right:-100vw;top:calc(var(--h)*100%);bottom:calc(var(--pad,0px)*-1);background:var(--floor)}
+.stage::before,.stage::after{content:"";position:absolute;z-index:-1;top:calc(var(--pad,0px)*-1);bottom:calc(var(--pad,0px)*-1);border:0 solid transparent;border-top-width:var(--pad,0px);border-bottom-width:var(--pad,0px);background-clip:padding-box}
+.stage::before{left:-100vw;right:calc(50% - 2px);border-top-color:var(--wt);border-bottom-color:var(--fbl);background-image:linear-gradient(to bottom,var(--wt) 0%,var(--wh) calc(var(--hl)*100%),var(--fhl) calc(var(--hl)*100%),var(--fbl) 100%)}
+.stage::after{left:50%;right:-100vw;border-top-color:var(--wt);border-bottom-color:var(--fbr);background-image:linear-gradient(to bottom,var(--wt) 0%,var(--wh) calc(var(--hr)*100%),var(--fhr) calc(var(--hr)*100%),var(--fbr) 100%)}
 .shot{width:100%;height:100%;object-fit:cover;
   -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--fx,13%),#000 calc(100% - var(--fx,13%)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--fy,8%),#000 calc(100% - var(--fyb,0%)),transparent 100%);
   -webkit-mask-composite:source-in;
@@ -80,9 +82,8 @@ button{font:inherit;color:inherit;cursor:pointer}
   mask-composite:intersect}
 
 /* ============ Hero ============ */
-.hero{--ph:min(62vw,1000px);--h:.6;--floor:var(--peri);position:relative;background:var(--lav);overflow:clip}
+.hero{--ph:min(62vw,1000px);--wt:#E3CBEA;--wh:#EEDAF3;--hl:.62;--hr:.56;--fhl:#8B99CB;--fbl:#8797CD;--fhr:#AFBFF2;--fbr:#9FB4E9;position:relative;background:var(--lav);overflow:clip}
 .hero .stage{width:var(--ph);height:var(--ph)}
-.hero .stage::before{bottom:0}
 .hero .txt{position:absolute;left:calc(var(--ph) - 7vw);right:clamp(1.2rem,3.5vw,2.5rem);top:50%;transform:translateY(-44%)}
 .hero h1{font-size:clamp(2.1rem,3.7vw,5rem);line-height:1.04;text-wrap:balance}
 .hero h1 mark{background:none;padding:0}
@@ -99,7 +100,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (max-width:900px){
   .hero{--ph:100vw;display:flex;flex-direction:column;padding-top:86px}
   .hero .stage{order:1;width:100%;height:auto;aspect-ratio:1}
-  .hero .txt{position:static;transform:none;order:2;background:var(--peri);padding:0 clamp(1.2rem,3.5vw,2.5rem) 3rem}
+  .hero .txt{position:static;transform:none;order:2;background:linear-gradient(90deg,var(--fbl),var(--fbr));padding:0 clamp(1.2rem,3.5vw,2.5rem) 3rem}
   .hero h1{font-size:clamp(2rem,8.4vw,3.3rem)}
   .hero-cap{display:none}
   .hero{background:var(--lav)}
@@ -140,18 +141,17 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tag{display:inline-block;margin-bottom:1.1rem;padding:.35rem .7rem;border:1.5px solid currentColor;border-radius:999px}
 .scene .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .scene .btn:hover{background:transparent;color:var(--fg,var(--ink))}
-.s-coral{--wall:#FB5B66;--floor:#F05A88;--h:.67}
-.s-magenta{--wall:#A93564;--floor:#E3BACE;--h:.55;--fg:#fff;--maxw:470px;--ar:.5625}
+.s-coral{--wall:#FB5B66;--wt:#FB5B66;--wh:#FC5A65;--hl:.67;--hr:.69;--fhl:#F35A88;--fbl:#F05E8B;--fhr:#F9598A;--fbr:#F25B88}
+.s-magenta{--wall:#A93564;--wt:#A93564;--wh:#D04680;--hl:.52;--hr:.60;--fhl:#E4BDD0;--fbl:#E1BACD;--fhr:#E7B4CC;--fbr:#E7B4CC;--fg:#fff;--maxw:470px;--ar:.5625}
 .s-magenta .shot{--fx:11%;--fyb:16%}
 .s-magenta .txt{background:var(--wall);padding:clamp(1.6rem,3vw,2.6rem)}
 .s-magenta .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .s-magenta .btn:hover{background:transparent;color:#fff}
-.s-cobalt{--wall:#1A82FB;--floor:#6F9FFE;--h:.54}
-.s-prune{--wall:#72217D;--floor:#72217D;--h:1;--fg:#fff;--maxw:560px;--ar:.9}
+.s-cobalt{--wall:#1A82FB;--wt:#1A82FB;--wh:#1780F8;--hl:.54;--hr:.54;--fhl:#6C9AF8;--fbl:#6C9AF8;--fhr:#70A0FE;--fbr:#6D9EFD}
+.s-prune{--wall:#72217D;--wt:#72217D;--wh:#701F7B;--hl:1;--hr:1;--fhl:#701F7B;--fbl:#701F7B;--fhr:#701F7B;--fbr:#701F7B;--fg:#fff;--maxw:560px;--ar:.9}
 .s-prune .shot{--fx:16%;--fyb:26%}
 .s-prune .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .s-prune .btn:hover{background:transparent;color:#fff}
-.s-lav{--wall:var(--lav);--floor:var(--peri);--h:.6}
 .s-cobalt .price,.s-cobalt h3{color:var(--ink)}
 .toggle{display:inline-flex;border:2px solid var(--ink);margin:0 0 1.6rem}
 .toggle button{background:transparent;border:0;padding:.65rem 1.1rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
@@ -166,7 +166,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .reveal.in-view{opacity:1;transform:none}
 
 /* ============ Anatomie ============ */
-.anat{--wall:var(--lav);--floor:var(--peri);--h:.6;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
+.anat{--wall:var(--lav);--wt:#E3CBEA;--wh:#E3D0EC;--hl:.64;--hr:.58;--fhl:#838AB3;--fbl:#818DBF;--fhr:#A2AEDA;--fbr:#98A5D2;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
 .anat .head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;margin-bottom:3rem;align-items:end}
 .anat .head h2{grid-column:1/8;font-size:clamp(3rem,7.6vw,7.4rem)}
 .anat .head p{grid-column:8/13;margin:0 0 .6rem;max-width:34ch}
@@ -509,7 +509,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       <p><span class="mono kicker">Le vocabulaire de la théière</span><br>Touche un repère pour comprendre ce que chaque partie fait, et pourquoi elle a cette forme.</p>
     </div>
     <div class="grid">
-      <div class="stage" style="--h:.6;--floor:var(--peri);--pad:0px">
+      <div class="stage" style="--pad:0px">
         <img class="shot" style="--fx:10%" src="images/product-theiere-lampe.jpg" alt="Théière « Petite Lampe » couvercle fermé, vue de dessus" loading="lazy">
         <div id="pins"></div>
       </div>
@@ -690,10 +690,14 @@ function toggleNav(){ const n=$('#mnav'), b=$('#burger'); const o=n.classList.to
 let tt; function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),2600); }
 
 /* ---- Bols : duo / solo ---- */
+const BOWL_EDGES = {
+  duo:  { wh:'#1780F8', hl:'.54', hr:'.54', fhl:'#6C9AF8', fbl:'#6C9AF8', fhr:'#70A0FE', fbr:'#6D9EFD' },
+  solo: { wh:'#2C85FD', hl:'.64', hr:'.62', fhl:'#85BAFF', fbl:'#88BEFE', fhr:'#85BAFF', fbr:'#88BEFE' }
+};
 function setBowl(id){
   const p = products.find(x=>x.id===id);
   $('#bowl-img').src = p.img;
-  const st = $('#bowl-img').parentElement; st.style.setProperty('--h', id===4 ? '.54' : '.63'); st.style.setProperty('--floor', id===4 ? '#6F9FFE' : '#88C0FD');
+  const st = $('#bowl-img').parentElement, v = BOWL_EDGES[id===4 ? 'duo' : 'solo']; Object.entries(v).forEach(([k,val]) => st.style.setProperty('--'+k, val));
   $('#bowl-price').textContent = p.price + ' €';
   $('#bowl-cap').textContent = p.cap;
   $('#bowl-tag').textContent = p.badge;
