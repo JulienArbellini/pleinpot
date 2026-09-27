@@ -206,10 +206,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (max-width:600px){.sm-cap b{display:none}}
 .stopmo.static{height:auto}
 
-.row button.pic{border:0;padding:0;margin:0;font:inherit;cursor:pointer}
-.row .pic img{transition:transform .4s cubic-bezier(.2,.7,.1,1)}
-.row button.pic:hover img{transform:scale(1.06)}
-@media (prefers-reduced-motion:reduce){.row .pic img{transition:none}.row button.pic:hover img{transform:none}}
 
 /* ============ Anatomie ============ */
 .anat{--wall:var(--lav);--wt:#E3CBEA;--wh:#E3D0EC;--hl:.64;--hr:.58;--fhl:#838AB3;--fbl:#818DBF;--fhr:#A2AEDA;--fbr:#98A5D2;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
@@ -333,21 +329,29 @@ button{font:inherit;color:inherit;cursor:pointer}
 .filters{display:flex;gap:.4rem;flex-wrap:wrap}
 .filters button{border:1.5px solid var(--ink);background:transparent;padding:.5rem .9rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
 .filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.idx{display:flex;flex-direction:column}
-.row{display:grid;grid-template-columns:64px 1fr auto;gap:1rem 1.4rem;align-items:center;padding:.9rem 0;border-top:1px solid var(--line)}
-.row:last-child{border-bottom:1px solid var(--line)}
-.row .pic{width:64px;height:64px;overflow:hidden;background:var(--bg);display:block}
-.row .pic img{width:100%;height:100%;object-fit:cover}
-.row h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.5rem;letter-spacing:-.012em;line-height:1;margin:0}
-.row h3 a{text-decoration:none}
-.row h3 a:hover{text-decoration:underline;text-underline-offset:.2em}
-.row p{margin:.35rem 0 0;opacity:.7;font-size:1rem}
-.rbuy{display:flex;align-items:center;gap:1.4rem}
-.rbuy .p{font-family:var(--mono);font-size:.95rem;white-space:nowrap}
-.rbuy .btn{padding:.65rem 1rem}
-.empty{padding:3rem 0;opacity:.7}
+.idx{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1rem,2vw,1.6rem)}
+.mz-t{grid-column:span 4;display:flex;flex-direction:column;gap:.8rem;margin:0}
+.mz-t.w7{grid-column:span 7}.mz-t.w5{grid-column:span 5}.mz-t.w6{grid-column:span 6}
+.mz-pic{position:relative;display:block;width:100%;padding:0;border:0;background:var(--bg);aspect-ratio:1/1;overflow:hidden;cursor:default}
+.mz-t.w7 .mz-pic{aspect-ratio:7/5}.mz-t.w5 .mz-pic{aspect-ratio:5/5}.mz-t.w6 .mz-pic{aspect-ratio:6/5}
+button.mz-pic{cursor:pointer}
+.mz-pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
+button.mz-pic:hover img{transform:scale(1.04)}
+.mz-badge{position:absolute;left:.8rem;top:.8rem;padding:.3rem .6rem;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.mz-count{position:absolute;right:.8rem;bottom:.8rem;padding:.3rem .55rem;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.7rem;pointer-events:none}
+.mz-cap{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.mz-cap h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.5rem;letter-spacing:-.012em;line-height:1;margin:0}
+.mz-cap h3 a{text-decoration:none;color:inherit}
+.mz-cap h3 a:hover{text-decoration:underline;text-underline-offset:.2em}
+.mz-cap>span{font-family:var(--mono);font-size:.9rem;white-space:nowrap;opacity:.75}
+.mz-t p{margin:0;font-size:1rem;opacity:.7}
+.mz-buy{display:flex;align-items:center;gap:1rem}
+.mz-buy .btn{padding:.65rem 1.1rem}
+.empty{grid-column:1/-1;padding:3rem 0;opacity:.7}
 .idxlink{display:block;margin-top:.7rem;font-weight:600}
-@media (max-width:640px){.row{grid-template-columns:56px 1fr}.row .pic{width:56px;height:56px}.rbuy{grid-column:1/-1;justify-content:space-between}}
+@media (max-width:900px){.mz-t,.mz-t.w7,.mz-t.w5,.mz-t.w6{grid-column:span 6}.mz-t .mz-pic,.mz-t.w7 .mz-pic,.mz-t.w5 .mz-pic,.mz-t.w6 .mz-pic{aspect-ratio:1/1}}
+@media (max-width:560px){.mz-t,.mz-t.w7,.mz-t.w5,.mz-t.w6{grid-column:span 12}}
+@media (prefers-reduced-motion:reduce){.mz-pic img{transition:none}button.mz-pic:hover img{transform:none}}
 
 /* ============ FAQ ============ */
 .faq{background:var(--lav);padding:clamp(4.5rem,8vw,7rem) 0}
@@ -827,32 +831,35 @@ const cats = [['all','Tout voir'],['theieres','Théières'],['mugs','Tasses, mug
 function renderFilters(){ $('#filters').innerHTML = cats.map(c=>`<button aria-pressed="${c[0]===cat}" onclick="setCat('${c[0]}')">${c[1]}</button>`).join(''); }
 function setCat(c){ cat=c; renderFilters(); renderShop(); }
 const anchors = {1:'anatomie',2:'maree-noire',3:'le-mont',4:'bols-piedestal',5:'bols-piedestal',6:'soucoupe-volante'};
+const MZ_PATTERN = [{w:'w7',n:7},{w:'w5',n:5},{w:'',n:4},{w:'',n:4},{w:'',n:4},{w:'w6',n:6},{w:'w6',n:6}];
 let cyclePos = {};
 function renderShop(){
   const q = $('#search').value.trim().toLowerCase(), s = $('#sort').value;
   let list = products.filter(p => (cat==='all'||p.cat===cat) && (p.full.toLowerCase().includes(q)));
   if(s==='asc') list.sort((a,b)=>(a.price??Infinity)-(b.price??Infinity));
   if(s==='desc') list.sort((a,b)=>(b.price??-Infinity)-(a.price??-Infinity));
-  $('#cards').innerHTML = list.length ? list.map(p=>{
+  $('#cards').innerHTML = list.length ? list.map((p,i)=>{
     const anchor = anchors[p.id];
     const cycling = p.imgs && p.imgs.length>1;
     const src = cycling ? `images/nouveautes/${p.imgs[cyclePos[p.id]||0]}.webp` : p.img;
-    const picInner = `<img src="${src}" alt="" loading="lazy">`;
+    const picInner = `<img src="${src}" alt="" loading="lazy"><span class="mz-badge">${p.badge}</span>${cycling?`<span class="mz-count mono">${(cyclePos[p.id]||0)+1} / ${p.imgs.length}</span>`:''}`;
     const pic = cycling
-      ? `<button class="pic" type="button" data-id="${p.id}" style="--bg:${p.bg}" aria-label="${p.name} : photo suivante">${picInner}</button>`
+      ? `<button class="mz-pic" type="button" data-id="${p.id}" style="--bg:${p.bg}" aria-label="${p.name} : photo suivante">${picInner}</button>`
       : anchor
-        ? `<a class="pic" href="#${anchor}" style="--bg:${p.bg}" tabindex="-1" aria-hidden="true">${picInner}</a>`
-        : `<span class="pic" style="--bg:${p.bg}">${picInner}</span>`;
+        ? `<a class="mz-pic" href="#${anchor}" style="--bg:${p.bg}">${picInner}</a>`
+        : `<span class="mz-pic" style="--bg:${p.bg}">${picInner}</span>`;
     const name = anchor ? `<a href="#${anchor}">${p.name}</a>` : p.name;
     const buy = p.price
       ? `<span class="p">${p.price} €</span><button class="btn" type="button" onclick="addToCart(${p.id})">Ajouter</button>`
       : `<span class="p mono">Prix à venir</span><a class="btn ghost" href="#fournee">Être prévenu</a>`;
+    const w = MZ_PATTERN[i % MZ_PATTERN.length].w;
     return `
-    <article class="row">
+    <figure class="mz-t ${w}">
       ${pic}
-      <div><h3>${name}</h3><p>${p.badge}, ${p.cap}</p></div>
-      <div class="rbuy">${buy}</div>
-    </article>`;
+      <div class="mz-cap"><h3>${name}</h3></div>
+      <p>${p.cap}</p>
+      <div class="mz-buy">${buy}</div>
+    </figure>`;
   }).join('') : `<p class="empty">Aucune pièce ne correspond à ta recherche.</p>`;
 }
 
@@ -891,10 +898,11 @@ function initReveal(){
 }
 
 $('#cards').addEventListener('click', e=>{
-  const b = e.target.closest('.pic[data-id]'); if(!b) return;
+  const b = e.target.closest('.mz-pic[data-id]'); if(!b) return;
   const id = +b.dataset.id, p = products.find(x=>x.id===id); if(!p || !p.imgs) return;
   cyclePos[id] = ((cyclePos[id]||0)+1) % p.imgs.length;
   b.querySelector('img').src = `images/nouveautes/${p.imgs[cyclePos[id]]}.webp`;
+  b.querySelector('.mz-count').textContent = (cyclePos[id]+1)+' / '+p.imgs.length;
 });
 
 window.addEventListener('DOMContentLoaded', () => {
