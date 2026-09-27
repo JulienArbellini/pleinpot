@@ -82,47 +82,30 @@ button{font:inherit;color:inherit;cursor:pointer}
   mask-composite:intersect}
 
 /* ============ Hero ============ */
-.hero{position:relative;height:100svh;min-height:600px;max-height:1000px;overflow:clip;background:#DCC4EE}
-.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:18% 56%}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(27,14,36,0) 46%,rgba(27,14,36,.16) 62%,rgba(27,14,36,.4) 100%);pointer-events:none}
-.hero-in{position:relative;z-index:1;height:100%;display:flex;align-items:center;padding:0 clamp(1.2rem,3.5vw,3rem)}
-.hero-txt{margin-left:auto;max-width:460px;text-align:left;color:#F8F0FA}
-.hero h1{font-size:clamp(1.9rem,3.4vw,3.4rem);line-height:1.12;text-wrap:balance;margin:0 0 2rem}
-.hero h1 mark{background:none;padding:0;color:#FFB199}
-.hero .cta{justify-content:flex-start}
-.hero .btn.light{background:#F8F0FA;color:var(--ink);border-color:#F8F0FA}
-.hero .btn.light:hover{background:transparent;color:#F8F0FA}
-.hero-tag{position:absolute;z-index:1;left:clamp(1.2rem,3.5vw,2.5rem);bottom:1.6rem;margin:0;color:#F8F0FA;opacity:.8}
-.hero-scroll{position:absolute;z-index:1;left:50%;bottom:1.7rem;transform:translateX(-50%);width:22px;height:34px;border:1.5px solid #F8F0FA;border-radius:999px;opacity:.7}
-.hero-scroll::before{content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;background:#F8F0FA;border-radius:2px;transform:translateX(-50%);animation:scrolldot 1.6s ease infinite}
-@keyframes scrolldot{0%{opacity:1;top:6px}70%{opacity:0;top:18px}100%{opacity:0;top:6px}}
-.hero-alt-badge{position:fixed;z-index:70;left:50%;bottom:14px;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1rem;border-radius:999px;display:none;box-shadow:0 6px 20px rgba(27,14,36,.35)}
-body.hero-alt .hero-alt-badge{display:block}
-body.hero-alt .hero-alt-badge a{color:#FFB199;margin-left:.6em}
-body.hero-maree .hero-bg{object-position:40% 62%}
-body.hero-soucoupe .hero{height:auto;min-height:0;max-height:none;background:#E8AEC1}
-body.hero-soucoupe .hero-bg{position:relative;inset:auto;display:block;width:100%;max-width:520px;height:auto;aspect-ratio:720/880;object-position:50% 50%;margin:0 auto}
-body.hero-soucoupe .hero::after{display:none}
-body.hero-soucoupe .hero-in{position:static;height:auto;padding:2.2rem clamp(1.2rem,3.5vw,2.5rem) 3rem;display:flex;flex-direction:column;align-items:center;text-align:center}
-body.hero-soucoupe .hero-txt{margin:0;max-width:46ch;text-align:center;color:var(--ink)}
-body.hero-soucoupe .hero .cta{justify-content:center}
-body.hero-soucoupe .hero .btn.light{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-body.hero-soucoupe .hero .btn.light:hover{background:transparent;color:var(--ink)}
-body.hero-soucoupe .hero-tag{display:none}
-body.hero-soucoupe .hero-scroll{display:none}
-
-@media (max-width:1180px){
-  .hero{height:auto;min-height:0;max-height:none;background:#7692E0}
-  .hero-bg{position:relative;inset:auto;display:block;width:100%;height:auto;aspect-ratio:4/5;object-position:22% 45%}
-  .hero::after{display:none}
-  .hero-in{position:static;height:auto;padding:2.2rem clamp(1.2rem,3.5vw,2.5rem) 3rem;display:block}
-  .hero-txt{margin:0;max-width:none;text-align:left;color:var(--paper)}
-  .hero h1{font-size:clamp(2rem,7vw,3rem)}
-  .hero .cta{justify-content:flex-start}
-  .hero .btn.light{background:var(--paper);color:var(--ink);border-color:var(--paper)}
-  .hero-tag{display:none}
-  .hero-scroll{display:none}
-  body.hero-maree .hero-bg{object-position:38% 38%}
+.hero{--hh:clamp(680px,46vw,900px);position:relative;background:#DCC4EE;overflow:clip;min-height:var(--hh);display:flex;align-items:center;padding:96px 0 56px}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 50%;z-index:0}
+.hero .txt{position:relative;z-index:1;margin-left:max(54%,calc(var(--hh)*1.13 + 1rem));margin-right:clamp(1.2rem,3.5vw,2.5rem);max-width:720px}
+.hero h1{font-size:clamp(2.1rem,3.7vw,4.6rem);line-height:1.04;text-wrap:balance}
+.hero h1 mark{background:none;padding:0}
+.hero h1 .h-a{color:#7F2810}.hero h1 .h-b{color:#14409E}.hero h1 .h-c{color:#72217D}
+.hero h1 em{font-style:normal;color:#7F2810}
+.hero h1 span{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 span>i{display:block;font-style:normal;transform:translateY(105%);animation:rise .9s cubic-bezier(.2,.7,.1,1) forwards}
+@keyframes rise{to{transform:none}}
+.lede{max-width:33ch;font-size:1.25rem;margin:1.8rem 0 2rem}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap}
+.hero-cap{position:absolute;z-index:1;left:clamp(1.2rem,3.5vw,2.5rem);bottom:1.6rem;max-width:30ch;color:var(--ink)}
+.hero-cap b{display:block;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:1.75rem;letter-spacing:-.012em;line-height:1;margin-bottom:.35rem}
+@media (max-width:1279px){
+  .hero{display:block;min-height:0;padding:86px 0 0;background:linear-gradient(#E4CCEE 0 86px,#7692E0 86px)}
+  .hero-bg{position:relative;inset:auto;display:block;height:auto;aspect-ratio:16/9;object-position:0% 50%}
+  .hero .txt{margin:0;max-width:none;background:#7692E0;padding:2rem clamp(1.2rem,3.5vw,2.5rem) 3rem}
+  .hero h1{font-size:clamp(2rem,5.2vw,3.6rem)}
+  .hero-cap{display:none}
+}
+@media (max-width:700px){
+  .hero-bg{aspect-ratio:6/5}
+  .hero h1{font-size:clamp(2rem,8.4vw,3.3rem)}
 }
 
 /* ============ Manifeste ============ */
@@ -449,7 +432,6 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </style>
 </head>
 <body>
-<p class="mono hero-alt-badge" id="heroAltBadge">Aperçu — <span id="heroAltName"></span> <a href="?">voir la version normale</a></p>
 
 <header class="bar">
   <a class="brand" href="#top" aria-label="Plein Pot Studio, accueil">Plein Pot<small>Studio céramique — Bruxelles</small></a>
@@ -483,14 +465,18 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 <!-- ============ HERO ============ -->
 <section class="hero">
   <img class="hero-bg" src="images/hero-panorama.jpg" width="1983" height="793" fetchpriority="high" alt="Théière Petite Lampe en grès, émail brique brillant, ouverte, avec son couvercle posé devant, sur un papier de fond lavande et pervenche">
-  <div class="hero-in">
-    <div class="hero-txt reveal">
-      <h1 class="d">Des théières qui ont l'air de <mark>lampes de génie</mark>.</h1>
-      <div class="cta"><a class="btn light" href="#collection">Voir la collection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  <div class="txt">
+    <p class="mono kicker">Pièces uniques &amp; petites séries — grès émaillé</p>
+    <h1 class="d" aria-label="Des théières qui ont l'air de lampes de génie, des bols sur pied comme de petits piédestaux, une soucoupe volante qui sert le thé.">
+      <span><i>Des théières qui ont l'air de <mark class="h-a">lampes de génie</mark>, des bols sur pied comme de petits <mark class="h-b">piédestaux</mark>, une <mark class="h-c">soucoupe volante</mark> qui sert le thé.</i></span>
+    </h1>
+    <p class="lede">Façonnés à la main dans l'atelier bruxellois de Clémence.</p>
+    <div class="cta">
+      <a class="btn" href="#collection">Voir la collection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn ghost" href="#anatomie">Anatomie d'une théière</a>
     </div>
   </div>
-  <p class="hero-tag mono">Petite Lampe — grès émaillé, atelier de Bruxelles</p>
-  <span class="hero-scroll" aria-hidden="true"></span>
+  <p class="hero-cap mono"><b>Petite Lampe</b>Née d'un test d'émail, devenue pièce signature de l'atelier.</p>
 </section>
 
 <!-- ============ MANIFESTE ============ -->
@@ -1084,35 +1070,6 @@ function initSeq(secId,p,SEQ){
     const img=b.querySelector('img'); img.src='images/nouveautes/'+x.i[pos[k]]+'.webp'; img.alt=x.n+', '+x.alt[pos[k]];
     b.querySelector('.nv-count').textContent=(pos[k]+1)+' / '+x.i.length;
   });
-})();
-
-/* ---------- Hero interchangeable : ?hero=maree pour proposer une autre théière en accueil ---------- */
-(function(){
-  const VARIANTS = {
-    maree: {
-      name:'Marée Noire',
-      src:'images/hero-maree-preview.jpg', w:1774, h:887,
-      alt:'Théière Marée Noire en grès émaillé noir brillant, sur un papier de fond corail et magenta',
-      headline:'Une théière qui capte la lumière comme une <mark>nappe de pétrole</mark>.',
-      tag:'Marée Noire — grès émaillé, atelier de Bruxelles'
-    },
-    soucoupe: {
-      name:'Soucoupe Volante',
-      src:'images/vaisseau/02.webp', w:720, h:880,
-      alt:'Théière Soucoupe Volante, émail vert profond, deux ailes triangulaires, sur un papier de fond rose',
-      headline:'Une <mark>silhouette futuriste</mark> qui a atterri sur l\'étagère.',
-      tag:'Soucoupe Volante — grès émaillé, atelier de Bruxelles'
-    }
-  };
-  const key = new URLSearchParams(location.search).get('hero');
-  const v = key && VARIANTS[key];
-  if(!v) return;
-  document.body.classList.add('hero-alt','hero-'+key);
-  document.getElementById('heroAltName').textContent = v.name;
-  const img = document.querySelector('.hero-bg');
-  if(img){ img.src = v.src; img.width = v.w; img.height = v.h; img.alt = v.alt; }
-  const h1 = document.querySelector('.hero h1'); if(h1) h1.innerHTML = v.headline;
-  const tag = document.querySelector('.hero-tag'); if(tag) tag.textContent = v.tag;
 })();
 </script>
 </body>
