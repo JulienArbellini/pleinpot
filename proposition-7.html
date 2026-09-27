@@ -178,6 +178,22 @@ button{font:inherit;color:inherit;cursor:pointer}
 .turn-range{position:absolute;left:1rem;right:1rem;bottom:1rem;width:calc(100% - 2rem);margin:0;height:28px;accent-color:var(--ink);background:transparent;cursor:pointer}
 @media (max-width:900px){.turn-in{grid-template-columns:1fr}.turn-view{max-width:560px}}
 
+/* ============ Stop-motion : les pièces détourées changent de place à chaque pas de scroll ============ */
+.stopmo{--n:16;position:relative;height:calc(100svh + (var(--n) - 1) * 34svh)}
+.sm-stick{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--sm-bg,#FB5B66);color:var(--ink);display:grid;place-items:center}
+.sm-title{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:min(15.5vw,27svh);line-height:.86;pointer-events:none;padding-top:2rem}
+.sm-cv{container-type:size;position:relative;width:min(94vw,165svh);aspect-ratio:16/10;z-index:1}
+.sm-p{position:absolute;left:50%;top:50%;width:calc(var(--w,20)*var(--kw,1)*1cqw);translate:calc(var(--x,0)*1cqw - 50%) calc(var(--y,0)*var(--ky,1)*1cqw - 50%);filter:drop-shadow(.9cqw 1.3cqw 0 rgba(27,14,36,.22));opacity:0;pointer-events:none}
+.sm-p.on{opacity:1}
+.sm-p img{width:100%;height:auto;rotate:calc(var(--r,0)*1deg)}
+.sm-cap{position:absolute;z-index:2;left:clamp(1.2rem,3.5vw,2.5rem);bottom:1.4rem;margin:0;display:flex;gap:1.2rem;align-items:baseline}
+.sm-cap b{font-weight:500;opacity:.7}
+.sm-hint{position:absolute;z-index:2;right:clamp(1.2rem,3.5vw,2.5rem);bottom:1.4rem;margin:0}
+.sm-hint a{text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:.15rem}
+@media (max-aspect-ratio:1/1){.sm-cv{--kw:1.2;--ky:1.9;width:94vw;aspect-ratio:1/1}.sm-title{font-size:min(19vw,15svh);align-content:start;padding-top:17svh}}
+@media (max-width:600px){.sm-cap b{display:none}}
+.stopmo.static{height:auto}
+
 /* ============ Anatomie ============ */
 .anat{--wall:var(--lav);--wt:#E3CBEA;--wh:#E3D0EC;--hl:.64;--hr:.58;--fhl:#838AB3;--fbl:#818DBF;--fhr:#A2AEDA;--fbr:#98A5D2;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
 .anat .head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;margin-bottom:3rem;align-items:end}
@@ -441,6 +457,23 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       <div class="fig"><b>1250°</b><span>pour le grand feu, qui rend la pièce étanche</span></div>
       <div class="fig"><b>0</b><span>plastique, et zéro chute de terre perdue</span></div>
     </div>
+  </div>
+</section>
+
+<!-- ============ STOP-MOTION ============ -->
+<section class="stopmo" id="stop-motion" aria-labelledby="sm-h">
+  <div class="sm-stick" id="smStick">
+    <h2 class="d sm-title" id="sm-h">Pièce<br>à pièce</h2>
+    <div class="sm-cv" aria-hidden="true">
+      <span class="sm-p" data-p="lampe"><img data-src="images/pieces/lampe.webp" alt="" decoding="async"></span>
+      <span class="sm-p" data-p="maree"><img data-src="images/pieces/maree.webp" alt="" decoding="async"></span>
+      <span class="sm-p" data-p="soucoupe"><img data-src="images/pieces/soucoupe.webp" alt="" decoding="async"></span>
+      <span class="sm-p" data-p="mug"><img data-src="images/pieces/mug.webp" alt="" decoding="async"></span>
+      <span class="sm-p" data-p="bols"><img data-src="images/pieces/bols.webp" alt="" decoding="async"></span>
+      <span class="sm-p" data-p="bol"><img data-src="images/pieces/bol.webp" alt="" decoding="async"></span>
+    </div>
+    <p class="sm-cap mono" aria-hidden="true"><span id="smN">01 / 16</span><b id="smT">Une feuille de papier</b></p>
+    <p class="sm-hint mono"><span id="smH">Fais défiler</span></p>
   </div>
 </section>
 
@@ -869,6 +902,58 @@ window.addEventListener('DOMContentLoaded', () => {
     raf=requestAnimationFrame(step);
   },{rootMargin:'300px 0px',threshold:.35});
   io.observe(view);
+})();
+
+/* ---------- Stop-motion : une image par pas de scroll ---------- */
+(function(){
+  const sec=document.getElementById('stop-motion'); if(!sec) return;
+  const stick=document.getElementById('smStick'), N=document.getElementById('smN'), T=document.getElementById('smT'), H=document.getElementById('smH');
+  const els={}; sec.querySelectorAll('.sm-p').forEach(e=>els[e.dataset.p]=e);
+  const F=16, NAME={lampe:'Petite Lampe',maree:'Marée Noire',soucoupe:'Soucoupe Volante',mug:'Le Mont',bols:'Bols sur pied',bol:'Bol solo'};
+  const BG=['#FB5B66','#FB5B66','#FB5B66','#FB5B66','#FB5B66','#FB5B66','#1A82FB','#1A82FB','#1A82FB','#E8AEC1','#E8AEC1','#E8AEC1','#E8AEC1','#E3CBEA','#E3CBEA','#E3CBEA'];
+  // [image, x, y, rotation, largeur] en unités de 1 % de la largeur du plateau
+  const PATH={
+    lampe:[[1,0,4,-20,16],[3,-2,0,-6,32],[6,-24,-12,-8,28],[15,-32,-14,-6,24]],
+    maree:[[4,26,6,-20,10],[5,24,2,-8,18],[8,26,-8,6,18],[15,30,15,3,13]],
+    bol:[[6,0,12,-14,8],[8,-2,8,4,16],[12,-4,12,-4,14],[15,9,24,0,12]],
+    mug:[[9,30,14,-20,10],[11,26,12,-8,20],[15,-32,15,-4,18]],
+    soucoupe:[[11,0,-18,-20,18],[13,4,-14,-8,30],[15,31,-13,6,26]],
+    bols:[[12,-6,14,-10,10],[14,-8,18,0,16],[15,-8,24,0,18]]
+  };
+  const rnd=(f,k)=>{ const x=Math.sin(f*12.9898+k*78.233)*43758.5453; return x-Math.floor(x); };
+  const pose=(name,f)=>{
+    const w=PATH[name]; if(f<w[0][0]) return null;
+    let i=0; while(i<w.length-1 && f>=w[i+1][0]) i++;
+    if(i===w.length-1) return w[i].slice(1);
+    const a=w[i], b=w[i+1], t=(f-a[0])/(b[0]-a[0]);
+    return [1,2,3,4].map(j=>a[j]+(b[j]-a[j])*t);
+  };
+  let cur=-1;
+  const render=f=>{
+    cur=f; stick.style.setProperty('--sm-bg',BG[f]);
+    Object.keys(PATH).forEach((k,ki)=>{
+      const el=els[k], p=pose(k,f);
+      if(!p){ el.classList.remove('on'); return; }
+      const j=rnd(f,ki+1), j2=rnd(f,ki+11);
+      el.style.setProperty('--x',(p[0]+(j-.5)*.9).toFixed(2));
+      el.style.setProperty('--y',(p[1]+(j2-.5)*.9).toFixed(2));
+      el.style.setProperty('--w',p[3].toFixed(2));
+      el.firstElementChild.style.setProperty('--r',(p[2]+(j-.5)*2.4).toFixed(2));
+      el.classList.add('on');
+    });
+    const entering=Object.keys(PATH).filter(k=>PATH[k][0][0]<=f).sort((a,b)=>PATH[b][0][0]-PATH[a][0][0])[0];
+    T.textContent=entering?NAME[entering]:'Une feuille de papier';
+    N.textContent=String(f+1).padStart(2,'0')+' / '+F;
+    H.innerHTML=f===F-1?'<a href="#collection">Voir la collection</a>':(f===0?'Fais défiler':'');
+  };
+  const load=()=>{ sec.querySelectorAll('img[data-src]').forEach(i=>{ i.src=i.dataset.src; i.removeAttribute('data-src'); }); };
+  if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ load(); io.disconnect(); } },{rootMargin:'1500px 0px'}); io.observe(sec); } else load();
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ sec.classList.add('static'); load(); render(F-1); return; }
+  let tick=false;
+  const upd=()=>{ tick=false; const total=sec.offsetHeight-innerHeight; if(total<=0) return; const p=Math.min(1,Math.max(0,-sec.getBoundingClientRect().top/total)); const f=Math.min(F-1,Math.floor(p*F)); if(f!==cur) render(f); };
+  addEventListener('scroll',()=>{ if(!tick){ tick=true; requestAnimationFrame(upd); } },{passive:true});
+  addEventListener('resize',upd);
+  render(0); upd();
 })();
 </script>
 </body>
