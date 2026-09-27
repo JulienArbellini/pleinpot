@@ -206,6 +206,28 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (max-width:600px){.sm-cap b{display:none}}
 .stopmo.static{height:auto}
 
+/* ============ Nouvelles pièces : une tuile par pièce, on clique pour changer de photo ============ */
+.nv{background:var(--paper);padding:clamp(4.5rem,8vw,7.5rem) 0}
+.nv-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:clamp(2rem,4vw,3.4rem)}
+.nv h2{font-size:clamp(3.2rem,9vw,8.6rem)}
+.nv-head p{max-width:32ch;margin:0 0 .6rem;font-size:1.2rem}
+.nv-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1rem,2vw,1.6rem);grid-auto-rows:auto}
+.nv-t{grid-column:span 4;display:flex;flex-direction:column;gap:.7rem;margin:0}
+.nv-t.w7{grid-column:span 7}.nv-t.w5{grid-column:span 5}
+.nv-pic{position:relative;display:block;width:100%;padding:0;border:0;background:var(--lav);aspect-ratio:1/1;overflow:hidden;cursor:pointer}
+.nv-t.w7 .nv-pic{aspect-ratio:7/5}.nv-t.w5 .nv-pic{aspect-ratio:5/5}
+.nv-pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
+.nv-pic:hover img{transform:scale(1.03)}
+.nv-count{position:absolute;right:.7rem;bottom:.7rem;padding:.3rem .55rem;background:var(--ink);color:var(--paper);font-size:.72rem;pointer-events:none}
+.nv-cap{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.nv-cap b{font-size:clamp(1.6rem,2.4vw,2.2rem);line-height:1}
+.nv-cap span{white-space:nowrap}
+.nv-t p{margin:0;font-size:1.05rem;max-width:44ch}
+.nv-foot{margin-top:clamp(2rem,4vw,3.4rem);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+@media (max-width:900px){.nv-t,.nv-t.w7,.nv-t.w5{grid-column:span 6}.nv-t .nv-pic,.nv-t.w7 .nv-pic,.nv-t.w5 .nv-pic{aspect-ratio:1/1}.nv-cap{flex-direction:column;gap:.3rem}}
+@media (max-width:560px){.nv-t,.nv-t.w7,.nv-t.w5{grid-column:span 12}}
+@media (prefers-reduced-motion:reduce){.nv-pic img{transition:none}.nv-pic:hover img{transform:none}}
+
 /* ============ Anatomie ============ */
 .anat{--wall:var(--lav);--wt:#E3CBEA;--wh:#E3D0EC;--hl:.64;--hr:.58;--fhl:#838AB3;--fbl:#818DBF;--fhr:#A2AEDA;--fbr:#98A5D2;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
 .anat .head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;margin-bottom:3rem;align-items:end}
@@ -584,6 +606,18 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Vert mousse texturé</dd><dt>Contenance</dt><dd>~ 300 ml</dd></dl>
       <div class="buyrow"><span class="price">32 €</span><button class="btn" onclick="addToCart(3)">Ajouter au panier</button></div>
     </div>
+  </div>
+</section>
+
+<!-- ============ NOUVELLES PIÈCES ============ -->
+<section class="nv" id="nouveautes" aria-labelledby="nv-h">
+  <div class="wrap">
+    <div class="nv-head">
+      <div><p class="mono kicker">Sur l'étagère</p><h2 class="d" id="nv-h">Nouvelles<br>pièces</h2></div>
+      <p>Du grès brut, des marbrures, des motifs peints à la main. Clique sur une photo pour voir la pièce sous un autre angle.</p>
+    </div>
+    <div class="nv-grid" id="nvGrid"></div>
+    <div class="nv-foot"><a class="btn" href="#fournee">Être prévenu de la prochaine fournée</a></div>
   </div>
 </section>
 
@@ -1005,6 +1039,37 @@ function initSeq(secId,p,SEQ){
   addEventListener('scroll',()=>{ if(!tick){ tick=true; requestAnimationFrame(upd); } },{passive:true});
   addEventListener('resize',upd);
   render(0); upd();
+})();
+
+/* ---------- Nouvelles pièces : une tuile par pièce, clic = photo suivante ---------- */
+(function(){
+  const grid=document.getElementById('nvGrid'); if(!grid) return;
+  const NV=[
+    {n:'Bols en grès brut',d:'Grès brut dehors, émail noir mat dedans.',w:'w7',i:[18,27,26,22],alt:['deux bols empilés','deux bols, l\'un dans l\'autre','un bol vu de côté','un bol sur fond lavande']},
+    {n:'Bol spirale',d:'Un émail brun et noir qui tourne en spirales.',w:'w5',i:[28,19],alt:['vu de dessus','vu de côté']},
+    {n:'Vase boule',d:'Émail turquoise moucheté sur fond crème.',w:'',i:[25,20],alt:['avec une branche d\'eucalyptus','en gros plan sur l\'émail']},
+    {n:'Assiettes aux mains',d:'Des mains et des points bleus peints à la main.',w:'',i:[21,33],alt:['trois assiettes empilées','les mêmes assiettes sous un autre angle']},
+    {n:'Gobelets marbrés',d:'Terres noire et crème mêlées, façon marbre.',w:'',i:[23,32,31],alt:['deux gobelets','deux gobelets empilés','un gobelet seul']},
+    {n:'Gobelets à collerette',d:'Crème brossé de noir, collerette noire.',w:'w5',i:[24,30,34],alt:['deux gobelets empilés','un gobelet seul','deux gobelets, l\'un couché']},
+    {n:'Gobelet rouille',d:'Un émail rouille, le bord brossé de noir.',w:'w7',i:[35,29],alt:['un gobelet seul','deux gobelets empilés']}
+  ];
+  grid.innerHTML=NV.map((x,k)=>`
+    <figure class="nv-t ${x.w}">
+      <button class="nv-pic" type="button" data-k="${k}" aria-label="${x.n} : photo suivante">
+        <img src="images/nouveautes/${x.i[0]}.webp" alt="${x.n}, ${x.alt[0]}" width="1000" height="1000" loading="lazy" decoding="async">
+        ${x.i.length>1?`<span class="nv-count mono" aria-hidden="true">1 / ${x.i.length}</span>`:''}
+      </button>
+      <figcaption class="nv-cap"><b class="d">${x.n}</b><span class="mono">Prix à venir</span></figcaption>
+      <p>${x.d}</p>
+    </figure>`).join('');
+  const pos=NV.map(()=>0);
+  grid.addEventListener('click',e=>{
+    const b=e.target.closest('.nv-pic'); if(!b) return;
+    const k=+b.dataset.k, x=NV[k]; if(x.i.length<2) return;
+    pos[k]=(pos[k]+1)%x.i.length;
+    const img=b.querySelector('img'); img.src='images/nouveautes/'+x.i[pos[k]]+'.webp'; img.alt=x.n+', '+x.alt[pos[k]];
+    b.querySelector('.nv-count').textContent=(pos[k]+1)+' / '+x.i.length;
+  });
 })();
 </script>
 </body>
