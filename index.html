@@ -338,7 +338,6 @@ button.mz-pic{cursor:pointer}
 .mz-pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
 button.mz-pic:hover img{transform:scale(1.04)}
 .mz-badge{position:absolute;left:.8rem;top:.8rem;padding:.3rem .6rem;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
-.mz-count{position:absolute;right:.8rem;bottom:.8rem;padding:.3rem .55rem;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.7rem;pointer-events:none}
 .mz-cap{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
 .mz-cap h3{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.5rem;letter-spacing:-.012em;line-height:1;margin:0}
 .mz-cap h3 a{text-decoration:none;color:inherit}
@@ -388,6 +387,23 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 .drawer header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1rem;border-bottom:1.5px solid var(--ink)}
 .drawer h3{font-size:2.4rem}
 .x{background:transparent;border:0;padding:.4rem;line-height:0}.x svg{width:22px;height:22px}
+/* ============ Panneau produit (aperçu plein écran, sans changer de page) ============ */
+.pdp{position:fixed;z-index:82;inset:0;display:flex;visibility:hidden;opacity:0;transition:opacity .3s}
+.pdp.on{visibility:visible;opacity:1}
+.pdp-in{position:relative;margin:auto;width:min(1100px,94vw);max-height:92vh;overflow:auto;background:var(--paper);display:grid;grid-template-columns:1.1fr 1fr;transform:translateY(18px);transition:transform .35s cubic-bezier(.2,.7,.1,1)}
+.pdp.on .pdp-in{transform:none}
+.pdp-x{position:absolute;z-index:2;right:.8rem;top:.8rem;background:var(--paper)}
+.pdp-media{position:relative;background:var(--pdp-bg,var(--lav));min-height:320px}
+.pdp-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pdp-nav{position:absolute;z-index:1;left:0;right:0;bottom:1rem;display:flex;justify-content:center;gap:.5rem}
+.pdp-nav button{width:8px;height:8px;border-radius:999px;border:0;background:rgba(248,240,250,.5);padding:0}
+.pdp-nav button[aria-pressed="true"]{background:var(--paper)}
+.pdp-info{padding:clamp(1.6rem,3vw,3rem);display:flex;flex-direction:column;justify-content:center;gap:1.1rem}
+.pdp-info h2{font-size:clamp(2.2rem,3.4vw,3.2rem)}
+.pdp-info p{margin:0;opacity:.85;max-width:42ch}
+.pdp-scene{align-self:flex-start;font-weight:600}
+@media (max-width:760px){.pdp-in{grid-template-columns:1fr;max-height:none;height:100%;border-radius:0}.pdp-media{min-height:46vh}}
+
 .ship{margin:1.1rem 0}
 .ship .row{display:flex;justify-content:space-between;margin-bottom:.5rem}
 .ship .track{height:8px;background:var(--line)}
@@ -728,7 +744,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </footer>
 
 <!-- Panier -->
-<div class="shade" id="shade" onclick="closeCart()"></div>
+<div class="shade" id="shade" onclick="closeOverlays()"></div>
 <aside class="drawer" id="drawer" aria-label="Panier" aria-hidden="true">
   <header><h3 class="d">Panier</h3><button class="x" onclick="closeCart()" aria-label="Fermer le panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"/></svg></button></header>
   <div class="ship"><div class="row mono"><span id="ship-text">Livraison gratuite dès 80,00 €</span><span id="ship-pct">0%</span></div><div class="track"><div class="fill" id="ship-fill"></div></div></div>
@@ -740,23 +756,38 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
     <small class="mono">Expédition sous 3 à 5 jours, emballage anti-casse renforcé</small>
   </div>
 </aside>
+<!-- Panneau produit -->
+<aside class="pdp" id="pdp" aria-hidden="true" aria-label="Détail de la pièce">
+  <div class="pdp-in">
+    <button class="x pdp-x" onclick="closePdp()" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <div class="pdp-media" id="pdpMedia"><img id="pdpImg" alt=""><div class="pdp-nav" id="pdpNav"></div></div>
+    <div class="pdp-info">
+      <span class="tag mono" id="pdpBadge"></span>
+      <h2 class="d" id="pdpName"></h2>
+      <p id="pdpDesc"></p>
+      <div class="buyrow" id="pdpBuy"></div>
+      <a class="idxlink pdp-scene" id="pdpSceneLink" href="#">Voir la pièce dans son décor →</a>
+    </div>
+  </div>
+</aside>
+
 <div class="toast mono" id="toast" role="status"></div>
 
 <script>
 const products = [
-  { id:1, name:"Petite Lampe",      full:"Théière « Petite Lampe »", cat:"theieres", price:38, img:"images/product-theiere-lampe.jpg",        badge:"Pièce unique", cap:"~ 400 ml", bg:"#E3CBEA" },
-  { id:2, name:"Marée Noire",       full:"Théière « Marée Noire »",  cat:"theieres", price:65, img:"images/maree-noire-2.jpg",  badge:"Nouveauté",    cap:"~ 400 ml", bg:"#FB5B66" },
-  { id:3, name:"Le Mont",           full:"Mug « Le Mont »",          cat:"mugs",     price:32, img:"images/mug-le-mont-3.jpg",          badge:"En stock",     cap:"~ 300 ml", bg:"#E8AEC1" },
-  { id:4, name:"Bol piédestal Duo", full:"Bol piédestal « Duo »",    cat:"bols",     price:58, img:"images/product-bol-duo.jpg",              badge:"Petite série", cap:"La paire", bg:"#0E7DFB" },
-  { id:5, name:"Bol piédestal Solo",full:"Bol piédestal « Solo »",   cat:"bols",     price:34, img:"images/product-bol-solo.jpg",             badge:"Pièce unique", cap:"~ 300 ml", bg:"#0E7DFB" },
-  { id:6, name:"Soucoupe Volante",  full:"Pièce « Soucoupe Volante »",cat:"theieres",price:45, img:"images/soucoupe-volante-2.jpg",             badge:"Nouveauté",    cap:"~ 350 ml", bg:"#E599B4" },
-  { id:7,  name:"Bols en grès brut",       full:"Bols en grès brut",       cat:"bols",  price:null, img:"images/nouveautes/18.webp", imgs:[18,27,26,22], badge:"Bientôt", cap:"Grès brut dehors, émail noir mat dedans", bg:"#E8AEC1" },
-  { id:8,  name:"Bol spirale",             full:"Bol spirale",             cat:"bols",  price:null, img:"images/nouveautes/28.webp", imgs:[28,19],       badge:"Bientôt", cap:"Émail brun et noir qui tourne en spirales", bg:"#FB5B66" },
-  { id:9,  name:"Vase boule",              full:"Vase boule",              cat:"autres",price:null, img:"images/nouveautes/25.webp", imgs:[25,20],       badge:"Bientôt", cap:"Émail turquoise moucheté sur fond crème", bg:"#0E7DFB" },
-  { id:10, name:"Assiettes aux mains",     full:"Assiettes aux mains",     cat:"autres",price:null, img:"images/nouveautes/21.webp", imgs:[21,33],       badge:"Bientôt", cap:"Mains et points bleus peints à la main", bg:"#E8AEC1" },
-  { id:11, name:"Gobelets marbrés",        full:"Gobelets marbrés",        cat:"mugs",  price:null, img:"images/nouveautes/23.webp", imgs:[23,32,31],    badge:"Bientôt", cap:"Terres noire et crème mêlées, façon marbre", bg:"#0E7DFB" },
-  { id:12, name:"Gobelets à collerette",   full:"Gobelets à collerette",   cat:"mugs",  price:null, img:"images/nouveautes/24.webp", imgs:[24,30,34],    badge:"Bientôt", cap:"Crème brossé de noir, collerette noire", bg:"#E8AEC1" },
-  { id:13, name:"Gobelet rouille",         full:"Gobelet rouille",         cat:"mugs",  price:null, img:"images/nouveautes/35.webp", imgs:[35,29],       badge:"Bientôt", cap:"Émail rouille, le bord brossé de noir", bg:"#0E7DFB" }
+  { id:1, name:"Petite Lampe",      full:"Théière « Petite Lampe »", cat:"theieres", price:38, img:"images/product-theiere-lampe.jpg",        badge:"Pièce unique", cap:"~ 400 ml", desc:"Théière signature de l'atelier, née d'un test d'émail.", bg:"#E3CBEA" },
+  { id:2, name:"Marée Noire",       full:"Théière « Marée Noire »",  cat:"theieres", price:65, img:"images/maree-noire-2.jpg",  badge:"Nouveauté",    cap:"~ 400 ml", desc:"Un profil sculptural, un émail brun-noir qui joue les miroirs.", bg:"#FB5B66" },
+  { id:3, name:"Le Mont",           full:"Mug « Le Mont »",          cat:"mugs",     price:32, img:"images/mug-le-mont-3.jpg",          badge:"En stock",     cap:"~ 300 ml", desc:"Anse crème, émail vert mousse texturé, à prendre à deux mains.", bg:"#E8AEC1" },
+  { id:4, name:"Bol piédestal Duo", full:"Bol piédestal « Duo »",    cat:"bols",     price:58, img:"images/product-bol-duo.jpg",              badge:"Petite série", cap:"La paire", desc:"Un duo de bols sur pied à l'émail brun-gris strié.", bg:"#0E7DFB" },
+  { id:5, name:"Bol piédestal Solo",full:"Bol piédestal « Solo »",   cat:"bols",     price:34, img:"images/product-bol-solo.jpg",             badge:"Pièce unique", cap:"~ 300 ml", desc:"Un bol sur pied à l'émail brun-gris strié.", bg:"#0E7DFB" },
+  { id:6, name:"Soucoupe Volante",  full:"Pièce « Soucoupe Volante »",cat:"theieres",price:45, img:"images/soucoupe-volante-2.jpg",             badge:"Nouveauté",    cap:"~ 350 ml", desc:"Une silhouette futuriste, deux ailes en triangle, vert profond.", bg:"#E599B4" },
+  { id:7,  name:"Bols en grès brut",       full:"Bols en grès brut",       cat:"bols",  price:null, img:"images/nouveautes/18.webp", imgs:[18,27,26,22], badge:"Bientôt", desc:"Grès brut dehors, émail noir mat dedans", bg:"#E8AEC1" },
+  { id:8,  name:"Bol spirale",             full:"Bol spirale",             cat:"bols",  price:null, img:"images/nouveautes/28.webp", imgs:[28,19],       badge:"Bientôt", desc:"Émail brun et noir qui tourne en spirales", bg:"#FB5B66" },
+  { id:9,  name:"Vase boule",              full:"Vase boule",              cat:"autres",price:null, img:"images/nouveautes/25.webp", imgs:[25,20],       badge:"Bientôt", desc:"Émail turquoise moucheté sur fond crème", bg:"#0E7DFB" },
+  { id:10, name:"Assiettes aux mains",     full:"Assiettes aux mains",     cat:"autres",price:null, img:"images/nouveautes/21.webp", imgs:[21,33],       badge:"Bientôt", desc:"Mains et points bleus peints à la main", bg:"#E8AEC1" },
+  { id:11, name:"Gobelets marbrés",        full:"Gobelets marbrés",        cat:"mugs",  price:null, img:"images/nouveautes/23.webp", imgs:[23,32,31],    badge:"Bientôt", desc:"Terres noire et crème mêlées, façon marbre", bg:"#0E7DFB" },
+  { id:12, name:"Gobelets à collerette",   full:"Gobelets à collerette",   cat:"mugs",  price:null, img:"images/nouveautes/24.webp", imgs:[24,30,34],    badge:"Bientôt", desc:"Crème brossé de noir, collerette noire", bg:"#E8AEC1" },
+  { id:13, name:"Gobelet rouille",         full:"Gobelet rouille",         cat:"mugs",  price:null, img:"images/nouveautes/35.webp", imgs:[35,29],       badge:"Bientôt", desc:"Émail rouille, le bord brossé de noir", bg:"#0E7DFB" }
 ];
 const $ = s => document.querySelector(s);
 const eur = n => n.toFixed(2).replace('.', ',') + ' €';
@@ -832,32 +863,22 @@ function renderFilters(){ $('#filters').innerHTML = cats.map(c=>`<button aria-pr
 function setCat(c){ cat=c; renderFilters(); renderShop(); }
 const anchors = {1:'anatomie',2:'maree-noire',3:'le-mont',4:'bols-piedestal',5:'bols-piedestal',6:'soucoupe-volante'};
 const MZ_PATTERN = [{w:'w7',n:7},{w:'w5',n:5},{w:'',n:4},{w:'',n:4},{w:'',n:4},{w:'w6',n:6},{w:'w6',n:6}];
-let cyclePos = {};
 function renderShop(){
   const q = $('#search').value.trim().toLowerCase(), s = $('#sort').value;
   let list = products.filter(p => (cat==='all'||p.cat===cat) && (p.full.toLowerCase().includes(q)));
   if(s==='asc') list.sort((a,b)=>(a.price??Infinity)-(b.price??Infinity));
   if(s==='desc') list.sort((a,b)=>(b.price??-Infinity)-(a.price??-Infinity));
   $('#cards').innerHTML = list.length ? list.map((p,i)=>{
-    const anchor = anchors[p.id];
-    const cycling = p.imgs && p.imgs.length>1;
-    const src = cycling ? `images/nouveautes/${p.imgs[cyclePos[p.id]||0]}.webp` : p.img;
-    const picInner = `<img src="${src}" alt="" loading="lazy"><span class="mz-badge">${p.badge}</span>${cycling?`<span class="mz-count mono">${(cyclePos[p.id]||0)+1} / ${p.imgs.length}</span>`:''}`;
-    const pic = cycling
-      ? `<button class="mz-pic" type="button" data-id="${p.id}" style="--bg:${p.bg}" aria-label="${p.name} : photo suivante">${picInner}</button>`
-      : anchor
-        ? `<a class="mz-pic" href="#${anchor}" style="--bg:${p.bg}">${picInner}</a>`
-        : `<span class="mz-pic" style="--bg:${p.bg}">${picInner}</span>`;
-    const name = anchor ? `<a href="#${anchor}">${p.name}</a>` : p.name;
+    const picInner = `<img src="${p.img}" alt="" loading="lazy"><span class="mz-badge">${p.badge}</span>`;
     const buy = p.price
       ? `<span class="p">${p.price} €</span><button class="btn" type="button" onclick="addToCart(${p.id})">Ajouter</button>`
       : `<span class="p mono">Prix à venir</span><a class="btn ghost" href="#fournee">Être prévenu</a>`;
     const w = MZ_PATTERN[i % MZ_PATTERN.length].w;
     return `
     <figure class="mz-t ${w}">
-      ${pic}
-      <div class="mz-cap"><h3>${name}</h3></div>
-      <p>${p.cap}</p>
+      <a class="mz-pic" href="#p-${p.id}" style="--bg:${p.bg}">${picInner}</a>
+      <div class="mz-cap"><h3><a href="#p-${p.id}">${p.name}</a></h3></div>
+      <p>${p.desc}</p>
       <div class="mz-buy">${buy}</div>
     </figure>`;
   }).join('') : `<p class="empty">Aucune pièce ne correspond à ta recherche.</p>`;
@@ -882,10 +903,43 @@ function renderCart(){
 }
 function openCart(){ $('#drawer').classList.add('on'); $('#drawer').setAttribute('aria-hidden','false'); $('#shade').classList.add('on'); }
 function closeCart(){ $('#drawer').classList.remove('on'); $('#drawer').setAttribute('aria-hidden','true'); $('#shade').classList.remove('on'); }
+function closeOverlays(){ closeCart(); if(location.hash.startsWith('#p-')) location.hash='boutique'; }
+
+/* ---- Panneau produit ---- */
+let pdpImgs = null;
+function renderPdp(id){
+  const p = products.find(x=>x.id===id); if(!p) return;
+  pdpImgs = p.imgs || null;
+  $('#pdpMedia').style.setProperty('--pdp-bg', p.bg);
+  setPdpImg(0);
+  $('#pdpNav').innerHTML = pdpImgs && pdpImgs.length>1 ? pdpImgs.map((_,i)=>`<button aria-label="Photo ${i+1}" aria-pressed="${i===0}" onclick="setPdpImg(${i})"></button>`).join('') : '';
+  $('#pdpBadge').textContent = p.badge;
+  $('#pdpName').textContent = p.name;
+  $('#pdpDesc').textContent = p.desc;
+  $('#pdpBuy').innerHTML = p.price
+    ? `<span class="price">${p.price} €</span><button class="btn" onclick="addToCart(${p.id})">Ajouter au panier</button>`
+    : `<span class="price mono">Prix à venir</span><a class="btn" href="#fournee">Être prévenu</a>`;
+  const anchor = anchors[p.id], link = $('#pdpSceneLink');
+  link.style.display = anchor ? '' : 'none'; if(anchor) link.href = '#'+anchor;
+  $('#pdp').classList.add('on'); $('#pdp').setAttribute('aria-hidden','false'); $('#shade').classList.add('on');
+}
+function setPdpImg(i){
+  const p = products.find(x=>x.id === +$('#pdp').dataset.id) || null;
+  const src = pdpImgs ? `images/nouveautes/${pdpImgs[i]}.webp` : (p ? p.img : '');
+  $('#pdpImg').src = src;
+  $('#pdpNav').querySelectorAll('button').forEach((b,k)=>b.setAttribute('aria-pressed', String(k===i)));
+}
+function closePdp(){ location.hash='boutique'; }
+function handleHash(){
+  const m = location.hash.match(/^#p-(\d+)$/);
+  if(m){ $('#pdp').dataset.id = m[1]; renderPdp(+m[1]); }
+  else { $('#pdp').classList.remove('on'); $('#pdp').setAttribute('aria-hidden','true'); $('#shade').classList.remove('on'); }
+}
+window.addEventListener('hashchange', handleHash);
 function applyCoupon(){ const c=$('#coupon').value.trim().toUpperCase(); if(c==='VIP10'){ discount=.1; renderCart(); toast('Code VIP10 appliqué : −10 %'); } else toast('Code promo invalide (essaie VIP10)'); }
 function checkout(){ cart.length ? toast('Démonstration : redirection vers le paiement sécurisé') : toast('Ton panier est vide pour le moment'); }
 function subscribeVIP(e){ e.preventDefault(); toast('Inscription confirmée pour '+$('#vip-email').value); e.target.reset(); }
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeCart(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeOverlays(); });
 
 /* ---- Compte à rebours ---- */
 
@@ -897,16 +951,8 @@ function initReveal(){
   els.forEach(e=>io.observe(e));
 }
 
-$('#cards').addEventListener('click', e=>{
-  const b = e.target.closest('.mz-pic[data-id]'); if(!b) return;
-  const id = +b.dataset.id, p = products.find(x=>x.id===id); if(!p || !p.imgs) return;
-  cyclePos[id] = ((cyclePos[id]||0)+1) % p.imgs.length;
-  b.querySelector('img').src = `images/nouveautes/${p.imgs[cyclePos[id]]}.webp`;
-  b.querySelector('.mz-count').textContent = (cyclePos[id]+1)+' / '+p.imgs.length;
-});
-
 window.addEventListener('DOMContentLoaded', () => {
-  renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal();
+  renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal(); handleHash();
 });
 
 /* ---------- Séquences photo au scroll : un plan par pas de scroll ---------- */
