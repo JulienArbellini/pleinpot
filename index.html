@@ -162,6 +162,22 @@ button{font:inherit;color:inherit;cursor:pointer}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.1,1)}
 .reveal.in-view{opacity:1;transform:none}
 
+/* ============ Sur le tour : la Soucoupe Volante qu'on fait pivoter ============ */
+.turn{background:var(--ink);color:var(--paper);padding:clamp(4.5rem,8vw,7.5rem) 0}
+.turn-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(2rem,6vw,6rem);align-items:center}
+.turn .kicker{color:var(--sky)}
+.turn h2{font-size:clamp(3rem,7vw,6.6rem);margin-bottom:1.6rem}
+.turn p{max-width:40ch;color:rgba(248,240,250,.8);font-size:1.2rem;margin:0 0 1.6rem}
+.turn blockquote{margin:0 0 2.2rem;padding-left:1.1rem;border-left:3px solid #E05D5B;font-style:italic;font-size:1.3rem;color:var(--paper)}
+.turn blockquote cite{display:block;margin-top:.5rem;font-style:normal;color:rgba(248,240,250,.7)}
+.turn-view{position:relative;background:#E05D5B;aspect-ratio:720/760;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden}
+.turn-view.drag{cursor:grabbing}
+.turn-view img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.turn-hint{position:absolute;left:1rem;top:1rem;margin:0;padding:.4rem .7rem;background:var(--ink);color:var(--paper);font-size:.72rem;transition:opacity .4s}
+.turn-view.used .turn-hint{opacity:0}
+.turn-range{position:absolute;left:1rem;right:1rem;bottom:1rem;width:calc(100% - 2rem);margin:0;height:28px;accent-color:var(--ink);background:transparent;cursor:pointer}
+@media (max-width:900px){.turn-in{grid-template-columns:1fr}.turn-view{max-width:560px}}
+
 /* ============ Anatomie ============ */
 .anat{--wall:var(--lav);--wt:#E3CBEA;--wh:#E3D0EC;--hl:.64;--hr:.58;--fhl:#838AB3;--fbl:#818DBF;--fhr:#A2AEDA;--fbr:#98A5D2;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
 .anat .head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:2rem;margin-bottom:3rem;align-items:end}
@@ -460,6 +476,24 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       <p class="story">Une silhouette futuriste, deux ailes en triangle, un vert profond capté en pleine lumière. Elle a atterri sur l'étagère et n'en est plus repartie.</p>
       <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Vert profond</dd><dt>Contenance</dt><dd>~ 350 ml</dd></dl>
       <div class="buyrow"><span class="price">45 €</span><button class="btn" onclick="addToCart(6)">Ajouter au panier</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Sur le tour -->
+<section class="turn dark on-dark" id="sur-le-tour" aria-labelledby="turn-h">
+  <div class="wrap turn-in">
+    <div class="turn-view" id="turnView">
+      <img id="turnImg" src="images/tour/01.webp" width="720" height="760" alt="La Soucoupe Volante posée sur le tour de potier, sur un fond corail. Elle pivote pendant qu'on fait glisser." draggable="false">
+      <p class="turn-hint mono" aria-hidden="true">Glisse pour la faire tourner</p>
+      <input class="turn-range" id="turnRange" type="range" min="1" max="30" value="1" aria-label="Faire pivoter la Soucoupe Volante">
+    </div>
+    <div class="txt reveal">
+      <p class="mono kicker">Sous tous les angles</p>
+      <h2 class="d" id="turn-h">Sur<br>le tour</h2>
+      <p>Un demi-tour de plateau et on comprend tout : le bec en triangle, l'anse percée, le couvercle à bouton plat. Elle ne se ressemble jamais deux fois.</p>
+      <blockquote>« Je l'appelle le Vaisseau, ou l'Oiseau. »<cite class="mono">Clémence, à propos de la Soucoupe Volante</cite></blockquote>
+      <a class="btn light" href="#soucoupe-volante">Voir la pièce</a>
     </div>
   </div>
 </section>
@@ -811,6 +845,31 @@ function initReveal(){
 window.addEventListener('DOMContentLoaded', () => {
   renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal();
 });
+
+/* ---------- Sur le tour : 30 images, glisser ou curseur ---------- */
+(function(){
+  const view=document.getElementById('turnView'), img=document.getElementById('turnImg'), range=document.getElementById('turnRange');
+  if(!view) return;
+  const N=30, src=i=>'images/tour/'+String(i).padStart(2,'0')+'.webp';
+  let cur=1, loaded=false, raf=0;
+  const set=i=>{ i=Math.max(1,Math.min(N,Math.round(i))); if(i===cur) return; cur=i; img.src=src(i); range.value=i; };
+  const preload=()=>{ if(loaded) return; loaded=true; for(let i=2;i<=N;i++){ const im=new Image(); im.src=src(i); } };
+  const stop=()=>{ cancelAnimationFrame(raf); view.classList.add('used'); };
+  let x0=0, f0=1, down=false;
+  view.addEventListener('pointerdown',e=>{ if(e.target===range) return; down=true; x0=e.clientX; f0=cur; stop(); view.classList.add('drag'); view.setPointerCapture(e.pointerId); });
+  view.addEventListener('pointermove',e=>{ if(!down) return; set(f0+(e.clientX-x0)/(view.clientWidth/N*1.1)); });
+  const up=()=>{ down=false; view.classList.remove('drag'); };
+  view.addEventListener('pointerup',up); view.addEventListener('pointercancel',up);
+  range.addEventListener('input',()=>{ stop(); set(+range.value); });
+  if(!('IntersectionObserver' in window)){ preload(); return; }
+  const io=new IntersectionObserver(es=>{ if(!es[0].isIntersecting) return; io.disconnect(); preload();
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t0=performance.now()+500, target=20;
+    const step=t=>{ const k=Math.max(0,Math.min(1,(t-t0)/1800)), e=1-Math.pow(1-k,3); set(1+e*(target-1)); if(k<1) raf=requestAnimationFrame(step); };
+    raf=requestAnimationFrame(step);
+  },{rootMargin:'300px 0px',threshold:.35});
+  io.observe(view);
+})();
 </script>
 </body>
 </html>
