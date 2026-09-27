@@ -100,6 +100,17 @@ button{font:inherit;color:inherit;cursor:pointer}
 body.hero-alt .hero-alt-badge{display:block}
 body.hero-alt .hero-alt-badge a{color:#FFB199;margin-left:.6em}
 body.hero-maree .hero-bg{object-position:40% 62%}
+body.hero-soucoupe .hero{height:auto;min-height:0;max-height:none;background:#E8AEC1}
+body.hero-soucoupe .hero-bg{position:relative;inset:auto;display:block;width:100%;max-width:520px;height:auto;aspect-ratio:720/880;object-position:50% 50%;margin:0 auto}
+body.hero-soucoupe .hero::after{display:none}
+body.hero-soucoupe .hero-in{position:static;height:auto;padding:2.2rem clamp(1.2rem,3.5vw,2.5rem) 3rem;display:flex;flex-direction:column;align-items:center;text-align:center}
+body.hero-soucoupe .hero-txt{margin:0;max-width:46ch;text-align:center;color:var(--ink)}
+body.hero-soucoupe .hero h1 mark{color:var(--magenta)}
+body.hero-soucoupe .hero .cta{justify-content:center}
+body.hero-soucoupe .hero .btn.light{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+body.hero-soucoupe .hero .btn.light:hover{background:transparent;color:var(--ink)}
+body.hero-soucoupe .hero-tag{display:none}
+body.hero-soucoupe .hero-scroll{display:none}
 
 @media (max-width:1180px){
   .hero{height:auto;min-height:0;max-height:none;background:#7692E0}
@@ -1085,6 +1096,13 @@ function initSeq(secId,p,SEQ){
       alt:'Théière Marée Noire en grès émaillé noir brillant, sur un papier de fond corail et magenta',
       headline:'Une théière qui capte la lumière comme une <mark>nappe de pétrole</mark>.',
       tag:'Marée Noire — grès émaillé, atelier de Bruxelles'
+    },
+    soucoupe: {
+      name:'Soucoupe Volante',
+      src:'images/vaisseau/02.webp', w:720, h:880,
+      alt:'Théière Soucoupe Volante, émail vert profond, deux ailes triangulaires, sur un papier de fond rose',
+      headline:'Une <mark>silhouette futuriste</mark> qui a atterri sur l\'étagère.',
+      tag:'Soucoupe Volante — grès émaillé, atelier de Bruxelles'
     }
   };
   const key = new URLSearchParams(location.search).get('hero');
