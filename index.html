@@ -206,27 +206,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (max-width:600px){.sm-cap b{display:none}}
 .stopmo.static{height:auto}
 
-/* ============ Nouvelles pièces : une tuile par pièce, on clique pour changer de photo ============ */
-.nv{background:var(--paper);padding:clamp(4.5rem,8vw,7.5rem) 0}
-.nv-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:clamp(2rem,4vw,3.4rem)}
-.nv h2{font-size:clamp(3.2rem,9vw,8.6rem)}
-.nv-head p{max-width:32ch;margin:0 0 .6rem;font-size:1.2rem}
-.nv-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1rem,2vw,1.6rem);grid-auto-rows:auto}
-.nv-t{grid-column:span 4;display:flex;flex-direction:column;gap:.7rem;margin:0}
-.nv-t.w7{grid-column:span 7}.nv-t.w5{grid-column:span 5}
-.nv-pic{position:relative;display:block;width:100%;padding:0;border:0;background:var(--lav);aspect-ratio:1/1;overflow:hidden;cursor:pointer}
-.nv-t.w7 .nv-pic{aspect-ratio:7/5}.nv-t.w5 .nv-pic{aspect-ratio:5/5}
-.nv-pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
-.nv-pic:hover img{transform:scale(1.03)}
-.nv-count{position:absolute;right:.7rem;bottom:.7rem;padding:.3rem .55rem;background:var(--ink);color:var(--paper);font-size:.72rem;pointer-events:none}
-.nv-cap{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
-.nv-cap b{font-size:clamp(1.6rem,2.4vw,2.2rem);line-height:1}
-.nv-cap span{white-space:nowrap}
-.nv-t p{margin:0;font-size:1.05rem;max-width:44ch}
-.nv-foot{margin-top:clamp(2rem,4vw,3.4rem);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-@media (max-width:900px){.nv-t,.nv-t.w7,.nv-t.w5{grid-column:span 6}.nv-t .nv-pic,.nv-t.w7 .nv-pic,.nv-t.w5 .nv-pic{aspect-ratio:1/1}.nv-cap{flex-direction:column;gap:.3rem}}
-@media (max-width:560px){.nv-t,.nv-t.w7,.nv-t.w5{grid-column:span 12}}
-@media (prefers-reduced-motion:reduce){.nv-pic img{transition:none}.nv-pic:hover img{transform:none}}
+.row button.pic{border:0;padding:0;margin:0;font:inherit;cursor:pointer}
+.row .pic img{transition:transform .4s cubic-bezier(.2,.7,.1,1)}
+.row button.pic:hover img{transform:scale(1.06)}
+@media (prefers-reduced-motion:reduce){.row .pic img{transition:none}.row button.pic:hover img{transform:none}}
 
 /* ============ Anatomie ============ */
 .anat{--wall:var(--lav);--wt:#E3CBEA;--wh:#E3D0EC;--hl:.64;--hr:.58;--fhl:#838AB3;--fbl:#818DBF;--fhr:#A2AEDA;--fbr:#98A5D2;background:var(--lav);padding:var(--pad) 0;--pad:clamp(4.5rem,8vw,7.5rem);overflow:clip}
@@ -344,6 +327,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* ============ Boutique ============ */
 .shop{background:var(--paper);padding:clamp(5rem,9vw,8rem) 0}
 .shop h2{font-size:clamp(2.4rem,4.6vw,4.4rem)}
+.shop-lead{max-width:56ch;margin:.8rem 0 2.2rem;font-size:1.15rem;opacity:.85}
 .tools{display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;align-items:center;margin:2.4rem 0 2.6rem;padding:1rem 0;border-block:1.5px solid var(--ink)}
 .tools input,.tools select{background:transparent;border:0;border-bottom:1.5px solid var(--line);font:inherit;padding:.5rem .1rem;color:var(--ink);border-radius:0;min-width:200px}
 .filters{display:flex;gap:.4rem;flex-wrap:wrap}
@@ -437,6 +421,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
   <a class="brand" href="#top" aria-label="Plein Pot Studio, accueil">Plein Pot<small>Studio céramique — Bruxelles</small></a>
   <nav aria-label="Navigation principale">
     <a href="#collection">Collection</a>
+    <a href="#boutique">Boutique</a>
     <a href="#anatomie">Anatomie</a>
     <a href="#emaux">Émaux</a>
     <a href="#atelier">Atelier</a>
@@ -454,6 +439,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </header>
 <nav class="mnav" id="mnav" aria-label="Menu mobile">
   <a href="#collection" onclick="toggleNav()">Collection</a>
+  <a href="#boutique" onclick="toggleNav()">Boutique</a>
   <a href="#anatomie" onclick="toggleNav()">Anatomie</a>
   <a href="#emaux" onclick="toggleNav()">Émaux</a>
   <a href="#atelier" onclick="toggleNav()">Atelier</a>
@@ -609,15 +595,40 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
   </div>
 </section>
 
-<!-- ============ NOUVELLES PIÈCES ============ -->
-<section class="nv" id="nouveautes" aria-labelledby="nv-h">
+<!-- ============ BOUTIQUE ============ -->
+<section class="shop" id="boutique">
   <div class="wrap">
-    <div class="nv-head">
-      <div><p class="mono kicker">Sur l'étagère</p><h2 class="d" id="nv-h">Nouvelles<br>pièces</h2></div>
-      <p>Du grès brut, des marbrures, des motifs peints à la main. Clique sur une photo pour voir la pièce sous un autre angle.</p>
+    <h2 class="d">Toutes les pièces</h2>
+    <p class="shop-lead">Des pièces phares aux dernières sorties de four. Certaines n'ont pas encore de prix : inscris-toi pour être prévenu quand elles seront disponibles.</p>
+    <div class="tools">
+      <label><span class="sr" style="position:absolute;left:-9999px">Rechercher</span><input type="search" id="search" placeholder="Rechercher une pièce…" oninput="renderShop()"></label>
+      <div class="filters" id="filters" role="group" aria-label="Filtrer par catégorie"></div>
+      <label><span class="sr" style="position:absolute;left:-9999px">Trier</span>
+        <select id="sort" onchange="renderShop()"><option value="default">Trier : pertinence</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option></select></label>
     </div>
-    <div class="nv-grid" id="nvGrid"></div>
-    <div class="nv-foot"><a class="btn" href="#fournee">Être prévenu de la prochaine fournée</a></div>
+    <div class="idx" id="cards"></div>
+  </div>
+</section>
+
+<!-- ============ FOURNÉE ============ -->
+<section class="drop" id="fournee">
+  <div class="wrap grid">
+    <div class="l">
+      <p class="mono kicker">Prochaine fournée</p>
+      <h2 class="d">La collection se renouvelle bientôt.</h2>
+      <p>Inscris-toi pour recevoir le lien d'accès privé par e-mail, une heure avant l'ouverture au public.</p>
+      <form onsubmit="subscribeVIP(event)">
+        <label class="sr" for="vip-email" style="position:absolute;left:-9999px">Adresse e-mail</label>
+        <input type="email" id="vip-email" required placeholder="Ton adresse e-mail" autocomplete="email">
+        <button class="btn" type="submit">S'inscrire</button>
+      </form>
+    </div>
+    <div class="r">
+      <div class="soon">
+        <b>Date à venir</b>
+        <span class="mono">Tu seras prévenu par e-mail dès qu'elle est fixée</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -683,69 +694,6 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
   </div>
 </section>
 
-<!-- ============ FOURNÉE ============ -->
-<section class="drop" id="fournee">
-  <div class="wrap grid">
-    <div class="l">
-      <p class="mono kicker">Prochaine fournée</p>
-      <h2 class="d">La collection se renouvelle bientôt.</h2>
-      <p>Inscris-toi pour recevoir le lien d'accès privé par e-mail, une heure avant l'ouverture au public.</p>
-      <form onsubmit="subscribeVIP(event)">
-        <label class="sr" for="vip-email" style="position:absolute;left:-9999px">Adresse e-mail</label>
-        <input type="email" id="vip-email" required placeholder="Ton adresse e-mail" autocomplete="email">
-        <button class="btn" type="submit">S'inscrire</button>
-      </form>
-    </div>
-    <div class="r">
-      <div class="soon">
-        <b>Date à venir</b>
-        <span class="mono">Tu seras prévenu par e-mail dès qu'elle est fixée</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ QUIZ ============ -->
-<section class="quiz" id="quiz">
-  <div class="wrap grid">
-    <div class="l">
-      <p class="mono kicker">Deux questions</p>
-      <h2 class="d">Quelle pièce te correspond&nbsp;?</h2>
-    </div>
-    <div class="r">
-      <fieldset class="q"><legend>1. Ton rituel du matin ?</legend>
-        <div class="opts">
-          <button class="opt q1" aria-pressed="false" onclick="selectQuiz(event,1,'cafe')">Un expresso serré, rapide</button>
-          <button class="opt q1" aria-pressed="false" onclick="selectQuiz(event,1,'grand-cafe')">Un grand thé ou café allongé</button>
-          <button class="opt q1" aria-pressed="false" onclick="selectQuiz(event,1,'deco')">Contempler des fleurs fraîches</button>
-        </div>
-      </fieldset>
-      <fieldset class="q"><legend>2. Quelle teinte t'inspire le plus de calme ?</legend>
-        <div class="opts">
-          <button class="opt q2" aria-pressed="false" onclick="selectQuiz(event,2,'bleu')">Bleu cobalt profond</button>
-          <button class="opt q2" aria-pressed="false" onclick="selectQuiz(event,2,'jaune')">Ocre chaleureux</button>
-          <button class="opt q2" aria-pressed="false" onclick="selectQuiz(event,2,'terre')">Terracotta brute</button>
-        </div>
-      </fieldset>
-      <div class="result" id="quiz-result" aria-live="polite"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BOUTIQUE ============ -->
-<section class="shop" id="boutique">
-  <div class="wrap">
-    <h2 class="d">Toutes les pièces</h2>
-    <div class="tools">
-      <label><span class="sr" style="position:absolute;left:-9999px">Rechercher</span><input type="search" id="search" placeholder="Rechercher une pièce…" oninput="renderShop()"></label>
-      <div class="filters" id="filters" role="group" aria-label="Filtrer par catégorie"></div>
-      <label><span class="sr" style="position:absolute;left:-9999px">Trier</span>
-        <select id="sort" onchange="renderShop()"><option value="default">Trier : pertinence</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option></select></label>
-    </div>
-    <div class="idx" id="cards"></div>
-  </div>
-</section>
-
 <!-- ============ FAQ ============ -->
 <section class="faq">
   <div class="wrap grid">
@@ -797,7 +745,14 @@ const products = [
   { id:3, name:"Le Mont",           full:"Mug « Le Mont »",          cat:"mugs",     price:32, img:"images/mug-le-mont-3.jpg",          badge:"En stock",     cap:"~ 300 ml", bg:"#E8AEC1" },
   { id:4, name:"Bol piédestal Duo", full:"Bol piédestal « Duo »",    cat:"bols",     price:58, img:"images/product-bol-duo.jpg",              badge:"Petite série", cap:"La paire", bg:"#0E7DFB" },
   { id:5, name:"Bol piédestal Solo",full:"Bol piédestal « Solo »",   cat:"bols",     price:34, img:"images/product-bol-solo.jpg",             badge:"Pièce unique", cap:"~ 300 ml", bg:"#0E7DFB" },
-  { id:6, name:"Soucoupe Volante",  full:"Pièce « Soucoupe Volante »",cat:"theieres",price:45, img:"images/soucoupe-volante-2.jpg",             badge:"Nouveauté",    cap:"~ 350 ml", bg:"#E599B4" }
+  { id:6, name:"Soucoupe Volante",  full:"Pièce « Soucoupe Volante »",cat:"theieres",price:45, img:"images/soucoupe-volante-2.jpg",             badge:"Nouveauté",    cap:"~ 350 ml", bg:"#E599B4" },
+  { id:7,  name:"Bols en grès brut",       full:"Bols en grès brut",       cat:"bols",  price:null, img:"images/nouveautes/18.webp", imgs:[18,27,26,22], badge:"Bientôt", cap:"Grès brut dehors, émail noir mat dedans", bg:"#E8AEC1" },
+  { id:8,  name:"Bol spirale",             full:"Bol spirale",             cat:"bols",  price:null, img:"images/nouveautes/28.webp", imgs:[28,19],       badge:"Bientôt", cap:"Émail brun et noir qui tourne en spirales", bg:"#FB5B66" },
+  { id:9,  name:"Vase boule",              full:"Vase boule",              cat:"autres",price:null, img:"images/nouveautes/25.webp", imgs:[25,20],       badge:"Bientôt", cap:"Émail turquoise moucheté sur fond crème", bg:"#0E7DFB" },
+  { id:10, name:"Assiettes aux mains",     full:"Assiettes aux mains",     cat:"autres",price:null, img:"images/nouveautes/21.webp", imgs:[21,33],       badge:"Bientôt", cap:"Mains et points bleus peints à la main", bg:"#E8AEC1" },
+  { id:11, name:"Gobelets marbrés",        full:"Gobelets marbrés",        cat:"mugs",  price:null, img:"images/nouveautes/23.webp", imgs:[23,32,31],    badge:"Bientôt", cap:"Terres noire et crème mêlées, façon marbre", bg:"#0E7DFB" },
+  { id:12, name:"Gobelets à collerette",   full:"Gobelets à collerette",   cat:"mugs",  price:null, img:"images/nouveautes/24.webp", imgs:[24,30,34],    badge:"Bientôt", cap:"Crème brossé de noir, collerette noire", bg:"#E8AEC1" },
+  { id:13, name:"Gobelet rouille",         full:"Gobelet rouille",         cat:"mugs",  price:null, img:"images/nouveautes/35.webp", imgs:[35,29],       badge:"Bientôt", cap:"Émail rouille, le bord brossé de noir", bg:"#0E7DFB" }
 ];
 const $ = s => document.querySelector(s);
 const eur = n => n.toFixed(2).replace('.', ',') + ' €';
@@ -868,35 +823,37 @@ function renderTiming(){
 }
 
 /* ---- Boutique ---- */
-const cats = [['all','Tout voir'],['theieres','Théières'],['mugs','Tasses & mugs'],['bols','Bols']];
+const cats = [['all','Tout voir'],['theieres','Théières'],['mugs','Tasses, mugs & gobelets'],['bols','Bols'],['autres','Autres pièces']];
 function renderFilters(){ $('#filters').innerHTML = cats.map(c=>`<button aria-pressed="${c[0]===cat}" onclick="setCat('${c[0]}')">${c[1]}</button>`).join(''); }
 function setCat(c){ cat=c; renderFilters(); renderShop(); }
+const anchors = {1:'anatomie',2:'maree-noire',3:'le-mont',4:'bols-piedestal',5:'bols-piedestal',6:'soucoupe-volante'};
+let cyclePos = {};
 function renderShop(){
   const q = $('#search').value.trim().toLowerCase(), s = $('#sort').value;
   let list = products.filter(p => (cat==='all'||p.cat===cat) && (p.full.toLowerCase().includes(q)));
-  if(s==='asc') list.sort((a,b)=>a.price-b.price); if(s==='desc') list.sort((a,b)=>b.price-a.price);
-  const anchors = {1:'anatomie',2:'maree-noire',3:'le-mont',4:'bols-piedestal',5:'bols-piedestal',6:'soucoupe-volante'};
-  $('#cards').innerHTML = list.length ? list.map(p=>`
+  if(s==='asc') list.sort((a,b)=>(a.price??Infinity)-(b.price??Infinity));
+  if(s==='desc') list.sort((a,b)=>(b.price??-Infinity)-(a.price??-Infinity));
+  $('#cards').innerHTML = list.length ? list.map(p=>{
+    const anchor = anchors[p.id];
+    const cycling = p.imgs && p.imgs.length>1;
+    const src = cycling ? `images/nouveautes/${p.imgs[cyclePos[p.id]||0]}.webp` : p.img;
+    const picInner = `<img src="${src}" alt="" loading="lazy">`;
+    const pic = cycling
+      ? `<button class="pic" type="button" data-id="${p.id}" style="--bg:${p.bg}" aria-label="${p.name} : photo suivante">${picInner}</button>`
+      : anchor
+        ? `<a class="pic" href="#${anchor}" style="--bg:${p.bg}" tabindex="-1" aria-hidden="true">${picInner}</a>`
+        : `<span class="pic" style="--bg:${p.bg}">${picInner}</span>`;
+    const name = anchor ? `<a href="#${anchor}">${p.name}</a>` : p.name;
+    const buy = p.price
+      ? `<span class="p">${p.price} €</span><button class="btn" type="button" onclick="addToCart(${p.id})">Ajouter</button>`
+      : `<span class="p mono">Prix à venir</span><a class="btn ghost" href="#fournee">Être prévenu</a>`;
+    return `
     <article class="row">
-      <a class="pic" href="#${anchors[p.id]}" style="--bg:${p.bg}" tabindex="-1" aria-hidden="true"><img src="${p.img}" alt="" loading="lazy"></a>
-      <div><h3><a href="#${anchors[p.id]}">${p.name}</a></h3><p>${p.badge}, ${p.cap}</p></div>
-      <div class="rbuy"><span class="p">${p.price} €</span><button class="btn" type="button" onclick="addToCart(${p.id})">Ajouter</button></div>
-    </article>`).join('') : `<p class="empty">Aucune pièce ne correspond à ta recherche.</p>`;
-}
-
-/* ---- Quiz ---- */
-const quiz = { a:'', b:'' };
-function selectQuiz(evt, step, val){
-  document.querySelectorAll(step===1?'.q1':'.q2').forEach(b=>b.setAttribute('aria-pressed','false'));
-  evt.currentTarget.setAttribute('aria-pressed','true');
-  step===1 ? quiz.a=val : quiz.b=val;
-  if(quiz.a && quiz.b){
-    let id = 1;
-    if(quiz.a==='cafe') id = 5; else if(quiz.a==='deco') id = 2; else if(quiz.b==='jaune') id = 3;
-    const r = products.find(p=>p.id===id), box = $('#quiz-result');
-    box.innerHTML = `<img src="${r.img}" alt=""><div class="who"><span class="mono">Recommandation</span><h4>${r.name}</h4><span class="mono">${r.price} € — ${r.cap}</span></div><button class="btn" onclick="addToCart(${r.id})">Ajouter au panier</button>`;
-    box.classList.add('show');
-  }
+      ${pic}
+      <div><h3>${name}</h3><p>${p.badge}, ${p.cap}</p></div>
+      <div class="rbuy">${buy}</div>
+    </article>`;
+  }).join('') : `<p class="empty">Aucune pièce ne correspond à ta recherche.</p>`;
 }
 
 /* ---- Panier ---- */
@@ -932,6 +889,13 @@ function initReveal(){
   const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }), { threshold:.15 });
   els.forEach(e=>io.observe(e));
 }
+
+$('#cards').addEventListener('click', e=>{
+  const b = e.target.closest('.pic[data-id]'); if(!b) return;
+  const id = +b.dataset.id, p = products.find(x=>x.id===id); if(!p || !p.imgs) return;
+  cyclePos[id] = ((cyclePos[id]||0)+1) % p.imgs.length;
+  b.querySelector('img').src = `images/nouveautes/${p.imgs[cyclePos[id]]}.webp`;
+});
 
 window.addEventListener('DOMContentLoaded', () => {
   renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal();
@@ -1041,36 +1005,6 @@ function initSeq(secId,p,SEQ){
   render(0); upd();
 })();
 
-/* ---------- Nouvelles pièces : une tuile par pièce, clic = photo suivante ---------- */
-(function(){
-  const grid=document.getElementById('nvGrid'); if(!grid) return;
-  const NV=[
-    {n:'Bols en grès brut',d:'Grès brut dehors, émail noir mat dedans.',w:'w7',i:[18,27,26,22],alt:['deux bols empilés','deux bols, l\'un dans l\'autre','un bol vu de côté','un bol sur fond lavande']},
-    {n:'Bol spirale',d:'Un émail brun et noir qui tourne en spirales.',w:'w5',i:[28,19],alt:['vu de dessus','vu de côté']},
-    {n:'Vase boule',d:'Émail turquoise moucheté sur fond crème.',w:'',i:[25,20],alt:['avec une branche d\'eucalyptus','en gros plan sur l\'émail']},
-    {n:'Assiettes aux mains',d:'Des mains et des points bleus peints à la main.',w:'',i:[21,33],alt:['trois assiettes empilées','les mêmes assiettes sous un autre angle']},
-    {n:'Gobelets marbrés',d:'Terres noire et crème mêlées, façon marbre.',w:'',i:[23,32,31],alt:['deux gobelets','deux gobelets empilés','un gobelet seul']},
-    {n:'Gobelets à collerette',d:'Crème brossé de noir, collerette noire.',w:'w5',i:[24,30,34],alt:['deux gobelets empilés','un gobelet seul','deux gobelets, l\'un couché']},
-    {n:'Gobelet rouille',d:'Un émail rouille, le bord brossé de noir.',w:'w7',i:[35,29],alt:['un gobelet seul','deux gobelets empilés']}
-  ];
-  grid.innerHTML=NV.map((x,k)=>`
-    <figure class="nv-t ${x.w}">
-      <button class="nv-pic" type="button" data-k="${k}" aria-label="${x.n} : photo suivante">
-        <img src="images/nouveautes/${x.i[0]}.webp" alt="${x.n}, ${x.alt[0]}" width="1000" height="1000" loading="lazy" decoding="async">
-        ${x.i.length>1?`<span class="nv-count mono" aria-hidden="true">1 / ${x.i.length}</span>`:''}
-      </button>
-      <figcaption class="nv-cap"><b class="d">${x.n}</b><span class="mono">Prix à venir</span></figcaption>
-      <p>${x.d}</p>
-    </figure>`).join('');
-  const pos=NV.map(()=>0);
-  grid.addEventListener('click',e=>{
-    const b=e.target.closest('.nv-pic'); if(!b) return;
-    const k=+b.dataset.k, x=NV[k]; if(x.i.length<2) return;
-    pos[k]=(pos[k]+1)%x.i.length;
-    const img=b.querySelector('img'); img.src='images/nouveautes/'+x.i[pos[k]]+'.webp'; img.alt=x.n+', '+x.alt[pos[k]];
-    b.querySelector('.nv-count').textContent=(pos[k]+1)+' / '+x.i.length;
-  });
-})();
 </script>
 </body>
 </html>
