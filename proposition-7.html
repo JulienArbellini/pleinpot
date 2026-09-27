@@ -895,7 +895,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const CORAL='#E05D5B', ROSE='#E8AEC1';
   const tour=['Sur le tour','Un demi-tour de plateau, et elle change de silhouette.'], wait=['Attends la fin…','Le tour est fini. Les vrais plans arrivent.'];
   const SEQ=[];
-  for(let i=0;i<15;i++) SEQ.push({h:1,bg:CORAL,t:i<12?tour[0]:wait[0],d:i<12?tour[1]:wait[1]});
+  for(let i=0;i<8;i++) SEQ.push({h:1,bg:CORAL,f:'images/vaisseau/'+String(i*2+1).padStart(2,'0')+'.webp',t:i<6?tour[0]:wait[0],d:i<6?tour[1]:wait[1]});
+  const STAGE=['#E3CBEA','#E3CBEA','#E3CBEA','#E8AEC1','#E8AEC1','#E8AEC1','#E8AEC1','#FB5B66','#FB5B66','#FB5B66','#1A82FB','#1A82FB','#1A82FB','#1A82FB'];
+  for(let i=0;i<14;i++) SEQ.push({h:1,bg:STAGE[i],f:'images/vaisseau/rot-'+String(i+1).padStart(2,'0')+'.webp',t:'Un tour complet',d:'Elle pivote, on la voit sous tous ses angles.'});
   [['Vue de dessus','Couvercle rond, bouton plat, filtre à trous.'],
    ['De profil','Deux triangles autour d\'une panse ronde : le vaisseau.'],
    ['L\'anse percée','Un triangle évidé, comme découpé au cutter.'],
@@ -904,10 +906,10 @@ window.addEventListener('DOMContentLoaded', () => {
    ['Le bec','Un triangle qui verse le thé.'],
    ['Quelque chose approche…','Des moustaches.'],
    ['Le cliffhanger','Un chat.'],
-   ['Verdict','Approuvée.']].forEach(x=>SEQ.push({h:2,bg:ROSE,t:x[0],d:x[1]}));
+   ['Verdict','Approuvée.']].forEach((x,k)=>SEQ.push({h:2,bg:ROSE,f:'images/vaisseau/'+String(16+k).padStart(2,'0')+'.webp',t:x[0],d:x[1]}));
   const TOTAL=SEQ.reduce((a,x)=>a+x.h,0), starts=[]; let acc=0; SEQ.forEach(x=>{ starts.push(acc); acc+=x.h; });
   sec.style.setProperty('--n',TOTAL);
-  const src=i=>'images/vaisseau/'+String(i+1).padStart(2,'0')+'.webp';
+  const src=i=>SEQ[i].f;
   SEQ.forEach(()=>ticks.appendChild(document.createElement('i')));
   let cur=-1, loaded=false;
   const preload=()=>{ if(loaded) return; loaded=true; SEQ.forEach((_,i)=>{ if(i){ const im=new Image(); im.src=src(i); } }); };
@@ -920,7 +922,7 @@ window.addEventListener('DOMContentLoaded', () => {
     go.classList.toggle('show',i===SEQ.length-1);
   };
   if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ preload(); io.disconnect(); } },{rootMargin:'1500px 0px'}); io.observe(sec); } else preload();
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ sec.classList.add('static'); render(15); return; }
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ sec.classList.add('static'); render(SEQ.length-9); return; }
   let tick=false;
   const upd=()=>{ tick=false; const total=sec.offsetHeight-innerHeight; if(total<=0) return;
     const p=Math.min(.9999,Math.max(0,-sec.getBoundingClientRect().top/total)), u=Math.floor(p*TOTAL);
