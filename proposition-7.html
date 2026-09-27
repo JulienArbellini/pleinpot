@@ -96,6 +96,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hero-scroll{position:absolute;z-index:1;left:50%;bottom:1.7rem;transform:translateX(-50%);width:22px;height:34px;border:1.5px solid #F8F0FA;border-radius:999px;opacity:.7}
 .hero-scroll::before{content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;background:#F8F0FA;border-radius:2px;transform:translateX(-50%);animation:scrolldot 1.6s ease infinite}
 @keyframes scrolldot{0%{opacity:1;top:6px}70%{opacity:0;top:18px}100%{opacity:0;top:6px}}
+.hero-alt-badge{position:fixed;z-index:70;left:50%;bottom:14px;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1rem;border-radius:999px;display:none;box-shadow:0 6px 20px rgba(27,14,36,.35)}
+body.hero-alt .hero-alt-badge{display:block}
+body.hero-alt .hero-alt-badge a{color:#FFB199;margin-left:.6em}
+body.hero-maree .hero-bg{object-position:40% 62%}
+
 @media (max-width:1180px){
   .hero{height:auto;min-height:0;max-height:none;background:#7692E0}
   .hero-bg{position:relative;inset:auto;display:block;width:100%;height:auto;aspect-ratio:4/5;object-position:22% 45%}
@@ -107,6 +112,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   .hero .btn.light{background:var(--paper);color:var(--ink);border-color:var(--paper)}
   .hero-tag{display:none}
   .hero-scroll{display:none}
+  body.hero-maree .hero-bg{object-position:38% 38%}
 }
 
 /* ============ Manifeste ============ */
@@ -433,6 +439,7 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 </style>
 </head>
 <body>
+<p class="mono hero-alt-badge" id="heroAltBadge">Aperçu — <span id="heroAltName"></span> <a href="?">voir la version normale</a></p>
 
 <header class="bar">
   <a class="brand" href="#top" aria-label="Plein Pot Studio, accueil">Plein Pot<small>Studio céramique — Bruxelles</small></a>
@@ -1067,6 +1074,28 @@ function initSeq(secId,p,SEQ){
     const img=b.querySelector('img'); img.src='images/nouveautes/'+x.i[pos[k]]+'.webp'; img.alt=x.n+', '+x.alt[pos[k]];
     b.querySelector('.nv-count').textContent=(pos[k]+1)+' / '+x.i.length;
   });
+})();
+
+/* ---------- Hero interchangeable : ?hero=maree pour proposer une autre théière en accueil ---------- */
+(function(){
+  const VARIANTS = {
+    maree: {
+      name:'Marée Noire',
+      src:'images/hero-maree-preview.jpg', w:1774, h:887,
+      alt:'Théière Marée Noire en grès émaillé noir brillant, sur un papier de fond corail et magenta',
+      headline:'Une théière qui capte la lumière comme une <mark>nappe de pétrole</mark>.',
+      tag:'Marée Noire — grès émaillé, atelier de Bruxelles'
+    }
+  };
+  const key = new URLSearchParams(location.search).get('hero');
+  const v = key && VARIANTS[key];
+  if(!v) return;
+  document.body.classList.add('hero-alt','hero-'+key);
+  document.getElementById('heroAltName').textContent = v.name;
+  const img = document.querySelector('.hero-bg');
+  if(img){ img.src = v.src; img.width = v.w; img.height = v.h; img.alt = v.alt; }
+  const h1 = document.querySelector('.hero h1'); if(h1) h1.innerHTML = v.headline;
+  const tag = document.querySelector('.hero-tag'); if(tag) tag.textContent = v.tag;
 })();
 </script>
 </body>
