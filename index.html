@@ -162,21 +162,33 @@ button{font:inherit;color:inherit;cursor:pointer}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.1,1)}
 .reveal.in-view{opacity:1;transform:none}
 
-/* ============ Sur le tour : la Soucoupe Volante qu'on fait pivoter ============ */
-.turn{background:var(--ink);color:var(--paper);padding:clamp(4.5rem,8vw,7.5rem) 0}
-.turn-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(2rem,6vw,6rem);align-items:center}
-.turn .kicker{color:var(--sky)}
-.turn h2{font-size:clamp(3rem,7vw,6.6rem);margin-bottom:1.6rem}
-.turn p{max-width:40ch;color:rgba(248,240,250,.8);font-size:1.2rem;margin:0 0 1.6rem}
-.turn blockquote{margin:0 0 2.2rem;padding-left:1.1rem;border-left:3px solid #E05D5B;font-style:italic;font-size:1.3rem;color:var(--paper)}
-.turn blockquote cite{display:block;margin-top:.5rem;font-style:normal;color:rgba(248,240,250,.7)}
-.turn-view{position:relative;background:#E05D5B;aspect-ratio:720/760;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden}
-.turn-view.drag{cursor:grabbing}
-.turn-view img{width:100%;height:100%;object-fit:cover;pointer-events:none}
-.turn-hint{position:absolute;left:1rem;top:1rem;margin:0;padding:.4rem .7rem;background:var(--ink);color:var(--paper);font-size:.72rem;transition:opacity .4s}
-.turn-view.used .turn-hint{opacity:0}
-.turn-range{position:absolute;left:1rem;right:1rem;bottom:1rem;width:calc(100% - 2rem);margin:0;height:28px;accent-color:var(--ink);background:transparent;cursor:pointer}
-@media (max-width:900px){.turn-in{grid-template-columns:1fr}.turn-view{max-width:560px}}
+/* ============ Vaisseau ou oiseau : le montage de la vidéo, un plan par pas de scroll ============ */
+.vso{--n:35;position:relative;height:calc(100svh + var(--n) * 17svh)}
+.vso-stick{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--vso-bg,#E05D5B);color:var(--ink);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(1.5rem,6vw,6rem);align-items:center;padding:88px clamp(1.2rem,5vw,5rem) 44px}
+.vso .kicker{margin-bottom:1.1rem}
+.vso h2{font-size:clamp(3rem,7.4vw,7rem);margin:0 0 1.6rem}
+.vso-cap{max-width:34ch;min-height:8.5rem;border-top:2px solid var(--ink);padding-top:1rem}
+.vso-cap b{display:block;font-size:clamp(1.7rem,2.6vw,2.4rem);line-height:1;margin-bottom:.5rem}
+.vso-cap p{margin:0;font-size:1.2rem}
+.vso blockquote{margin:1.6rem 0 0;font-style:italic;font-size:1.15rem;max-width:34ch}
+.vso blockquote cite{display:block;margin-top:.3rem;font-style:normal}
+.vso-card{margin:0;height:min(78svh,calc(92vw * 880 / 720));aspect-ratio:720/880}
+.vso-card img{width:100%;height:100%;object-fit:cover;box-shadow:.9rem .9rem 0 var(--ink)}
+.vso-ticks{position:absolute;left:clamp(1.2rem,5vw,5rem);right:clamp(1.2rem,5vw,5rem);bottom:18px;display:flex;gap:3px}
+.vso-ticks i{flex:1;height:5px;background:var(--ink);opacity:.22}
+.vso-ticks i.on{opacity:1}
+.vso-go{position:absolute;left:clamp(1.2rem,5vw,5rem);bottom:40px;opacity:0;pointer-events:none;transition:opacity .2s}
+.vso-go.show{opacity:1;pointer-events:auto}
+.vso.static{height:auto}.vso.static .vso-stick{position:relative}.vso.static .vso-ticks{display:none}
+@media (max-width:900px){
+  .vso-stick{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center;justify-items:center;gap:1.1rem;padding-top:84px}
+  .vso h2,.vso blockquote{display:none}
+  .vso .kicker{margin:0 0 .6rem}
+  .vso-card{height:min(50svh,calc(88vw * 880 / 720))}
+  .vso-cap{min-height:6.2rem;max-width:none;width:min(88vw,520px)}
+  .vso-cap b{font-size:1.5rem}.vso-cap p{font-size:1.05rem}
+  .vso-go{left:auto;right:1.2rem;bottom:32px}
+}
 
 /* ============ Stop-motion : les pièces détourées changent de place à chaque pas de scroll ============ */
 .stopmo{--n:16;position:relative;height:calc(100svh + (var(--n) - 1) * 34svh)}
@@ -513,21 +525,18 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
   </div>
 </section>
 
-<!-- Sur le tour -->
-<section class="turn dark on-dark" id="sur-le-tour" aria-labelledby="turn-h">
-  <div class="wrap turn-in">
-    <div class="turn-view" id="turnView">
-      <img id="turnImg" src="images/tour/01.webp" width="720" height="760" alt="La Soucoupe Volante posée sur le tour de potier, sur un fond corail. Elle pivote pendant qu'on fait glisser." draggable="false">
-      <p class="turn-hint mono" aria-hidden="true">Glisse pour la faire tourner</p>
-      <input class="turn-range" id="turnRange" type="range" min="1" max="30" value="1" aria-label="Faire pivoter la Soucoupe Volante">
+<!-- Vaisseau ou oiseau -->
+<section class="vso" id="vaisseau" aria-labelledby="vso-h">
+  <div class="vso-stick" id="vsoStick">
+    <div class="vso-txt">
+      <p class="mono kicker">Soucoupe Volante, sous tous les angles</p>
+      <h2 class="d" id="vso-h">Vaisseau,<br>ou oiseau&nbsp;?</h2>
+      <div class="vso-cap"><b class="d" id="vsoT">Sur le tour</b><p id="vsoD">Un demi-tour de plateau, et elle change de silhouette.</p></div>
+      <blockquote>« Je l'appelle le Vaisseau, ou l'Oiseau. »<cite class="mono">Clémence</cite></blockquote>
     </div>
-    <div class="txt reveal">
-      <p class="mono kicker">Sous tous les angles</p>
-      <h2 class="d" id="turn-h">Sur<br>le tour</h2>
-      <p>Un demi-tour de plateau et on comprend tout : le bec en triangle, l'anse percée, le couvercle à bouton plat. Elle ne se ressemble jamais deux fois.</p>
-      <blockquote>« Je l'appelle le Vaisseau, ou l'Oiseau. »<cite class="mono">Clémence, à propos de la Soucoupe Volante</cite></blockquote>
-      <a class="btn light" href="#soucoupe-volante">Voir la pièce</a>
-    </div>
+    <figure class="vso-card"><img id="vsoImg" src="images/vaisseau/01.webp" width="720" height="880" alt="La Soucoupe Volante sur le tour de potier" decoding="async"></figure>
+    <div class="vso-ticks" id="vsoTicks" aria-hidden="true"></div>
+    <a class="btn light vso-go" id="vsoGo" href="#soucoupe-volante">Voir la pièce</a>
   </div>
 </section>
 
@@ -879,29 +888,47 @@ window.addEventListener('DOMContentLoaded', () => {
   renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal();
 });
 
-/* ---------- Sur le tour : 30 images, glisser ou curseur ---------- */
+/* ---------- Vaisseau ou oiseau : un plan par pas de scroll ---------- */
 (function(){
-  const view=document.getElementById('turnView'), img=document.getElementById('turnImg'), range=document.getElementById('turnRange');
-  if(!view) return;
-  const N=30, src=i=>'images/tour/'+String(i).padStart(2,'0')+'.webp';
-  let cur=1, loaded=false, raf=0;
-  const set=i=>{ i=Math.max(1,Math.min(N,Math.round(i))); if(i===cur) return; cur=i; img.src=src(i); range.value=i; };
-  const preload=()=>{ if(loaded) return; loaded=true; for(let i=2;i<=N;i++){ const im=new Image(); im.src=src(i); } };
-  const stop=()=>{ cancelAnimationFrame(raf); view.classList.add('used'); };
-  let x0=0, f0=1, down=false;
-  view.addEventListener('pointerdown',e=>{ if(e.target===range) return; down=true; x0=e.clientX; f0=cur; stop(); view.classList.add('drag'); view.setPointerCapture(e.pointerId); });
-  view.addEventListener('pointermove',e=>{ if(!down) return; set(f0+(e.clientX-x0)/(view.clientWidth/N*1.1)); });
-  const up=()=>{ down=false; view.classList.remove('drag'); };
-  view.addEventListener('pointerup',up); view.addEventListener('pointercancel',up);
-  range.addEventListener('input',()=>{ stop(); set(+range.value); });
-  if(!('IntersectionObserver' in window)){ preload(); return; }
-  const io=new IntersectionObserver(es=>{ if(!es[0].isIntersecting) return; io.disconnect(); preload();
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const t0=performance.now()+500, target=20;
-    const step=t=>{ const k=Math.max(0,Math.min(1,(t-t0)/1800)), e=1-Math.pow(1-k,3); set(1+e*(target-1)); if(k<1) raf=requestAnimationFrame(step); };
-    raf=requestAnimationFrame(step);
-  },{rootMargin:'300px 0px',threshold:.35});
-  io.observe(view);
+  const sec=document.getElementById('vaisseau'); if(!sec) return;
+  const stick=document.getElementById('vsoStick'), img=document.getElementById('vsoImg'), T=document.getElementById('vsoT'), D=document.getElementById('vsoD'), ticks=document.getElementById('vsoTicks'), go=document.getElementById('vsoGo');
+  const CORAL='#E05D5B', ROSE='#E8AEC1';
+  const tour=['Sur le tour','Un demi-tour de plateau, et elle change de silhouette.'], wait=['Attends la fin…','Le tour est fini. Les vrais plans arrivent.'];
+  const SEQ=[];
+  for(let i=0;i<15;i++) SEQ.push({h:1,bg:CORAL,t:i<12?tour[0]:wait[0],d:i<12?tour[1]:wait[1]});
+  [['Vue de dessus','Couvercle rond, bouton plat, filtre à trous.'],
+   ['De profil','Deux triangles autour d\'une panse ronde : le vaisseau.'],
+   ['L\'anse percée','Un triangle évidé, comme découpé au cutter.'],
+   ['En gros plan','L\'émail brunit sur les arêtes, là où il s\'amincit.'],
+   ['Dans la main','On la tient du bout des doigts.'],
+   ['Le bec','Un triangle qui verse le thé.'],
+   ['Quelque chose approche…','Des moustaches.'],
+   ['Le cliffhanger','Un chat.'],
+   ['Verdict','Approuvée.']].forEach(x=>SEQ.push({h:2,bg:ROSE,t:x[0],d:x[1]}));
+  const TOTAL=SEQ.reduce((a,x)=>a+x.h,0), starts=[]; let acc=0; SEQ.forEach(x=>{ starts.push(acc); acc+=x.h; });
+  sec.style.setProperty('--n',TOTAL);
+  const src=i=>'images/vaisseau/'+String(i+1).padStart(2,'0')+'.webp';
+  SEQ.forEach(()=>ticks.appendChild(document.createElement('i')));
+  let cur=-1, loaded=false;
+  const preload=()=>{ if(loaded) return; loaded=true; SEQ.forEach((_,i)=>{ if(i){ const im=new Image(); im.src=src(i); } }); };
+  const render=i=>{
+    cur=i; const f=SEQ[i];
+    img.src=src(i); img.alt=f.t+'. '+f.d;
+    stick.style.setProperty('--vso-bg',f.bg);
+    T.textContent=f.t; D.textContent=f.d;
+    [...ticks.children].forEach((e,k)=>e.classList.toggle('on',k<=i));
+    go.classList.toggle('show',i===SEQ.length-1);
+  };
+  if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ preload(); io.disconnect(); } },{rootMargin:'1500px 0px'}); io.observe(sec); } else preload();
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ sec.classList.add('static'); render(15); return; }
+  let tick=false;
+  const upd=()=>{ tick=false; const total=sec.offsetHeight-innerHeight; if(total<=0) return;
+    const p=Math.min(.9999,Math.max(0,-sec.getBoundingClientRect().top/total)), u=Math.floor(p*TOTAL);
+    let i=0; while(i<SEQ.length-1 && u>=starts[i+1]) i++;
+    if(i!==cur) render(i); };
+  addEventListener('scroll',()=>{ if(!tick){ tick=true; requestAnimationFrame(upd); } },{passive:true});
+  addEventListener('resize',upd);
+  render(0); upd();
 })();
 
 /* ---------- Stop-motion : une image par pas de scroll ---------- */
