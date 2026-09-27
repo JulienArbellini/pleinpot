@@ -172,7 +172,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .vso-cap p{margin:0;font-size:1.2rem}
 .vso blockquote{margin:1.6rem 0 0;font-style:italic;font-size:1.15rem;max-width:34ch}
 .vso blockquote cite{display:block;margin-top:.3rem;font-style:normal}
-.vso-card{margin:0;height:min(78svh,calc(92vw * 880 / 720));aspect-ratio:720/880}
+.vso-card{margin:0;--arw:720;--arh:880;aspect-ratio:var(--arw)/var(--arh);height:min(78svh,calc(92vw * var(--arh) / var(--arw)))}
 .vso-card img{width:100%;height:100%;object-fit:cover;box-shadow:.9rem .9rem 0 var(--ink)}
 .vso-ticks{position:absolute;left:clamp(1.2rem,5vw,5rem);right:clamp(1.2rem,5vw,5rem);bottom:18px;display:flex;gap:3px}
 .vso-ticks i{flex:1;height:5px;background:var(--ink);opacity:.22}
@@ -184,7 +184,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   .vso-stick{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center;justify-items:center;gap:1.1rem;padding-top:84px}
   .vso h2,.vso blockquote{display:none}
   .vso .kicker{margin:0 0 .6rem}
-  .vso-card{height:min(50svh,calc(88vw * 880 / 720))}
+  .vso-card{height:min(50svh,calc(88vw * var(--arh) / var(--arw)))}
   .vso-cap{min-height:6.2rem;max-width:none;width:min(88vw,520px)}
   .vso-cap b{font-size:1.5rem}.vso-cap p{font-size:1.05rem}
   .vso-go{left:auto;right:1.2rem;bottom:32px}
@@ -508,6 +508,21 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
       <dl class="specs"><dt>Matière</dt><dd>Grès émaillé</dd><dt>Émail</dt><dd>Brun-noir, reflets métalliques</dd><dt>Contenance</dt><dd>~ 400 ml</dd></dl>
       <div class="buyrow"><span class="price">65 €</span><button class="btn" onclick="addToCart(2)">Ajouter au panier</button></div>
     </div>
+  </div>
+</section>
+
+<!-- Marée Noire : jouer avec les angles -->
+<section class="vso" id="maree-angles" aria-labelledby="mar-h">
+  <div class="vso-stick" id="marStick">
+    <div class="vso-txt">
+      <p class="mono kicker">Marée Noire, sous tous les angles</p>
+      <h2 class="d" id="mar-h">Jouer avec<br>les angles</h2>
+      <div class="vso-cap"><b class="d" id="marT">Vue de dessus</b><p id="marD">Le couvercle rond, son bouton plat.</p></div>
+      <blockquote>« Cette théière est inspirée de l'Art déco. J'ai adoré jouer avec les angles en la faisant. »<cite class="mono">Clémence</cite></blockquote>
+    </div>
+    <figure class="vso-card" style="--arw:1;--arh:1"><img id="marImg" src="images/maree/01.webp" width="1000" height="1000" alt="La Marée Noire vue de dessus" decoding="async"></figure>
+    <div class="vso-ticks" id="marTicks" aria-hidden="true"></div>
+    <a class="btn light vso-go" id="marGo" href="#maree-noire">Voir la pièce</a>
   </div>
 </section>
 
@@ -888,30 +903,19 @@ window.addEventListener('DOMContentLoaded', () => {
   renderParts(); renderEmaux(); renderTiming(); renderFilters(); renderShop(); renderCart(); initReveal();
 });
 
-/* ---------- Vaisseau ou oiseau : un plan par pas de scroll ---------- */
-(function(){
-  const sec=document.getElementById('vaisseau'); if(!sec) return;
-  const stick=document.getElementById('vsoStick'), img=document.getElementById('vsoImg'), T=document.getElementById('vsoT'), D=document.getElementById('vsoD'), ticks=document.getElementById('vsoTicks'), go=document.getElementById('vsoGo');
-  const ROSE='#E8AEC1';
-  const SEQ=[];
-  [['Vue de dessus','Couvercle rond, bouton plat, filtre à trous.'],
-   ['De profil','Deux triangles autour d\'une panse ronde : le vaisseau.'],
-   ['L\'anse percée','Un triangle évidé, comme découpé au cutter.'],
-   ['En gros plan','L\'émail brunit sur les arêtes, là où il s\'amincit.'],
-   ['Dans la main','On la tient du bout des doigts.'],
-   ['Le bec','Un triangle qui verse le thé.'],
-   ['Quelque chose approche…','Des moustaches.'],
-   ['Le cliffhanger','Un chat.'],
-   ['Verdict','Approuvée.']].forEach((x,k)=>SEQ.push({h:2,bg:ROSE,f:'images/vaisseau/'+String(k+1).padStart(2,'0')+'.webp',t:x[0],d:x[1]}));
+/* ---------- Séquences photo au scroll : un plan par pas de scroll ---------- */
+function initSeq(secId,p,SEQ){
+  const sec=document.getElementById(secId); if(!sec) return;
+  const $=k=>document.getElementById(p+k);
+  const stick=$('Stick'), img=$('Img'), T=$('T'), D=$('D'), ticks=$('Ticks'), go=$('Go');
   const TOTAL=SEQ.reduce((a,x)=>a+x.h,0), starts=[]; let acc=0; SEQ.forEach(x=>{ starts.push(acc); acc+=x.h; });
   sec.style.setProperty('--n',TOTAL);
-  const src=i=>SEQ[i].f;
   SEQ.forEach(()=>ticks.appendChild(document.createElement('i')));
   let cur=-1, loaded=false;
-  const preload=()=>{ if(loaded) return; loaded=true; SEQ.forEach((_,i)=>{ if(i){ const im=new Image(); im.src=src(i); } }); };
+  const preload=()=>{ if(loaded) return; loaded=true; SEQ.forEach((x,i)=>{ if(i){ const im=new Image(); im.src=x.f; } }); };
   const render=i=>{
     cur=i; const f=SEQ[i];
-    img.src=src(i); img.alt=f.t+'. '+f.d;
+    img.src=f.f; img.alt=f.t+'. '+f.d;
     stick.style.setProperty('--vso-bg',f.bg);
     T.textContent=f.t; D.textContent=f.d;
     [...ticks.children].forEach((e,k)=>e.classList.toggle('on',k<=i));
@@ -921,12 +925,34 @@ window.addEventListener('DOMContentLoaded', () => {
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){ sec.classList.add('static'); render(0); return; }
   let tick=false;
   const upd=()=>{ tick=false; const total=sec.offsetHeight-innerHeight; if(total<=0) return;
-    const p=Math.min(.9999,Math.max(0,-sec.getBoundingClientRect().top/total)), u=Math.floor(p*TOTAL);
+    const q=Math.min(.9999,Math.max(0,-sec.getBoundingClientRect().top/total)), u=Math.floor(q*TOTAL);
     let i=0; while(i<SEQ.length-1 && u>=starts[i+1]) i++;
     if(i!==cur) render(i); };
   addEventListener('scroll',()=>{ if(!tick){ tick=true; requestAnimationFrame(upd); } },{passive:true});
   addEventListener('resize',upd);
   render(0); upd();
+}
+(function(){
+  const ROSE='#E8AEC1';
+  initSeq('vaisseau','vso',[
+    ['Vue de dessus','Couvercle rond, bouton plat, filtre à trous.'],
+    ['De profil','Deux triangles autour d\'une panse ronde : le vaisseau.'],
+    ['L\'anse percée','Un triangle évidé, comme découpé au cutter.'],
+    ['En gros plan','L\'émail brunit sur les arêtes, là où il s\'amincit.'],
+    ['Dans la main','On la tient du bout des doigts.'],
+    ['Le bec','Un triangle qui verse le thé.'],
+    ['Quelque chose approche…','Des moustaches.'],
+    ['Le cliffhanger','Un chat.'],
+    ['Verdict','Approuvée.']
+  ].map((x,k)=>({h:2,bg:ROSE,f:'images/vaisseau/'+String(k+1).padStart(2,'0')+'.webp',t:x[0],d:x[1]})));
+  const BG=['#E3CBEA','#8C9FDC','#E3CBEA','#8C9FDC','#E3CBEA'];
+  initSeq('maree-angles','mar',[
+    ['Vue de dessus','Le couvercle rond, son bouton plat.'],
+    ['En trois-quarts','L\'anse dressée en trapèze, le bec qui pointe vers nous.'],
+    ['Le couvercle','Une panse ronde, un noir profond qui accroche la lumière.'],
+    ['Couvercle ouvert','Noire dehors, blanche dedans.'],
+    ['Le bec','Un bec carré, taillé à angles vifs.']
+  ].map((x,k)=>({h:3,bg:BG[k],f:'images/maree/'+String(k+1).padStart(2,'0')+'.webp',t:x[0],d:x[1]})));
 })();
 
 /* ---------- Stop-motion : une image par pas de scroll ---------- */
