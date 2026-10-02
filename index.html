@@ -382,15 +382,15 @@ footer a{text-decoration:none;opacity:.82}footer a:hover{opacity:1;text-decorati
 /* ============ Panier & fiche ============ */
 .shade{position:fixed;inset:0;z-index:80;background:rgba(27,14,36,.55);opacity:0;pointer-events:none;transition:opacity .3s}
 .shade.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;z-index:81;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--paper);padding:1.6rem;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.1,1);visibility:hidden}
+.drawer{position:fixed;z-index:83;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--paper);padding:1.6rem;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.1,1);visibility:hidden}
 .drawer.on{transform:none;visibility:visible}
 .drawer header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1rem;border-bottom:1.5px solid var(--ink)}
 .drawer h3{font-size:2.4rem}
 .x{background:transparent;border:0;padding:.4rem;line-height:0}.x svg{width:22px;height:22px}
 /* ============ Panneau produit (aperçu plein écran, sans changer de page) ============ */
-.pdp{position:fixed;z-index:82;inset:0;display:flex;visibility:hidden;opacity:0;transition:opacity .3s}
+.pdp{position:fixed;z-index:82;inset:0;display:flex;visibility:hidden;opacity:0;transition:opacity .3s;pointer-events:none}
 .pdp.on{visibility:visible;opacity:1}
-.pdp-in{position:relative;margin:auto;width:min(1100px,94vw);max-height:92vh;overflow:auto;background:var(--paper);display:grid;grid-template-columns:1.1fr 1fr;transform:translateY(18px);transition:transform .35s cubic-bezier(.2,.7,.1,1)}
+.pdp-in{pointer-events:auto;position:relative;margin:auto;width:min(1100px,94vw);max-height:92vh;overflow:auto;background:var(--paper);display:grid;grid-template-columns:1.1fr 1fr;transform:translateY(18px);transition:transform .35s cubic-bezier(.2,.7,.1,1)}
 .pdp.on .pdp-in{transform:none}
 .pdp-x{position:absolute;z-index:2;right:.8rem;top:.8rem;background:var(--paper)}
 .pdp-media{position:relative;background:var(--pdp-bg,var(--lav));min-height:320px}
